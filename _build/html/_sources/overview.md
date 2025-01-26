@@ -64,12 +64,12 @@ These notes will be updated throughout the semester. Please check back regularly
             <td rowspan=2>1</td>
             <td>1/28</td>
             <td>Introduction, Introduction to Python Programming </td>
-            <td>Syllabus, <a href="https://umd.instructure.com/courses/1380870/files/82212031?module_item_id=13429542">Chollet, Chapter 1</a></td>
+            <td><a href="https://umd.instructure.com/courses/1380870/files/82211853?wrap=1">Syllabus</a>, <a href="https://umd.instructure.com/courses/1380870/files/82212031?module_item_id=13429542">Chollet, Chapter 1</a>, Getting Started Notes</td>
         </tr>
         <tr>
             <td>1/30</td>
             <td>Introduction to Python Programming</td>
-            <td>Set up Anaconda Environment</td>
+            <td> TBA</td>
         </tr>
         <tr>
             <td rowspan=2>2</td>
