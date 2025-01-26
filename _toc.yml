@@ -1,0 +1,18 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: overview
+parts:
+- caption: Getting Started
+  chapters:
+    - file: getting-started/installation
+    - file: getting-started/jupyter
+    - file: getting-started/colab
+    - file: getting-started/github
+#   chapters:
+#     - file: 
+- caption: Crash Course in Python
+  chapters:
+    - file: crash-course-python/01-python-essentials
+    - file: crash-course-python/02-classes
