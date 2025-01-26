@@ -1,3 +1,4 @@
+(installation)=
 # Installation
 
 This course will use Python, a popular programming language widely used in scientific computing, data science, and machine learning.

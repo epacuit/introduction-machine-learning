@@ -1,0 +1,17 @@
+schedule:
+  - week: 1
+    sessions:
+      - date: "1/28"
+        topic: "Introduction, Introduction to Python Programming"
+        reading: '[Syllabus](https://umd.instructure.com/courses/1380870/files/82211853?wrap=1), [Chollet, Chapter 1](https://umd.instructure.com/courses/1380870/files/82212031?module_item_id=13429542), Getting Started Notes:  [installation](installation), [jupyter](jupyter), [colab](colab), [github](github)'
+      - date: "1/30"
+        topic: "Introduction to Python Programming"
+        reading: '[Python Essentials](python-essentials), [Classes](classes)'
+  - week: 2
+    sessions:
+      - date: "2/4"
+        topic: "Introduction to Python Programming"
+        reading: "TBA"
+      - date: "2/6"
+        topic: "Introduction to Python Programming"
+        reading: "TBA"

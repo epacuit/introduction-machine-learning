@@ -1,3 +1,4 @@
+(colab)=
 # Colab
 
 [Google Colaboratory](https://colab.research.google.com/), commonly referred to as Colab, is a free, cloud-based platform provided by Google that enables users to write and execute Python code directly in a web browser. It is especially popular in data science, machine learning, and deep learning communities due to its simplicity, accessibility, and built-in integration with powerful computational resources.

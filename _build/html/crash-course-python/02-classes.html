@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Classes &#8212; Gentle Introduction to Machine Learning</title>
+    <title>Classes &#8212; A Gentle Introduction to Machine Learning</title>
   
   
   
@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -140,14 +140,8 @@
   
   
   
-    
-    
-      
-    
-    
-    <img src="../_static/logo.png" class="logo__image only-light" alt="Gentle Introduction to Machine Learning - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Gentle Introduction to Machine Learning - Home"/>
   
+    <p class="title logo__title">A Gentle Introduction to Machine Learning</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -237,7 +231,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/epacuit/introduction-machine-learning" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -254,7 +248,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcrash-course-python/02-classes.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Fcrash-course-python/02-classes.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -383,8 +377,9 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="classes">
-<h1>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h1>
+  <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/crash-course-python/02-classes.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<section class="tex2jax_ignore mathjax_ignore" id="classes">
+<span id="id1"></span><h1>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h1>
 <p>A <strong>class</strong> is a way to create your own data taype.   An instance of a class is called an <strong>object</strong> (see the <a class="reference external" href="https://docs.python.org/3/tutorial/classes.html">Python class documentation</a> for an overview.). The general approach to programming using classes and objects is called <a class="reference external" href="https://realpython.com/lessons/what-object-oriented-programming-oop/">object-oriented programming</a>.</p>
 <p>To define a class use the <code class="docutils literal notranslate"><span class="pre">class</span></code> keyword, followed by a name and a colon<code class="docutils literal notranslate"><span class="pre">:</span></code>.  A class can be thought of as a <strong>blueprint</strong> for creating objects.  Classes contain data called <strong>attributes</strong> and functions called <strong>methods</strong>.  Some initial observations about creating a class:</p>
 <ol class="arabic simple">
@@ -437,8 +432,8 @@ Agent b&#39;s unique id is  2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;__main__.Agent object at 0x103d27980&gt;
-&lt;__main__.Agent object at 0x103d27980&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;__main__.Agent object at 0x1039acaa0&gt;
+&lt;__main__.Agent object at 0x1039acaa0&gt;
 </pre></div>
 </div>
 </div>
@@ -478,8 +473,8 @@ Agent b&#39;s unique id is  2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>T
-T
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>H
+H
 H
 H
 T
@@ -514,7 +509,7 @@ T
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;H&#39;, &#39;T&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;T&#39;, &#39;H&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;T&#39;]
 </pre></div>
 </div>
 </div>
@@ -554,7 +549,7 @@ T
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;H&#39;, &#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;T&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;]
 Agent Class
 </pre></div>
 </div>
@@ -795,12 +790,12 @@ A decoration after another_func with result 7
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>the bias of c is  0.5
 the probability of heads is  0.5
 the probability of tails is  0.5
-[&#39;T&#39;, &#39;H&#39;, &#39;T&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;T&#39;, &#39;T&#39;, &#39;H&#39;] 
+[&#39;T&#39;, &#39;T&#39;, &#39;T&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;T&#39;, &#39;H&#39;] 
 
 the bias of c is  0.75
 the probability of heads is  0.75
 the probability of tails is  0.25
-[&#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;H&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;H&#39;]
+[&#39;H&#39;, &#39;T&#39;, &#39;T&#39;, &#39;H&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;, &#39;T&#39;, &#39;H&#39;, &#39;H&#39;]
 </pre></div>
 </div>
 </div>
@@ -815,10 +810,10 @@ the probability of tails is  0.25
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">c</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="mf">1.5</span>
 
-<span class="nn">Cell In[18], line 18,</span> in <span class="ni">Coin.bias</span><span class="nt">(self, b)</span>
+<span class="nn">Cell In[17], line 18,</span> in <span class="ni">Coin.bias</span><span class="nt">(self, b)</span>
 <span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_bias</span> <span class="o">=</span> <span class="n">b</span>
 <span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="k">else</span><span class="p">:</span>
 <span class="ne">---&gt; </span><span class="mi">18</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bias must be between 0 and 1&quot;</span><span class="p">)</span>
