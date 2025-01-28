@@ -15,4 +15,5 @@ parts:
 - caption: Crash Course in Python
   chapters:
     - file: crash-course-python/01-python-essentials
+    - file: tutorials/tutorial1
     - file: crash-course-python/02-classes
