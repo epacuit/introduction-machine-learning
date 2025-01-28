@@ -27,7 +27,7 @@ These notes will be updated throughout the semester. Please check back regularly
 
 | Week | Date  | Topic | Reading|
 |------|-------|-----|-------------|
-| 1    | 1/28  | Introduction, Introduction to Python Programming <br/> <a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/slides/lec1-introduction.pdf">slides</a>| [Syllabus](https://umd.instructure.com/courses/1380870/files/82211853?wrap=1), [Chollet, Chapter 1](https://umd.instructure.com/courses/1380870/files/82212031?module_item_id=13429542), Getting Started Notes: [installation](installation), [jupyter](jupyter), [colab](colab), [github](github) |
+| 1    | 1/28  | Introduction, Introduction to Python Programming <br/> <a target="_blank" rel="noopener noreferrer" href="https://github.com/epacuit/introduction-machine-learning/blob/main/slides/lec1-introduction.pdf">slides</a>| [Syllabus](https://umd.instructure.com/courses/1380870/files/82211853?wrap=1), [Chollet, Chapter 1](https://umd.instructure.com/courses/1380870/files/82212031?module_item_id=13429542), Getting Started Notes: [installation](installation), [jupyter](jupyter), [colab](colab), [github](github) |
 |      | 1/30  | Introduction to Python Programming | [Python essentials](python-essentials), [Classes](classes) |
 | 2    | 2/4   | Introduction to Python Programming | TBA                                                                                                                                                              |
 |      | 2/6   | Introduction to Python Programming | TBA                                                                                                                                                              |
