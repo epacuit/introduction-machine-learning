@@ -16,4 +16,5 @@ parts:
   chapters:
     - file: crash-course-python/01-python-essentials
     - file: tutorials/tutorial1
+    - file: tutorials/tutorial2
     - file: crash-course-python/02-classes
