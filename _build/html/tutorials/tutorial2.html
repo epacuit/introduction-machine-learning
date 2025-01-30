@@ -60,6 +60,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/tutorial2';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -392,6 +394,17 @@
                 <article class="bd-article">
                   
   <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/tutorials/tutorial2.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>Before you turn this problem in, make sure everything runs as expected. First, <strong>restart the kernel</strong> (in the menubar, select Kernel <span class="math notranslate nohighlight">\(\rightarrow\)</span> Restart) and then <strong>run all cells</strong> (in the menubar, select Cell <span class="math notranslate nohighlight">\(\rightarrow\)</span> Run All).</p>
+<p>Make sure you fill in any place that says <code class="docutils literal notranslate"><span class="pre">YOUR</span> <span class="pre">CODE</span> <span class="pre">HERE</span></code> or “YOUR ANSWER HERE”, as well as your name and collaborators below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">COLLABORATORS</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="tutorial-2">
 <h1>Tutorial 2<a class="headerlink" href="#tutorial-2" title="Link to this heading">#</a></h1>
 </section>
@@ -406,21 +419,20 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
 
-<span class="c1">### BEGIN SOLUTION</span>
-<span class="n">metadata</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./comedy_comparisons_metadata.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-    <span class="n">header</span><span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span> 
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-        <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">&quot;video_id&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-            <span class="s2">&quot;view_count&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-            <span class="s2">&quot;like_count&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
-            <span class="s2">&quot;comment_count&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
-            <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span>
-        <span class="p">})</span>
-<span class="c1">### END SOLUTION</span>
+<span class="c1"># YOUR CODE HERE</span>
+<span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NotImplementedError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">csv</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># YOUR CODE HERE</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<span class="ne">NotImplementedError</span>: 
 </pre></div>
 </div>
 </div>
@@ -441,14 +453,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the average view count of the videos in the metadata.   Return the average rounded to two decimal places.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">### BEGIN SOLUTION</span>
-
-    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">video</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">:</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">video</span><span class="p">[</span><span class="s1">&#39;view_count&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">video</span><span class="p">[</span><span class="s1">&#39;view_count&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-
-    <span class="c1">### END SOLUTION</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -469,13 +475,8 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">video_id</span><span class="p">,</span> <span class="n">col_name</span><span class="p">):</span>
 
-    <span class="c1">### BEGIN SOLUTION</span>
-
-    <span class="n">num</span> <span class="o">=</span>  <span class="p">[</span><span class="n">md</span> <span class="k">for</span> <span class="n">md</span> <span class="ow">in</span> <span class="n">metadata</span> <span class="k">if</span> <span class="n">md</span><span class="p">[</span><span class="s1">&#39;video_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">video_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  
-
-    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">if</span> <span class="n">num</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="mi">0</span>
-
-    <span class="c1">### END SOLUTION</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -526,12 +527,8 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
 
-<span class="c1">### BEGIN SOLUTION</span>
-<span class="n">comparisons</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="c1">## read the file test_comedy_comparisons_restricted.csv and store the dictionary in the list comparisons</span>
-
-<span class="c1">### END SOLUTION</span>
+<span class="c1"># YOUR CODE HERE</span>
+<span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -539,11 +536,8 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_funnier_1</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">video_id1</span><span class="p">,</span> <span class="n">video_id2</span><span class="p">):</span>
-    <span class="c1">### BEGIN SOLUTION</span>
-    
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-    
-    <span class="c1">### END SOLUTION</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -551,11 +545,8 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_funnier_2</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">video_id1</span><span class="p">,</span> <span class="n">video_id2</span><span class="p">):</span>
-    <span class="c1">### BEGIN SOLUTION</span>
-    
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-    
-    <span class="c1">### END SOLUTION</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -563,11 +554,8 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_funnier_3</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">video_id1</span><span class="p">,</span> <span class="n">video_id2</span><span class="p">):</span>
-    <span class="c1">### BEGIN SOLUTION</span>
-    
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-    
-    <span class="c1">### END SOLUTION</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -575,11 +563,8 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">is_funnier</span><span class="p">):</span>
-    <span class="c1">### BEGIN SOLUTION</span>
-    
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-    
-    <span class="c1">### END SOLUTION</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -591,23 +576,6 @@
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of is_funnier_2 is&quot;</span><span class="p">,</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">is_funnier_2</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of is_funnier_3 is&quot;</span><span class="p">,</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">is_funnier_3</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NotImplementedError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of is_funnier_1 is&quot;</span><span class="p">,</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">is_funnier_1</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of is_funnier_2 is&quot;</span><span class="p">,</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">is_funnier_2</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of is_funnier_3 is&quot;</span><span class="p">,</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">is_funnier_3</span><span class="p">))</span>
-
-<span class="nn">Cell In[11], line 4,</span> in <span class="ni">evaluate</span><span class="nt">(metadata, comparisons, is_funnier)</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">is_funnier</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="c1">### BEGIN SOLUTION</span>
-<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-<span class="ne">NotImplementedError</span>: 
 </pre></div>
 </div>
 </div>
