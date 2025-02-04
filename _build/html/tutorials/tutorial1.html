@@ -65,7 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/tutorial1';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tutorial 2 - Reading CSV files" href="tutorial2.html" />
+    <link rel="next" title="Tutorial 2: Reading CSV files" href="tutorial2.html" />
     <link rel="prev" title="Python Essentials" href="../crash-course-python/01-python-essentials.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -175,7 +175,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../crash-course-python/01-python-essentials.html">Python Essentials</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Tutorial 1: Introduction to Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial2.html">Tutorial 2 - Reading CSV files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial2.html">Tutorial 2: Reading CSV files</a></li>
 
 
 <li class="toctree-l1"><a class="reference internal" href="tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
@@ -376,7 +376,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-return-the-average-number-of-likes-of-the-videos">2.  Write a function that accepts a list of the above 6 pieces of information about the videos and return the average number of likes of the videos.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-a-dictionary-with-the-keys-the-id-of-the-video-and-the-value-the-number-of-likes">3. Write a function that accepts a list of the above 6 pieces of information about the videos and returns a dictionary with the keys the id of the video and the value the number of likes.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-likes">4. Write a function that accepts a list of the above 6 pieces of information about the videos and returns the title with the most likes.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-likes-using-the-sorted-function">5. Write a function that accepts a list of the above 6 pieces of information about the videos and returns the title with the most likes, using the <code class="docutils literal notranslate"><span class="pre">sorted</span></code> function.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-views-using-the-sorted-function">5. Write a function that accepts a list of the above 6 pieces of information about the videos and returns the title with the most views, using the <code class="docutils literal notranslate"><span class="pre">sorted</span></code> function.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-a-video-id-and-returns-the-title-of-the-video-and-the-number-of-likes">6. Write a function that accepts a list of the above 6 pieces of information about the videos and a video id and returns the title of the video and the number of likes.</a></li>
 </ul>
             </nav>
@@ -402,7 +402,7 @@
 </div>
 <hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="tutorial-1-introduction-to-python">
-<span id="tutorial1"></span><h1>Tutorial 1: Introduction to Python<a class="headerlink" href="#tutorial-1-introduction-to-python" title="Link to this heading">#</a></h1>
+<h1>Tutorial 1: Introduction to Python<a class="headerlink" href="#tutorial-1-introduction-to-python" title="Link to this heading">#</a></h1>
 <p>In this tutorial, we will cover the basics of Python programming language. We will cover the following topics:</p>
 <ul class="simple">
 <li><p>lists</p></li>
@@ -491,7 +491,9 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">avg_num_likes</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function takes a list of lists as input. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. The function should return the average number of likes of the videos in the input list.</span>
+<span class="sd">    This function takes a list of lists as input. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. </span>
+<span class="sd">    </span>
+<span class="sd">    The function should return the average number of likes of the videos in the input list.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># YOUR CODE HERE</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
@@ -517,7 +519,9 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lists_to_dict</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function takes a list of lists as input. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. The function should return a dictionary where the keys are the video_id and the values are the corresponding lists.</span>
+<span class="sd">    This function takes a list of lists as input. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. </span>
+<span class="sd">    </span>
+<span class="sd">    The function should return a dictionary where the keys are the video_id and the values are the number of likes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># YOUR CODE HERE</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
@@ -555,7 +559,9 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_most_popular</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function takes a list of lists as input. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. The function should return the title of the video with the highest view count.</span>
+<span class="sd">    This function takes a list of lists as input. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. </span>
+<span class="sd">    </span>
+<span class="sd">    The function should return the title of the video with the most views.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># YOUR CODE HERE</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
@@ -573,13 +579,13 @@
 </div>
 </div>
 </section>
-<section id="write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-likes-using-the-sorted-function">
-<h2>5. Write a function that accepts a list of the above 6 pieces of information about the videos and returns the title with the most likes, using the <code class="docutils literal notranslate"><span class="pre">sorted</span></code> function.<a class="headerlink" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-likes-using-the-sorted-function" title="Link to this heading">#</a></h2>
+<section id="write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-views-using-the-sorted-function">
+<h2>5. Write a function that accepts a list of the above 6 pieces of information about the videos and returns the title with the most views, using the <code class="docutils literal notranslate"><span class="pre">sorted</span></code> function.<a class="headerlink" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-views-using-the-sorted-function" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_most_popular_using_sorted</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function takes a list of lists as input. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. The function should return the title of the video with the highest view count.</span>
+<span class="sd">    This function takes a list of lists as input. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. The function should return the title of the video with the highest number of views.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># YOUR CODE HERE</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
@@ -603,7 +609,9 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_title_num_likes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">video_id</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function takes a list of lists as input and a video_id. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. The function should return the title of the video and the number of likes.</span>
+<span class="sd">    This function takes a list of lists as input and a video_id. Each list contains the following elements: video_id, title, view_count, like_count, comment_count, duration. </span>
+<span class="sd">    </span>
+<span class="sd">    The function should return the title of the video and the number of likes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
      
     <span class="c1"># YOUR CODE HERE</span>
@@ -670,7 +678,7 @@
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tutorial 2 - Reading CSV files</p>
+        <p class="prev-next-title">Tutorial 2: Reading CSV files</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -695,7 +703,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-return-the-average-number-of-likes-of-the-videos">2.  Write a function that accepts a list of the above 6 pieces of information about the videos and return the average number of likes of the videos.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-a-dictionary-with-the-keys-the-id-of-the-video-and-the-value-the-number-of-likes">3. Write a function that accepts a list of the above 6 pieces of information about the videos and returns a dictionary with the keys the id of the video and the value the number of likes.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-likes">4. Write a function that accepts a list of the above 6 pieces of information about the videos and returns the title with the most likes.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-likes-using-the-sorted-function">5. Write a function that accepts a list of the above 6 pieces of information about the videos and returns the title with the most likes, using the <code class="docutils literal notranslate"><span class="pre">sorted</span></code> function.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-returns-the-title-with-the-most-views-using-the-sorted-function">5. Write a function that accepts a list of the above 6 pieces of information about the videos and returns the title with the most views, using the <code class="docutils literal notranslate"><span class="pre">sorted</span></code> function.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-function-that-accepts-a-list-of-the-above-6-pieces-of-information-about-the-videos-and-a-video-id-and-returns-the-title-of-the-video-and-the-number-of-likes">6. Write a function that accepts a list of the above 6 pieces of information about the videos and a video id and returns the title of the video and the number of likes.</a></li>
 </ul>
   </nav></div>
