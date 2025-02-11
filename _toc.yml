@@ -19,3 +19,6 @@ parts:
     - file: tutorials/tutorial2
     - file: tutorials/tutorial3
     - file: crash-course-python/02-classes
+- caption: First Steps in Machine Learning
+  chapters:
+    - file: first-steps/intro-numpy

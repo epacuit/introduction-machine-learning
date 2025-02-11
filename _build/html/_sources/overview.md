@@ -31,3 +31,5 @@ These notes will be updated throughout the semester. Please check back regularly
 |      | 1/30  | Introduction to Python Programming | [Python essentials](python-essentials), [Tutorial 1](tutorial1)|
 | 2    | 2/4   | Introduction to Python Programming |  [Tutorial 1](tutorial1), [Tutorial 2](tutorial2)  |
 |      | 2/6   | Introduction to Python Programming | [Tutorial 2](tutorial2), [Tutorial 3](tutorial3)   |
+|      | 2/11   | First Steps in Machine Learning |  [Tutorial 3](tutorial3), [numpy](numpy)   |
+|      | 2/13   | First Steps in Machine Learning |  [numpy](numpy)   |
