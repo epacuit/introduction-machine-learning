@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -623,6 +623,11 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pandas.core.frame.DataFrame
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -630,10 +635,93 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>video_id</th>
+      <th>title</th>
+      <th>view_count</th>
+      <th>like_count</th>
+      <th>comment_count</th>
+      <th>duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>DE1-cD3pTkA</td>
+      <td>Walker Texas Ranger clip LIVE</td>
+      <td>224.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>PT32S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>XZqSz_X-j8Y</td>
+      <td>Egg mcmuffin of a crappy commercial</td>
+      <td>1919.0</td>
+      <td>7.0</td>
+      <td>3.0</td>
+      <td>PT44S</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>vzpD6OogahQ</td>
+      <td>Potter Puppet Pals: School Is For Losers</td>
+      <td>14958231.0</td>
+      <td>87806.0</td>
+      <td>11321.0</td>
+      <td>PT33S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>_OpzEHBDwQE</td>
+      <td>Very Funny Commercial  Think Beyond Your Ear (...</td>
+      <td>61696.0</td>
+      <td>179.0</td>
+      <td>2.0</td>
+      <td>PT38S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>yzGWOpop6i8</td>
+      <td>Happy Valentines Day</td>
+      <td>15852.0</td>
+      <td>315.0</td>
+      <td>77.0</td>
+      <td>PT1M14S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="c1"># lists the columns of the DataFrame</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;video_id&#39;, &#39;title&#39;, &#39;view_count&#39;, &#39;like_count&#39;, &#39;comment_count&#39;,
+       &#39;duration&#39;],
+      dtype=&#39;object&#39;)
 </pre></div>
 </div>
 </div>
@@ -644,10 +732,20 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(11541, 6)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="c1"># shows the number of rows in the DataFrame</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>11541
 </pre></div>
 </div>
 </div>
@@ -666,6 +764,52 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>4</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>5</td>
+      <td>y</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>6</td>
+      <td>z</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -676,6 +820,52 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>4</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>5</td>
+      <td>y</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>6</td>
+      <td>z</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 <section id="selecting-columns">
@@ -687,10 +877,31 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0                            Walker Texas Ranger clip LIVE
+1                      Egg mcmuffin of a crappy commercial
+2                 Potter Puppet Pals: School Is For Losers
+3        Very Funny Commercial  Think Beyond Your Ear (...
+4                                     Happy Valentines Day
+                               ...                        
+11536              Dylan hit by a ball [Slow motion remix]
+11537            Trick or Treat! Funny Halloween Dog Video
+11538                                   Framed Thief Prank
+11539           Harry Redknapp gets hit by Fernando Torres
+11540                    ~600 Subs Special~ MMV- Enchanted
+Name: title, Length: 11541, dtype: object
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span> <span class="c1"># the type of a column is a Series</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pandas.core.series.Series
 </pre></div>
 </div>
 </div>
@@ -700,6 +911,16 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titles</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="c1"># the column can be stored in a variable</span>
 
 <span class="n">titles</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> <span class="c1"># shows the first 5 rows of the Series</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0                        Walker Texas Ranger clip LIVE
+1                  Egg mcmuffin of a crappy commercial
+2             Potter Puppet Pals: School Is For Losers
+3    Very Funny Commercial  Think Beyond Your Ear (...
+4                                 Happy Valentines Day
+Name: title, dtype: object
 </pre></div>
 </div>
 </div>
@@ -716,6 +937,26 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The 11th title is PCD Flying Fun Cam
+The 11th title is PCD Flying Fun Cam
+
+The first 5 values of the title:  0                        Walker Texas Ranger clip LIVE
+1                  Egg mcmuffin of a crappy commercial
+2             Potter Puppet Pals: School Is For Losers
+3    Very Funny Commercial  Think Beyond Your Ear (...
+4                                 Happy Valentines Day
+Name: title, dtype: object
+
+The last 5 values of the title:  11536       Dylan hit by a ball [Slow motion remix]
+11537     Trick or Treat! Funny Halloween Dog Video
+11538                            Framed Thief Prank
+11539    Harry Redknapp gets hit by Fernando Torres
+11540             ~600 Subs Special~ MMV- Enchanted
+Name: title, dtype: object
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -729,6 +970,15 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The unique values of the view_counts column are:  [2.2400000e+02 1.9190000e+03 1.4958231e+07 ... 1.3728710e+06 1.7410000e+03
+ 5.9710000e+03]
+The number of values of the view_counts column are:  11532
+The number of unique values of the view_counts column are:  9310
+  9319
+</pre></div>
+</div>
+</div>
 </div>
 <p>Typically, it is faster to use the Pandas’s built-in functions.</p>
 <div class="cell docutils container">
@@ -739,12 +989,22 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>190 μs ± 6.24 μs per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>it 
 
 <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;view_count&#39;</span><span class="p">])))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>859 μs ± 3.42 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -758,10 +1018,157 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>video_id</th>
+      <th>title</th>
+      <th>view_count</th>
+      <th>like_count</th>
+      <th>comment_count</th>
+      <th>duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>vzpD6OogahQ</td>
+      <td>Potter Puppet Pals: School Is For Losers</td>
+      <td>14958231.0</td>
+      <td>87806.0</td>
+      <td>11321.0</td>
+      <td>PT33S</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>rQjr5xjugUM</td>
+      <td>Ah meu Deus do céu, Quebraram(quebraru) a mesa...</td>
+      <td>4364246.0</td>
+      <td>37822.0</td>
+      <td>NaN</td>
+      <td>PT1M15S</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>U2_CSYI8O0Y</td>
+      <td>Kud - Koninginnemarkt</td>
+      <td>1835025.0</td>
+      <td>15321.0</td>
+      <td>1829.0</td>
+      <td>PT50S</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>TugslL45aXk</td>
+      <td>Don't argue with an ibex</td>
+      <td>4677355.0</td>
+      <td>34588.0</td>
+      <td>3597.0</td>
+      <td>PT1M30S</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>TXtP8UfIfEA</td>
+      <td>JibJab  Valentine's Day eCards.flv_(360p).mp4</td>
+      <td>20272233.0</td>
+      <td>19727.0</td>
+      <td>695.0</td>
+      <td>PT47S</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>11506</th>
+      <td>a91eiu_eer4</td>
+      <td>Optical Illusion Girlfriend</td>
+      <td>6239948.0</td>
+      <td>61008.0</td>
+      <td>3554.0</td>
+      <td>PT1M24S</td>
+    </tr>
+    <tr>
+      <th>11516</th>
+      <td>59xYAKjCnIo</td>
+      <td>SUPER TIMOR</td>
+      <td>1131909.0</td>
+      <td>5171.0</td>
+      <td>261.0</td>
+      <td>PT50S</td>
+    </tr>
+    <tr>
+      <th>11530</th>
+      <td>q-RLqLx1iYI</td>
+      <td>Epic and Honest Mobile Home Commercial</td>
+      <td>5594751.0</td>
+      <td>29208.0</td>
+      <td>2779.0</td>
+      <td>PT1M20S</td>
+    </tr>
+    <tr>
+      <th>11531</th>
+      <td>Ej9wCko6dR4</td>
+      <td>Bud Light Jackie Moon Commercial</td>
+      <td>2154189.0</td>
+      <td>3547.0</td>
+      <td>349.0</td>
+      <td>PT1M21S</td>
+    </tr>
+    <tr>
+      <th>11538</th>
+      <td>dHuPgeClQC0</td>
+      <td>Framed Thief Prank</td>
+      <td>1372871.0</td>
+      <td>10009.0</td>
+      <td>220.0</td>
+      <td>PT1M28S</td>
+    </tr>
+  </tbody>
+</table>
+<p>1475 rows × 6 columns</p>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;view_count&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1000000</span> <span class="c1"># returns a boolean Series</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        False
+1        False
+2         True
+3        False
+4        False
+         ...  
+11536    False
+11537    False
+11538     True
+11539    False
+11540    False
+Name: view_count, Length: 11541, dtype: bool
 </pre></div>
 </div>
 </div>
@@ -772,6 +1179,137 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>video_id</th>
+      <th>title</th>
+      <th>view_count</th>
+      <th>like_count</th>
+      <th>comment_count</th>
+      <th>duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>28</th>
+      <td>rBVoffKg6QA</td>
+      <td>Talking Cats (High Version)</td>
+      <td>42287.0</td>
+      <td>91.0</td>
+      <td>10.0</td>
+      <td>PT56S</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>jDD8yq18Gaw</td>
+      <td>19:57 From Euston - WHAT REALLY HAPPENED</td>
+      <td>19296.0</td>
+      <td>22.0</td>
+      <td>10.0</td>
+      <td>PT34S</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>XqkjPnrqbSc</td>
+      <td>dahk fokaha tarjama ( chehal fi Sa3a )</td>
+      <td>85511.0</td>
+      <td>101.0</td>
+      <td>5.0</td>
+      <td>PT1M13S</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>v-kHJjqLya4</td>
+      <td>Funny Dog Commercial</td>
+      <td>65501.0</td>
+      <td>104.0</td>
+      <td>10.0</td>
+      <td>PT1M1S</td>
+    </tr>
+    <tr>
+      <th>201</th>
+      <td>-3g_ENHcvGY</td>
+      <td>Grave yard Smash</td>
+      <td>1369.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>PT33S</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>11174</th>
+      <td>AxQK9pp8nVc</td>
+      <td>louie c.k. balls in your pus-hole</td>
+      <td>2765.0</td>
+      <td>8.0</td>
+      <td>5.0</td>
+      <td>PT39S</td>
+    </tr>
+    <tr>
+      <th>11313</th>
+      <td>-UzGgGJkIFU</td>
+      <td>JB SKETCH BAD BOY</td>
+      <td>14321.0</td>
+      <td>22.0</td>
+      <td>10.0</td>
+      <td>PT1M4S</td>
+    </tr>
+    <tr>
+      <th>11392</th>
+      <td>DiA8VItyPIk</td>
+      <td>Tryin first gear wheelies</td>
+      <td>1181.0</td>
+      <td>8.0</td>
+      <td>5.0</td>
+      <td>PT1M13S</td>
+    </tr>
+    <tr>
+      <th>11396</th>
+      <td>NhHRfS5bWug</td>
+      <td>Natanek  2013 AD</td>
+      <td>614.0</td>
+      <td>3.0</td>
+      <td>5.0</td>
+      <td>PT1M30S</td>
+    </tr>
+    <tr>
+      <th>11429</th>
+      <td>4DQxWeTuG7I</td>
+      <td>Family Guy Peter and the Osama Clawed</td>
+      <td>3195.0</td>
+      <td>19.0</td>
+      <td>10.0</td>
+      <td>PT54S</td>
+    </tr>
+  </tbody>
+</table>
+<p>238 rows × 6 columns</p>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -779,6 +1317,137 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>video_id</th>
+      <th>title</th>
+      <th>view_count</th>
+      <th>like_count</th>
+      <th>comment_count</th>
+      <th>duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>vzpD6OogahQ</td>
+      <td>Potter Puppet Pals: School Is For Losers</td>
+      <td>14958231.0</td>
+      <td>87806.0</td>
+      <td>11321.0</td>
+      <td>PT33S</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>U2_CSYI8O0Y</td>
+      <td>Kud - Koninginnemarkt</td>
+      <td>1835025.0</td>
+      <td>15321.0</td>
+      <td>1829.0</td>
+      <td>PT50S</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>TugslL45aXk</td>
+      <td>Don't argue with an ibex</td>
+      <td>4677355.0</td>
+      <td>34588.0</td>
+      <td>3597.0</td>
+      <td>PT1M30S</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>D7_0SOTQLIQ</td>
+      <td>Notorious B.I.G. calms down crying baby - orig...</td>
+      <td>5977394.0</td>
+      <td>40051.0</td>
+      <td>3408.0</td>
+      <td>PT1M24S</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>ao-9B8IV9_E</td>
+      <td>Funny Animals</td>
+      <td>16529238.0</td>
+      <td>18952.0</td>
+      <td>3217.0</td>
+      <td>PT10M34S</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>11475</th>
+      <td>fKvXiBVK-K4</td>
+      <td>Šta reći?</td>
+      <td>3050087.0</td>
+      <td>13179.0</td>
+      <td>2288.0</td>
+      <td>PT36S</td>
+    </tr>
+    <tr>
+      <th>11476</th>
+      <td>T7EzZBlQsoA</td>
+      <td>Gerald Anderson and Jose Manalo budoy</td>
+      <td>3573758.0</td>
+      <td>4975.0</td>
+      <td>1210.0</td>
+      <td>PT1M24S</td>
+    </tr>
+    <tr>
+      <th>11490</th>
+      <td>-iYGAcn66o4</td>
+      <td>Attempt To Overtake Big Rig Ends In Devastatin...</td>
+      <td>3914975.0</td>
+      <td>12173.0</td>
+      <td>4078.0</td>
+      <td>PT30S</td>
+    </tr>
+    <tr>
+      <th>11506</th>
+      <td>a91eiu_eer4</td>
+      <td>Optical Illusion Girlfriend</td>
+      <td>6239948.0</td>
+      <td>61008.0</td>
+      <td>3554.0</td>
+      <td>PT1M24S</td>
+    </tr>
+    <tr>
+      <th>11530</th>
+      <td>q-RLqLx1iYI</td>
+      <td>Epic and Honest Mobile Home Commercial</td>
+      <td>5594751.0</td>
+      <td>29208.0</td>
+      <td>2779.0</td>
+      <td>PT1M20S</td>
+    </tr>
+  </tbody>
+</table>
+<p>721 rows × 6 columns</p>
+</div></div></div>
 </div>
 <p>One issue to be aware of is that when you filter a DataFrame, the index of the original DataFrame is preserved.</p>
 <div class="cell docutils container">
@@ -787,6 +1456,137 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>video_id</th>
+      <th>title</th>
+      <th>view_count</th>
+      <th>like_count</th>
+      <th>comment_count</th>
+      <th>duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>DE1-cD3pTkA</td>
+      <td>Walker Texas Ranger clip LIVE</td>
+      <td>224.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>PT32S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>_OpzEHBDwQE</td>
+      <td>Very Funny Commercial  Think Beyond Your Ear (...</td>
+      <td>61696.0</td>
+      <td>179.0</td>
+      <td>2.0</td>
+      <td>PT38S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>yzGWOpop6i8</td>
+      <td>Happy Valentines Day</td>
+      <td>15852.0</td>
+      <td>315.0</td>
+      <td>77.0</td>
+      <td>PT1M14S</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>DOD38Y72zyk</td>
+      <td>Minecraft: TNT Rocket</td>
+      <td>2174.0</td>
+      <td>16.0</td>
+      <td>3.0</td>
+      <td>PT1M9S</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>c1NaGio2Geo</td>
+      <td>Caller X episode 3</td>
+      <td>13716.0</td>
+      <td>525.0</td>
+      <td>130.0</td>
+      <td>PT1M18S</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>11524</th>
+      <td>gJyAigxDWBI</td>
+      <td>Knowwheretorun1984 set ablaze by Jordan Maxwel...</td>
+      <td>158.0</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>PT43S</td>
+    </tr>
+    <tr>
+      <th>11529</th>
+      <td>Sn00l_ttSi4</td>
+      <td>"Strangers on the Street" - QCC</td>
+      <td>92.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>PT1M12S</td>
+    </tr>
+    <tr>
+      <th>11532</th>
+      <td>XcVw-qHdufE</td>
+      <td>Trailer: Being Human - Series 4 Episode 2 - BB...</td>
+      <td>24146.0</td>
+      <td>79.0</td>
+      <td>21.0</td>
+      <td>PT41S</td>
+    </tr>
+    <tr>
+      <th>11535</th>
+      <td>K-w_Ie-iBgY</td>
+      <td>Gears of War 3 Rage</td>
+      <td>226.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>PT50S</td>
+    </tr>
+    <tr>
+      <th>11536</th>
+      <td>HKMgwmqPOxs</td>
+      <td>Dylan hit by a ball [Slow motion remix]</td>
+      <td>546.0</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>PT1M21S</td>
+    </tr>
+  </tbody>
+</table>
+<p>5795 rows × 6 columns</p>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -796,10 +1596,70 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The 2nd element of the view_count column is  1919.0
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="nn">File ~/.pyenv/versions/3.11.9/lib/python3.11/site-packages/pandas/core/indexes/base.py:3805,</span> in <span class="ni">Index.get_loc</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3804</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3805</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">casted_key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3806</span> <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+
+<span class="nn">File index.pyx:167,</span> in <span class="ni">pandas._libs.index.IndexEngine.get_loc</span><span class="nt">()</span>
+
+<span class="nn">File index.pyx:196,</span> in <span class="ni">pandas._libs.index.IndexEngine.get_loc</span><span class="nt">()</span>
+
+<span class="nn">File pandas/_libs/hashtable_class_helper.pxi:7081,</span> in <span class="ni">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="nt">()</span>
+
+<span class="nn">File pandas/_libs/hashtable_class_helper.pxi:7089,</span> in <span class="ni">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="nt">()</span>
+
+<span class="ne">KeyError</span>: 1
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># get the 1 element of the view_count column</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The 2nd element of the view_count column is &quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;view_count&#39;</span><span class="p">])</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;view_count&quot;</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># produces an error since the item with index 1 does not have an even view_count</span>
+
+<span class="nn">File ~/.pyenv/versions/3.11.9/lib/python3.11/site-packages/pandas/core/frame.py:4102,</span> in <span class="ni">DataFrame.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4100</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">4101</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem_multilevel</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">4102</span> <span class="n">indexer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4103</span> <span class="k">if</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">indexer</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">4104</span>     <span class="n">indexer</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexer</span><span class="p">]</span>
+
+<span class="nn">File ~/.pyenv/versions/3.11.9/lib/python3.11/site-packages/pandas/core/indexes/base.py:3812,</span> in <span class="ni">Index.get_loc</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3807</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">casted_key</span><span class="p">,</span> <span class="nb">slice</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3808</span>         <span class="nb">isinstance</span><span class="p">(</span><span class="n">casted_key</span><span class="p">,</span> <span class="n">abc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3809</span>         <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">slice</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">casted_key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3810</span>     <span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3811</span>         <span class="k">raise</span> <span class="n">InvalidIndexError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3812</span>     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+<span class="g g-Whitespace">   </span><span class="mi">3813</span> <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3814</span>     <span class="c1"># If we have a listlike key, _check_indexing_error will raise</span>
+<span class="g g-Whitespace">   </span><span class="mi">3815</span>     <span class="c1">#  InvalidIndexError. Otherwise we fall through and re-raise</span>
+<span class="g g-Whitespace">   </span><span class="mi">3816</span>     <span class="c1">#  the TypeError.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3817</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_check_indexing_error</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="ne">KeyError</span>: 1
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;view_count&quot;</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># use the values attribute to get the values in the filtered dataframe.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;_OpzEHBDwQE&#39;,
+       &#39;Very Funny Commercial  Think Beyond Your Ear (UNRELEASED)&#39;,
+       61696.0, 179.0, 2.0, &#39;PT38S&#39;], dtype=object)
 </pre></div>
 </div>
 </div>
@@ -813,6 +1673,11 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(10294439735.0)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -820,10 +1685,20 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nan
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;view_count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span> <span class="c1"># outputs the sum of the view_count column without the missing values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10294439735.0
 </pre></div>
 </div>
 </div>
@@ -837,12 +1712,22 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16.3 μs ± 311 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>it 
 
 <span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;view_count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>442 μs ± 12.4 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -853,6 +1738,11 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(4155717.0)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -860,6 +1750,82 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>view_count</th>
+      <th>like_count</th>
+      <th>comment_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1.153200e+04</td>
+      <td>1.147600e+04</td>
+      <td>10666.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>8.926847e+05</td>
+      <td>4.455575e+03</td>
+      <td>508.330771</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>4.927464e+06</td>
+      <td>4.989776e+04</td>
+      <td>3392.341600</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>4.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1.243750e+03</td>
+      <td>7.000000e+00</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>3.008200e+04</td>
+      <td>1.520000e+02</td>
+      <td>26.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>3.127495e+05</td>
+      <td>1.232000e+03</td>
+      <td>193.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2.112826e+08</td>
+      <td>4.155717e+06</td>
+      <td>175847.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 <section id="combining-dataframes">
@@ -875,6 +1841,52 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10</td>
+      <td>13</td>
+      <td>xx</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11</td>
+      <td>14</td>
+      <td>yy</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12</td>
+      <td>15</td>
+      <td>zz</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -884,6 +1896,88 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>4</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>5</td>
+      <td>y</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>6</td>
+      <td>z</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>4</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>5</td>
+      <td>y</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>6</td>
+      <td>z</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>10</td>
+      <td>13</td>
+      <td>xx</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11</td>
+      <td>14</td>
+      <td>yy</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12</td>
+      <td>15</td>
+      <td>zz</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -893,6 +1987,76 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>4</td>
+      <td>x</td>
+      <td>1</td>
+      <td>4</td>
+      <td>x</td>
+      <td>10</td>
+      <td>13</td>
+      <td>xx</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>5</td>
+      <td>y</td>
+      <td>2</td>
+      <td>5</td>
+      <td>y</td>
+      <td>11</td>
+      <td>14</td>
+      <td>yy</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>6</td>
+      <td>z</td>
+      <td>3</td>
+      <td>6</td>
+      <td>z</td>
+      <td>12</td>
+      <td>15</td>
+      <td>zz</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 <section id="task">
@@ -923,6 +2087,23 @@
     <span class="n">compare_views</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;not_in_df2&#39;</span><span class="p">,</span> <span class="s1">&#39;vzpD6OogahQ&#39;</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;not_in_df2 is not in the DataFrame&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NotImplementedError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">36</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">assert</span> <span class="n">compare_views</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;vzpD6OogahQ&#39;</span><span class="p">,</span> <span class="s1">&#39;yzGWOpop6i8&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="k">assert</span> <span class="n">compare_views</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;yzGWOpop6i8&#39;</span><span class="p">,</span> <span class="s1">&#39;vzpD6OogahQ&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">assert</span> <span class="n">compare_views</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;DE1-cD3pTkA&#39;</span><span class="p">,</span> <span class="s1">&#39;XZqSz_X-j8Y&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span>
+
+<span class="nn">Cell In[35], line 5,</span> in <span class="ni">compare_views</span><span class="nt">(df, video_id1, video_id2)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Return True if the view count of video_id1 is greater than the view count of video_id2; otherwise, return False. If video_id1 or video_id2 is not in the DataFrame, raise a ValueError that outputs the string &#39;video_id is not in the DataFrame&#39;, where video_id is not present in the frame.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># YOUR CODE HERE</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<span class="ne">NotImplementedError</span>: 
 </pre></div>
 </div>
 </div>
