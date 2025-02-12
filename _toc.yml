@@ -14,11 +14,13 @@ parts:
 #     - file: 
 - caption: Crash Course in Python
   chapters:
-    - file: crash-course-python/01-python-essentials
+    - file: crash-course-python/overview
+    - file: crash-course-python/python-essentials
     - file: tutorials/tutorial1
     - file: tutorials/tutorial2
     - file: tutorials/tutorial3
-    - file: crash-course-python/02-classes
+    - file: crash-course-python/pitfalls
+    - file: crash-course-python/classes
 - caption: First Steps in Machine Learning
   chapters:
     - file: first-steps/intro-numpy

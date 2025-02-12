@@ -65,7 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'first-steps/intro-numpy';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Classes" href="../crash-course-python/02-classes.html" />
+    <link rel="prev" title="Classes" href="../crash-course-python/classes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -172,13 +172,15 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Crash Course in Python</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/01-python-essentials.html">Python Essentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/python-essentials.html">Python Essentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial1.html">Tutorial 1: Introduction to Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial2.html">Tutorial 2: Reading CSV files</a></li>
 
 
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/02-classes.html">Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/pitfalls.html">Thinking in Python: Key Concepts and Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/classes.html">Classes</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">First Steps in Machine Learning</span></p>
 <ul class="current nav bd-sidenav">
@@ -416,7 +418,7 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/fist-steps/intro-numpy.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+  <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/first-steps/intro-numpy.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <section class="tex2jax_ignore mathjax_ignore" id="a-brief-introduction-to-numpy">
 <span id="numpy"></span><h1>A Brief Introduction to Numpy<a class="headerlink" href="#a-brief-introduction-to-numpy" title="Link to this heading">#</a></h1>
 <p>Numpy is a Python library that provides support for large, multi-dimensional arrays and matrices, along with a collection of mathematical functions to operate on these arrays. It is the fundamental package for scientific computing with Python.</p>
@@ -438,17 +440,19 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span> <span class="c1"># 1-dimensional array</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span> <span class="c1"># 1-dimensional array</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of dimensions: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span> <span class="c1"># the number of dimensions</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The datatype of x is: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="c1"># the datatype of the array</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># the shape of the array: a tuple of the size of each dimension</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="c1"># the size is the number of elements in the array</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1 2 3 4 5]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1. 2. 3. 4. 5.]
 Number of dimensions:  1
+The datatype of x is:  float64
 Shape:  (5,)
 Size:  5
 </pre></div>
@@ -596,9 +600,9 @@ Array with evenly spaced values:
 The datatype of the array:  float64
 
 Array with random values:
- [[0.53232206 0.40228169 0.36515026]
- [0.33629528 0.5948897  0.15548718]
- [0.08882466 0.5057443  0.25000867]]
+ [[0.55416589 0.40101519 0.16334871]
+ [0.17493187 0.24239132 0.88807674]
+ [0.15148161 0.33627479 0.26138755]]
 The datatype of the array:  float64
 </pre></div>
 </div>
@@ -1480,8 +1484,8 @@ Are arr5 and arr6 close (within tolerance 1e-5)? True
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive time:  7.5124 seconds
-NumPy time:  0.0176 seconds
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive time:  7.6453 seconds
+NumPy time:  0.0179 seconds
 </pre></div>
 </div>
 </div>
@@ -1601,7 +1605,7 @@ The label:
  3
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f5bd2990&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2e6c8c530&gt;
 </pre></div>
 </div>
 <img alt="../_images/0ba4e8cae6eac3d5268bb6a850b6167449df2385ca2926dbfc4bb5e95a8f7712.png" src="../_images/0ba4e8cae6eac3d5268bb6a850b6167449df2385ca2926dbfc4bb5e95a8f7712.png" />
@@ -1615,7 +1619,7 @@ The label:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f8de7350&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2e6ded970&gt;
 </pre></div>
 </div>
 <img alt="../_images/0c0a8e704d77e14e6fb1bcc1d855b640a510fc779f87b5e23f87f579f2c9ec45.png" src="../_images/0c0a8e704d77e14e6fb1bcc1d855b640a510fc779f87b5e23f87f579f2c9ec45.png" />
@@ -1629,7 +1633,7 @@ The label:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f8e5f0e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2e6d8b140&gt;
 </pre></div>
 </div>
 <img alt="../_images/7d23f2becbd0d5c052576faa21f85969560ccd2b0dcced4745281b9205afaa7c.png" src="../_images/7d23f2becbd0d5c052576faa21f85969560ccd2b0dcced4745281b9205afaa7c.png" />
@@ -1670,7 +1674,7 @@ The label:
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../crash-course-python/02-classes.html"
+       href="../crash-course-python/classes.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">

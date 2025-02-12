@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Jupyter Notebooks &#8212; A Gentle Introduction to Machine Learning</title>
+    <title>Thinking in Python: Key Concepts and Pitfalls &#8212; A Gentle Introduction to Machine Learning</title>
   
   
   
@@ -60,11 +60,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/jupyter';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'crash-course-python/pitfalls';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Colab" href="colab.html" />
-    <link rel="prev" title="Installation" href="installation.html" />
+    <link rel="next" title="Classes" href="classes.html" />
+    <link rel="prev" title="Tutorial 3: Brief Introduction to Pandas" href="../tutorials/tutorial3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -163,23 +163,23 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Jupyter Notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="colab.html">Colab</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/jupyter.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/colab.html">Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/github.html">GitHub</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Crash Course in Python</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/python-essentials.html">Python Essentials</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-essentials.html">Python Essentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial1.html">Tutorial 1: Introduction to Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial2.html">Tutorial 2: Reading CSV files</a></li>
 
 
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/pitfalls.html">Thinking in Python: Key Concepts and Pitfalls</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/classes.html">Classes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Thinking in Python: Key Concepts and Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">First Steps in Machine Learning</span></p>
 <ul class="nav bd-sidenav">
@@ -261,7 +261,7 @@
       
       
       
-      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Fgetting-started/jupyter.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Fcrash-course-python/pitfalls.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -291,7 +291,7 @@
       
       
       
-      <li><a href="../_sources/getting-started/jupyter.ipynb" target="_blank"
+      <li><a href="../_sources/crash-course-python/pitfalls.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -367,7 +367,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Jupyter Notebooks</h1>
+    <h1>Thinking in Python: Key Concepts and Pitfalls</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -377,12 +377,7 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-jupyter-notebooks">What are Jupyter Notebooks?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-a-jupyter-notebook-server">Starting a Jupyter Notebook server</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-coding">Interactive Coding</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">Additional Resources</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-by-name-vs-by-value-in-python">1. Comparison by Name vs. by Value in Python</a></li>
 </ul>
             </nav>
         </div>
@@ -394,58 +389,106 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/getting-started/jupyter.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
-<section class="tex2jax_ignore mathjax_ignore" id="jupyter-notebooks">
-<span id="jupyter"></span><h1>Jupyter Notebooks<a class="headerlink" href="#jupyter-notebooks" title="Link to this heading">#</a></h1>
-<p>Throughout the semester, we will use Jupyter Notebooks.</p>
-<section id="what-are-jupyter-notebooks">
-<h2>What are Jupyter Notebooks?<a class="headerlink" href="#what-are-jupyter-notebooks" title="Link to this heading">#</a></h2>
-<blockquote>
-<b>From <u><a href="https://realpython.com/jupyter-notebook-introduction">Jupyer Notebook: An Introduction</a></u></b>
-<p>The Jupyter Notebook is an open source web application that you can use to create and share documents that contain live code, equations, visualizations, and text. Jupyter Notebook is maintained by the people at <a href="http://jupyter.org/">Project Jupyter</a>.</p>
-<p>Jupyter Notebooks are a spin-off project from the IPython project, which used to have an IPython Notebook project itself. The name, Jupyter, comes from the core supported programming languages that it supports: Julia, Python, and R. Jupyter ships with the IPython kernel, which allows you to write your programs in Python, but there are currently over 100 other kernels that you can also use.</p>
-</blockquote>
-<p>Note that <a class="reference external" href="https://www.anaconda.com/">Anaconda</a>  is a popular distribution of Python that comes with Jupyter Notebooks.</p>
-</section>
-<section id="starting-a-jupyter-notebook-server">
-<h2>Starting a Jupyter Notebook server<a class="headerlink" href="#starting-a-jupyter-notebook-server" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Open your terminal application (<strong>Terminal</strong> on MacOS, <strong>Anaconda Prompt</strong> on Windows)</p></li>
-<li><p>Change your current directory to a location on your computer where you would like to save your notebook (for example: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">/Users/home/notebooks</span></code>)</p></li>
-<li><p>Run the command <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code> which will start your default browser (or open a new tab) to the following URL: <a class="reference external" href="http://localhost:8888/tree">http://localhost:8888/tree</a></p></li>
-</ol>
-<p><img alt="OpenIPYNB" src="https://raw.githubusercontent.com/Summer-MIND/mind_2018/master/tutorials/jupyter/demo.gif" /></p>
-</section>
-<section id="interactive-coding">
-<h2>Interactive Coding<a class="headerlink" href="#interactive-coding" title="Link to this heading">#</a></h2>
-<p>We will use Jupyter Notebooks to interface with Python. Rather than keeping code scripts code and execution separate, Jupyter integrates both together using the concept of cells. Two main types of cells are <strong>code cells</strong> and <strong>markdown cells</strong>. Cells pair “snippets” of code with the output obtained from running them and can contain plots/figures inline alongside code required to generate them.</p>
-<p><strong>Code cells</strong> contain actual code that you want to run. You can specify a cell as a code cell using the pulldown menu in the toolbar in your Jupyter notebook. If you want to execute the code in a code cell, hit “<em>shift + enter</em>”. Note that code cells are executed in the order you execute them. That is to say, the ordering of the cells for which you hit “<em>shift + enter</em>” is the order in which the code is executed. If you did not explicitly execute a cell early in the document, its results are now known to the Python interpreter.</p>
-<p><strong>Markdown cells</strong> contain text. The text is written in Markdown, a lightweight markup language. You can read about its syntax <a class="reference external" href="https://daringfireball.net/projects/markdown/syntax">here</a>. See this <a class="reference external" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">comprehensive guide to Markdown</a> or <a class="reference external" href="https://www.markdowntutorial.com/">tutorial</a>.  Note that you can also insert HTML into markdown cells, and this will be rendered properly. As you are typing the contents of these cells, the results appear as text. Hitting “<em>shift + enter</em>” renders the text in the formatting you specify.</p>
-<p>In general, when you want to add a new cell, you can use the “Insert” pulldown menu from the Jupyter toolbar. The shortcut to insert a cell below is “<em>esc, b</em>” and to insert a cell above is “<em>esc, a</em>”. Alternatively, you can execute a cell and automatically add a new one below it by hitting “<em>alt + enter</em>”.</p>
+  <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/crash-course-python/pitfalls.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<section class="tex2jax_ignore mathjax_ignore" id="thinking-in-python-key-concepts-and-pitfalls">
+<span id="concepts-pitfalls"></span><h1>Thinking in Python: Key Concepts and Pitfalls<a class="headerlink" href="#thinking-in-python-key-concepts-and-pitfalls" title="Link to this heading">#</a></h1>
+<p>This notebook contains some key concepts and pitfalls in Python programming. This notebook will be updated throughout the course.</p>
+<section id="comparison-by-name-vs-by-value-in-python">
+<h2>1. Comparison by Name vs. by Value in Python<a class="headerlink" href="#comparison-by-name-vs-by-value-in-python" title="Link to this heading">#</a></h2>
+<p>In Python, variables store references to objects rather than the objects themselves.
+This means that when you assign one variable to another, both variables point to the same object in memory.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">is</span></code> operator checks whether two variables reference the same object (i.e., have the same memory address).
+In contrast, the <code class="docutils literal notranslate"><span class="pre">==</span></code> operator checks whether two variables have the same content, even if they are different objects in memory.
+Understanding this distinction is crucial when working with mutable objects like lists.</p>
+<p>When we assign <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">x</span></code>, both <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> point to the same object. As a result, modifying <code class="docutils literal notranslate"><span class="pre">x</span></code> also affects <code class="docutils literal notranslate"><span class="pre">y</span></code>.
+However, <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">x.copy()</span></code> creates a new list with the same contents as <code class="docutils literal notranslate"><span class="pre">x</span></code>, so changes to <code class="docutils literal notranslate"><span class="pre">x</span></code> do not impact <code class="docutils literal notranslate"><span class="pre">z</span></code>.
+The following example illustrates this concept:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is a code cell</span>
-<span class="c1"># Put some code here and get some output below!</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Illustrates how assignment and copying affect identity and equality</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># y is a reference to x</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># z is a shallow copy of x</span>
+<span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Modify x</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x is&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y is&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># y is a reference to x, so it will be modified</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z is&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="c1"># z is a copy of x, so it will not be modified</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">The memory address of x is&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The memory address of y is&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The memory address of z is&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y == x:&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># True, since y and x have the same contents</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z == x:&quot;</span><span class="p">,</span> <span class="n">z</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># False, since z was copied before x was modified</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y is x:&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="ow">is</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># True, y and x refer to the same object</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z is x:&quot;</span><span class="p">,</span> <span class="n">z</span> <span class="ow">is</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># False, z is a different object</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y == x:&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z == x:&quot;</span><span class="p">,</span> <span class="n">z</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x is [100, 2, 3]
+y is [100, 2, 3]
+z is [1, 2, 3]
+
+The memory address of x is 4434242176
+The memory address of y is 4434242176
+The memory address of z is 4434242112
+
+y == x: True
+z == x: False
+y is x: True
+z is x: False
+y == x: True
+z == x: False
 </pre></div>
 </div>
 </div>
 </div>
-<section id="additional-resources">
-<h3>Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=H9Iu49E6Mxs">Jupyter Notebook In 10 Minutes</a></p></li>
-<li><p><a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/">Jake Vanderplas - Data Science Handbook</a></p></li>
-<li><p><a class="reference external" href="https://jupyter-notebook.readthedocs.io/en/stable/notebook.html">Jupyter Notebook Documentation</a></p></li>
-<li><p><a class="reference external" href="https://github.com/jupyter/jupyter/wiki#a-gallery-of-interesting-jupyter-notebooks">Awesome notebooks</a></p></li>
-</ul>
-</section>
+<p>When a list is passed into a function, it is passed by reference, meaning that the function operates directly on the original list.
+As a result, any modifications made to the list inside the function persist outside of it.  In the example below, the function <code class="docutils literal notranslate"><span class="pre">f(arr)</span></code> modifies the original list <code class="docutils literal notranslate"><span class="pre">x</span></code>, so the changes are reflected in both <code class="docutils literal notranslate"><span class="pre">w</span></code> (the return value of <code class="docutils literal notranslate"><span class="pre">f(x)</span></code>) and <code class="docutils literal notranslate"><span class="pre">x</span></code> itself.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># y is a reference to x</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># z is a copy of x at this point</span>
+<span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>  <span class="c1"># Modify y, which also affects x</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z:&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Modify the passed array</span>
+    <span class="k">return</span> <span class="n">arr</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;w = </span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># w is a modified copy of x</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y == x:&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># True, because y and x still share the same memory</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x is&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y is&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z is&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z == x:&quot;</span><span class="p">,</span> <span class="n">z</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># True, since z was copied before any modifications</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x: [11, 2, 3]
+y: [11, 2, 3]
+z: [1, 2, 3]
+w = [100, 2, 3]
+y == x: True
+x is [100, 2, 3]
+y is [100, 2, 3]
+z is [1, 2, 3]
+z == x: False
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 
@@ -462,7 +505,7 @@
         },
         kernelOptions: {
             name: "python3",
-            path: "./getting-started"
+            path: "./crash-course-python"
         },
         predefinedOutput: true
     }
@@ -480,20 +523,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="installation.html"
+       href="../tutorials/tutorial3.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Installation</p>
+        <p class="prev-next-title">Tutorial 3: Brief Introduction to Pandas</p>
       </div>
     </a>
     <a class="right-next"
-       href="colab.html"
+       href="classes.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Colab</p>
+        <p class="prev-next-title">Classes</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -514,12 +557,7 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-jupyter-notebooks">What are Jupyter Notebooks?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-a-jupyter-notebook-server">Starting a Jupyter Notebook server</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-coding">Interactive Coding</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">Additional Resources</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-by-name-vs-by-value-in-python">1. Comparison by Name vs. by Value in Python</a></li>
 </ul>
   </nav></div>
 
