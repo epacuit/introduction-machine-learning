@@ -25,4 +25,4 @@ parts:
   chapters:
     - file: first-steps/intro-numpy
     - file: first-steps/linear-classification
-    - file: first-steps/linear-classification-algorithm
+    - file: first-steps/linear-classification-algorithms
