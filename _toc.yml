@@ -24,5 +24,6 @@ parts:
 - caption: First Steps in Machine Learning
   chapters:
     - file: first-steps/intro-numpy
+    - file: first-steps/tutorial4
     - file: first-steps/linear-classification
     - file: first-steps/linear-classification-algorithms
