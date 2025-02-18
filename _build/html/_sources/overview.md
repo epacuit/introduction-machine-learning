@@ -31,7 +31,7 @@ These notes will be updated throughout the semester. Please check back regularly
 |      | 1/30  | Introduction to Python Programming | [Python essentials](python-essentials), [Tutorial 1](tutorial1)|
 | 2    | 2/4   | Introduction to Python Programming |  [Tutorial 1](tutorial1), [Tutorial 2](tutorial2)  |
 |      | 2/6   | Introduction to Python Programming | [Tutorial 2](tutorial2), [Tutorial 3](tutorial3)   |
-|      | 2/11   | First Steps in Machine Learning |  [Tutorial 3](tutorial3), [numpy](numpy)   |
+|    3  | 2/11   | First Steps in Machine Learning |  [Tutorial 3](tutorial3), [numpy](numpy)   |
 |      | 2/13   | First Steps in Machine Learning |  [numpy](numpy), Sections 2.1-2.3 Chollet   |
-|      | 2/18   | Linear Classification |  [linear classification](linear-classification),  [linear classification algorithm](linear-classification-algorithms), [tutorial4](tutorial4)    |
-|      | 2/20   | Linear Classification |  [linear classification](linear-classification), [linear classification algorithm](linear-classification-algorithms)     |
+|  4    | 2/18   | Linear Classification |  [linear classification](linear-classification),  [linear classification algorithms](linear-classification-algorithms), [tutorial4](tutorial4)    |
+|      | 2/20   | Linear Classification |  [linear classification](linear-classification), [linear classification algorithms](linear-classification-algorithms)     |
