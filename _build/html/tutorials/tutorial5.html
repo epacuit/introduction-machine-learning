@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Thinking in Python: Key Concepts and Pitfalls &#8212; A Gentle Introduction to Machine Learning</title>
+    <title>Tutorial 5: Linear Classifiers &#8212; A Gentle Introduction to Machine Learning</title>
   
   
   
@@ -60,11 +60,9 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'crash-course-python/pitfalls';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/tutorial5';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Classes" href="classes.html" />
-    <link rel="prev" title="Tutorial 3: Brief Introduction to Pandas" href="../tutorials/tutorial3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -115,6 +113,8 @@
     <div class="bd-container__inner bd-page-width">
       
       
+      
+        
       
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
@@ -170,16 +170,16 @@
 <li class="toctree-l1"><a class="reference internal" href="../getting-started/github.html">GitHub</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Crash Course in Python</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="python-essentials.html">Python Essentials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial1.html">Tutorial 1: Introduction to Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial2.html">Tutorial 2: Reading CSV files</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/python-essentials.html">Python Essentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial1.html">Tutorial 1: Introduction to Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial2.html">Tutorial 2: Reading CSV files</a></li>
 
 
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Thinking in Python: Key Concepts and Pitfalls</a></li>
-<li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/pitfalls.html">Thinking in Python: Key Concepts and Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/classes.html">Classes</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">First Steps in Machine Learning</span></p>
 <ul class="nav bd-sidenav">
@@ -263,7 +263,7 @@
       
       
       
-      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Fcrash-course-python/pitfalls.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Ftutorials/tutorial5.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -293,7 +293,7 @@
       
       
       
-      <li><a href="../_sources/crash-course-python/pitfalls.ipynb" target="_blank"
+      <li><a href="../_sources/tutorials/tutorial5.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -369,7 +369,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Thinking in Python: Key Concepts and Pitfalls</h1>
+    <h1>Tutorial 5: Linear Classifiers</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -379,7 +379,14 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-by-name-vs-by-value-in-python">1. Comparison by Name vs. by Value in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-reading-the-iris-dataset">0. Background Reading: The Iris Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-iris-dataset">1. Load the Iris Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-training-and-test-datasets">2. Generate Training and Test Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-the-perceptron-algorithm">3. Implement the Perceptron Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-and-evaluate-the-classifier">4. Train and Evaluate the Classifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-and-evaluate-a-random-classifier">5. Implement and Evaluate a Random Classifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-margins">6. Calculate Margins</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#another-dataset-the-breast-cancer-wisconsin-diagnostic-dataset">7. Another Dataset: The Breast Cancer Wisconsin (Diagnostic) Dataset</a></li>
 </ul>
             </nav>
         </div>
@@ -391,102 +398,113 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/crash-course-python/pitfalls.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
-<section class="tex2jax_ignore mathjax_ignore" id="thinking-in-python-key-concepts-and-pitfalls">
-<span id="concepts-pitfalls"></span><h1>Thinking in Python: Key Concepts and Pitfalls<a class="headerlink" href="#thinking-in-python-key-concepts-and-pitfalls" title="Link to this heading">#</a></h1>
-<p>This notebook contains some key concepts and pitfalls in Python programming. This notebook will be updated throughout the course.</p>
-<section id="comparison-by-name-vs-by-value-in-python">
-<h2>1. Comparison by Name vs. by Value in Python<a class="headerlink" href="#comparison-by-name-vs-by-value-in-python" title="Link to this heading">#</a></h2>
-<p>In Python, variables store references to objects rather than the objects themselves.
-This means that when you assign one variable to another, both variables point to the same object in memory.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">is</span></code> operator checks whether two variables reference the same object (i.e., have the same memory address).
-In contrast, the <code class="docutils literal notranslate"><span class="pre">==</span></code> operator checks whether two variables have the same content, even if they are different objects in memory.
-Understanding this distinction is crucial when working with mutable objects like lists.</p>
-<p>When we assign <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">x</span></code>, both <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> point to the same object. As a result, modifying <code class="docutils literal notranslate"><span class="pre">x</span></code> also affects <code class="docutils literal notranslate"><span class="pre">y</span></code>.
-However, <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">x.copy()</span></code> creates a new list with the same contents as <code class="docutils literal notranslate"><span class="pre">x</span></code>, so changes to <code class="docutils literal notranslate"><span class="pre">x</span></code> do not impact <code class="docutils literal notranslate"><span class="pre">z</span></code>.
-The following example illustrates this concept:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-5-linear-classifiers">
+<h1>Tutorial 5: Linear Classifiers<a class="headerlink" href="#tutorial-5-linear-classifiers" title="Link to this heading">#</a></h1>
+<section id="background-reading-the-iris-dataset">
+<h2>0. Background Reading: The Iris Dataset<a class="headerlink" href="#background-reading-the-iris-dataset" title="Link to this heading">#</a></h2>
+<p>Before starting this assignment, please read about the Iris dataset to understand its origin and significance in machine learning. For more information, visit:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/iris">UCI Machine Learning Repository: Iris Data Set</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/auto_examples/datasets/plot_iris_dataset.html">scikit-learn’s Iris Dataset Example</a></p></li>
+</ul>
+</section>
+<section id="load-the-iris-dataset">
+<h2>1. Load the Iris Dataset<a class="headerlink" href="#load-the-iris-dataset" title="Link to this heading">#</a></h2>
+<p>Use the following code snippet to load the Iris dataset. We will filter the dataset to use only two classes (class 0 and class 1) for binary classification.</p>
+<p><strong>Note</strong>: You will need to install the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> library to run this code. You can install it using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scikit-learn
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+
+<span class="c1"># Load the Iris dataset</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># Filter to use only two classes (class 0 and class 1)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">2</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+</pre></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Illustrates how assignment and copying affect identity and equality</span>
-<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># y is a reference to x</span>
-<span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># z is a shallow copy of x</span>
-<span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Modify x</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x is&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y is&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># y is a reference to x, so it will be modified</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z is&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="c1"># z is a copy of x, so it will not be modified</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">The memory address of x is&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The memory address of y is&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The memory address of z is&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y == x:&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># True, since y and x have the same contents</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z == x:&quot;</span><span class="p">,</span> <span class="n">z</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># False, since z was copied before x was modified</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y is x:&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="ow">is</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># True, y and x refer to the same object</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z is x:&quot;</span><span class="p">,</span> <span class="n">z</span> <span class="ow">is</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># False, z is a different object</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y == x:&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z == x:&quot;</span><span class="p">,</span> <span class="n">z</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x is [100, 2, 3]
-y is [100, 2, 3]
-z is [1, 2, 3]
-
-The memory address of x is 4365061568
-The memory address of y is 4365061568
-The memory address of z is 4364828032
-
-y == x: True
-z == x: False
-y is x: True
-z is x: False
-y == x: True
-z == x: False
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## ADD CODE</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>When a list is passed into a function, it is passed by reference, meaning that the function operates directly on the original list.
-As a result, any modifications made to the list inside the function persist outside of it.  In the example below, the function <code class="docutils literal notranslate"><span class="pre">f(arr)</span></code> modifies the original list <code class="docutils literal notranslate"><span class="pre">x</span></code>, so the changes are reflected in both <code class="docutils literal notranslate"><span class="pre">w</span></code> (the return value of <code class="docutils literal notranslate"><span class="pre">f(x)</span></code>) and <code class="docutils literal notranslate"><span class="pre">x</span></code> itself.</p>
+</section>
+<section id="generate-training-and-test-datasets">
+<h2>2. Generate Training and Test Datasets<a class="headerlink" href="#generate-training-and-test-datasets" title="Link to this heading">#</a></h2>
+<p>Split the dataset into training and test sets, where 80% of the data/labels are used for training and 20% for testing. Do not use scikit-learn’s train_test_split; instead, perform the split using NumPy.</p>
+<p>Hint: You can use <code class="docutils literal notranslate"><span class="pre">np.random.permutation</span></code> to shuffle indices and then split them.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># y is a reference to x</span>
-<span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># z is a copy of x at this point</span>
-<span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>  <span class="c1"># Modify y, which also affects x</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z:&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
-    <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Modify the passed array</span>
-    <span class="k">return</span> <span class="n">arr</span>
-
-<span class="n">w</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;w = </span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># w is a modified copy of x</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y == x:&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># True, because y and x still share the same memory</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x is&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y is&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z is&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z == x:&quot;</span><span class="p">,</span> <span class="n">z</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># True, since z was copied before any modifications</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## ADD CODE</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x: [11, 2, 3]
-y: [11, 2, 3]
-z: [1, 2, 3]
-w = [100, 2, 3]
-y == x: True
-x is [100, 2, 3]
-y is [100, 2, 3]
-z is [1, 2, 3]
-z == x: False
+</div>
+</section>
+<section id="implement-the-perceptron-algorithm">
+<h2>3. Implement the Perceptron Algorithm<a class="headerlink" href="#implement-the-perceptron-algorithm" title="Link to this heading">#</a></h2>
+<p>Copy the <code class="docutils literal notranslate"><span class="pre">train_perceptron</span></code> function from <a class="reference internal" href="../first-steps/linear-classification-algorithms.html#linear-classification-algorithms"><span class="std std-ref">Linear Classification Algorithms</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## ADD CODE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="train-and-evaluate-the-classifier">
+<h2>4. Train and Evaluate the Classifier<a class="headerlink" href="#train-and-evaluate-the-classifier" title="Link to this heading">#</a></h2>
+<p>Apply the <code class="docutils literal notranslate"><span class="pre">train_perceptron</span></code> function to the train data and labels. Then output the accuracy of your perceptron-based classifier on the test data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## ADD CODE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="implement-and-evaluate-a-random-classifier">
+<h2>5. Implement and Evaluate a Random Classifier<a class="headerlink" href="#implement-and-evaluate-a-random-classifier" title="Link to this heading">#</a></h2>
+<p>Implement a random classifier that randomly predicts the class label. Evaluate the accuracy of the random classifier on the test data.  Note that this is <em>not</em> the <code class="docutils literal notranslate"><span class="pre">train_random_search</span></code> function from <a class="reference internal" href="../first-steps/linear-classification-algorithms.html#linear-classification-algorithms"><span class="std std-ref">Linear Classification Algorithms</span></a>. Instead, the random classifier should randomly predict a label for each data point.   You should implement the random classifier and output the accuracy of the random classifier on the test data.</p>
+<p><strong>Hint</strong>: You can use <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code> to assign random labels.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## ADD CODE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="calculate-margins">
+<h2>6. Calculate Margins<a class="headerlink" href="#calculate-margins" title="Link to this heading">#</a></h2>
+<p>Calculate the <strong>margin</strong> for each test data point (use the <code class="docutils literal notranslate"><span class="pre">calculate_margin</span></code> function from <a class="reference internal" href="../first-steps/linear-classification-algorithms.html#linear-classification-algorithms"><span class="std std-ref">Linear Classification Algorithms</span></a>).  Compute the margin for each test example for the perceptron classifier and determine and output the minimum margin over the test set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## ADD CODE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="another-dataset-the-breast-cancer-wisconsin-diagnostic-dataset">
+<h2>7. Another Dataset: The Breast Cancer Wisconsin (Diagnostic) Dataset<a class="headerlink" href="#another-dataset-the-breast-cancer-wisconsin-diagnostic-dataset" title="Link to this heading">#</a></h2>
+<p>Before beginning, read about the dataset to understand its context and significance. Here are some resources:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)">UCI Machine Learning Repository: Breast Cancer Wisconsin (Diagnostic) Data Set</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html">scikit-learn’s Breast Cancer Dataset Documentation</a></p></li>
+</ul>
+<p>Repeat each of the above exercises on this dataset.  You should re-use the functions defined above.   Note that this dataset is already binary, so you do not need to filter the classes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## ADD CODE</span>
 </pre></div>
 </div>
 </div>
@@ -507,7 +525,7 @@ z == x: False
         },
         kernelOptions: {
             name: "python3",
-            path: "./crash-course-python"
+            path: "./tutorials"
         },
         predefinedOutput: true
     }
@@ -524,24 +542,6 @@ z == x: False
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../tutorials/tutorial3.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Tutorial 3: Brief Introduction to Pandas</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="classes.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Classes</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -559,7 +559,14 @@ z == x: False
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-by-name-vs-by-value-in-python">1. Comparison by Name vs. by Value in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-reading-the-iris-dataset">0. Background Reading: The Iris Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-iris-dataset">1. Load the Iris Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-training-and-test-datasets">2. Generate Training and Test Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-the-perceptron-algorithm">3. Implement the Perceptron Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-and-evaluate-the-classifier">4. Train and Evaluate the Classifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-and-evaluate-a-random-classifier">5. Implement and Evaluate a Random Classifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-margins">6. Calculate Margins</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#another-dataset-the-breast-cancer-wisconsin-diagnostic-dataset">7. Another Dataset: The Breast Cancer Wisconsin (Diagnostic) Dataset</a></li>
 </ul>
   </nav></div>
 
