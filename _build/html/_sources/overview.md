@@ -35,5 +35,5 @@ These notes will be updated throughout the semester. Please check back regularly
 |      | 2/13   | First Steps in Machine Learning |  [numpy](numpy), Sections 2.1-2.3 Chollet   |
 |  5    | 2/18   | Linear Classification |  [linear classification](linear-classification),  [linear classification algorithms](linear-classification-algorithms), [tutorial4](tutorial4)    |
 |      | 2/20   | Linear Classification |  [linear classification](linear-classification), [linear classification algorithms](linear-classification-algorithms)     |
-|   5   | 2/25   | Linear Classification |   [linear classification algorithms](linear-classification-algorithms), [tutorial5](tutorial5)      |
+|   5   | 2/25   | Linear Classification |   [linear classification algorithms](linear-classification-algorithms), Chollet Section 2.4,  [tutorial5](tutorial5)     |
 |      | 2/27   | No Lecture: Work on Tutorial 5 |  [tutorial5](tutorial5)   |
