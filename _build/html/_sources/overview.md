@@ -37,3 +37,5 @@ These notes will be updated throughout the semester. Please check back regularly
 |      | 2/20   | Linear Classification |  [linear classification](linear-classification), [linear classification algorithms](linear-classification-algorithms)     |
 |   5   | 2/25   | Linear Classification |   [linear classification algorithms](linear-classification-algorithms), Chollet Section 2.4,  [tutorial5](tutorial5)     |
 |      | 2/27   | No Lecture: Work on Tutorial 5 |  [tutorial5](tutorial5)   |
+|   6   | 3/4   | Introduction to Gradient Descent |    Chollet Section 2.4,  [gradient descent](gradient-descent)     |
+|      | 3/6   |  Introduction to Gradient Descent |  Chollet Section 2.4,  [gradient descent](gradient-descent)    |
