@@ -29,3 +29,6 @@ parts:
     - file: first-steps/linear-classification-algorithms
     - file: tutorials/tutorial5
     - file: first-steps/gradient-descent
+- caption: Classification
+  chapters:
+    - file: classification/beyond-linear-classification
