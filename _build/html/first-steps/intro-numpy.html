@@ -196,6 +196,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Classification</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../classification/beyond-linear-classification.html">Beyond Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/binary-cross-entropy.html">Loss Functions for Binary Classification</a></li>
 </ul>
 
     </div>
@@ -610,9 +611,9 @@ Array with evenly spaced values:
 The datatype of the array:  float64
 
 Array with random values:
- [[0.29880363 0.14132479 0.28272275]
- [0.78603594 0.79938895 0.57028964]
- [0.94883329 0.80600878 0.5444554 ]]
+ [[0.91013026 0.72214907 0.45090977]
+ [0.96624132 0.2791434  0.33035825]
+ [0.77002782 0.95654206 0.02109035]]
 The datatype of the array:  float64
 </pre></div>
 </div>
@@ -1494,8 +1495,8 @@ Are arr5 and arr6 close (within tolerance 1e-5)? True
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive time:  7.3523 seconds
-NumPy time:  0.0184 seconds
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive time:  7.5888 seconds
+NumPy time:  0.0183 seconds
 </pre></div>
 </div>
 </div>
@@ -1615,7 +1616,7 @@ The label:
  3
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f11600e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f2a60230&gt;
 </pre></div>
 </div>
 <img alt="../_images/0ba4e8cae6eac3d5268bb6a850b6167449df2385ca2926dbfc4bb5e95a8f7712.png" src="../_images/0ba4e8cae6eac3d5268bb6a850b6167449df2385ca2926dbfc4bb5e95a8f7712.png" />
@@ -1629,7 +1630,7 @@ The label:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f40e7a10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f2cba9c0&gt;
 </pre></div>
 </div>
 <img alt="../_images/0c0a8e704d77e14e6fb1bcc1d855b640a510fc779f87b5e23f87f579f2c9ec45.png" src="../_images/0c0a8e704d77e14e6fb1bcc1d855b640a510fc779f87b5e23f87f579f2c9ec45.png" />
@@ -1643,7 +1644,7 @@ The label:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f4157410&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f5b7fe00&gt;
 </pre></div>
 </div>
 <img alt="../_images/7d23f2becbd0d5c052576faa21f85969560ccd2b0dcced4745281b9205afaa7c.png" src="../_images/7d23f2becbd0d5c052576faa21f85969560ccd2b0dcced4745281b9205afaa7c.png" />

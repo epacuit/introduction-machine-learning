@@ -65,6 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'classification/beyond-linear-classification';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Loss Functions for Binary Classification" href="binary-cross-entropy.html" />
     <link rel="prev" title="Gradient Descent" href="../first-steps/gradient-descent.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -195,6 +196,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Classification</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Beyond Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binary-cross-entropy.html">Loss Functions for Binary Classification</a></li>
 </ul>
 
     </div>
@@ -389,9 +391,14 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-xor-problem">The XOR Problem</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-linearity">Non-Linearity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-xor-classification">Example:  XOR Classification</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-activation-functions">Common Activation Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid-the-s-curve">Sigmoid: The “S-curve”</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tanh-the-centered-s-curve">Tanh: The “Centered S-curve”</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-the-keep-it-if-it-s-positive">ReLU: The “Keep it if it’s positive”</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-cross-entropy">Binary Cross-Entropy</a><ul class="nav section-nav flex-column">
@@ -411,9 +418,10 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="beyond-linear-classification">
-<h1>Beyond Linear Classification<a class="headerlink" href="#beyond-linear-classification" title="Link to this heading">#</a></h1>
-<p>In this tutorial, we explore the limitations of linear classifiers, including Support Vector Machines (SVMs) implemented in Keras, and show how neural networks can overcome these limitations.</p>
+  <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/classification/beyond-linear-classification.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<section class="tex2jax_ignore mathjax_ignore" id="beyond-linear-classification">
+<span id="id1"></span><h1>Beyond Linear Classification<a class="headerlink" href="#beyond-linear-classification" title="Link to this heading">#</a></h1>
+<p>Linear classifiers, including Support Vector Machines (SVMs), face fundamental limitations when confronted with certain datasets. In this section, we demonstrate these limitations and show how neural networks provide an elegant solution.</p>
 <p>We start with the classic XOR dataset as an example of a problem that is not linearly separable.</p>
 <section id="the-xor-problem">
 <h2>The XOR Problem<a class="headerlink" href="#the-xor-problem" title="Link to this heading">#</a></h2>
@@ -462,6 +470,11 @@
 <img alt="../_images/7f92b917fcae78bfa70c110c57875208aadcb3c5e9c79bfee76a6fcf42827ff3.png" src="../_images/7f92b917fcae78bfa70c110c57875208aadcb3c5e9c79bfee76a6fcf42827ff3.png" />
 </div>
 </div>
+<p>Linear classifiers attempt to find a boundary—such as a straight line or hyperplane—that separates classes. In the XOR case, no single straight line can separate the points where XOR is 1 from those where XOR is 0. Even if we stack multiple linear transformations, the resulting function remains linear:</p>
+<div class="math notranslate nohighlight">
+\[
+linear(linear(x)) = linear(x)
+\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -481,14 +494,15 @@
 <span class="c1"># Create a simple neural network with one hidden layer</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
     <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>          
-    <span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span>  
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span>  
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span>  
     <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span> 
 <span class="p">])</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;hinge&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
 
 <span class="c1"># Train the model</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># Evaluate the model on the XOR dataset</span>
 <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -498,14 +512,293 @@
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 16ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 22ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predictions on the XOR dataset:
+[[0.        ]
+ [0.31213343]
+ [0.32937872]
+ [0.64151216]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="non-linearity">
+<h2>Non-Linearity<a class="headerlink" href="#non-linearity" title="Link to this heading">#</a></h2>
+<p>To classify datasets that are not linearly separable, neural networks introduce <strong>non-linear activation functions</strong>. By adding at least one hidden layer with a non-linear activation function, the network transforms the original input space into a new, intermediate representation.</p>
+<p>This intermediate representation makes the XOR dataset linearly separable. Each neuron in the hidden layer learns to recognize specific patterns or clusters within the inputs, effectively reshaping the input data into a form that can be linearly separated by the output layer.</p>
+<section id="example-xor-classification">
+<h3>Example:  XOR Classification<a class="headerlink" href="#example-xor-classification" title="Link to this heading">#</a></h3>
+<p>Consider a neural network with the following structure that can correctly classify the XOR dataset:</p>
+<ul class="simple">
+<li><p><strong>Input Layer</strong>: Two neurons, receiving inputs <span class="math notranslate nohighlight">\((x_1, x_2)\)</span></p></li>
+<li><p><strong>Hidden Layer</strong>: Two neurons, each with a non-linear activation function</p></li>
+<li><p><strong>Output Layer</strong>: One neuron, producing the XOR classification result</p></li>
+</ul>
+<p>The neurons in the hidden layer categorize inputs into distinct groups:</p>
+<ul class="simple">
+<li><p>One neuron might activate strongly for cases where exactly one input is 1, separating <span class="math notranslate nohighlight">\((0,1)\)</span> and <span class="math notranslate nohighlight">\((1,0)\)</span> from <span class="math notranslate nohighlight">\((0,0)\)</span> and <span class="math notranslate nohighlight">\((1,1)\)</span>.</p></li>
+<li><p>Another neuron might recognize different patterns, further refining the representation.</p></li>
+</ul>
+<p>As a result, the output neuron receives transformed inputs from the hidden layer that are now linearly separable, enabling correct classification of the XOR problem that was impossible with a single-layer network.</p>
+</section>
+<section id="activation-functions">
+<h3>Activation Functions<a class="headerlink" href="#activation-functions" title="Link to this heading">#</a></h3>
+<p>An <strong>activation function</strong> is a mathematical function applied to the output of a neuron (or node) in a neural network. Its primary purpose is to introduce non-linearity into the model, which allows the network to learn and represent complex patterns.</p>
+<p>After the neuron computes a weighted sum of its inputs, the activation function transforms this sum into the neuron’s output. Mathematically, if the weighted sum is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+z = W \cdot x + b,
+\]</div>
+<p>then the neuron’s output is:
+$<span class="math notranslate nohighlight">\(
+a = \phi(z),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\phi$ is the activation function.</p>
+<p>Think of an activation function as a “decision maker” inside each brain cell (neuron) of our artificial brain (neural network). After a neuron collects information from other neurons, the activation function decides how strongly this neuron should “fire” or respond.  Without activation functions, our neural network would just be doing fancy math that can only draw straight lines through data. But real-world problems rarely fit straight lines!</p>
+</section>
+<section id="common-activation-functions">
+<h3>Common Activation Functions<a class="headerlink" href="#common-activation-functions" title="Link to this heading">#</a></h3>
+<section id="sigmoid-the-s-curve">
+<h4>Sigmoid: The “S-curve”<a class="headerlink" href="#sigmoid-the-s-curve" title="Link to this heading">#</a></h4>
+<p>The sigmoid function transforms any input value into a number between 0 and 1, creating an S-shaped curve. This property makes it especially valuable for binary classification problems—situations where the network needs to decide between two options (like “spam or not spam”).  Think of sigmoid outputs as confidence levels or probabilities:</p>
+<ul class="simple">
+<li><p>Values close to 1 mean “strongly yes”</p></li>
+<li><p>Values close to 0 mean “strongly no”</p></li>
+<li><p>Values around 0.5 indicate uncertainty</p></li>
+</ul>
+<p>The sigmoid function is defined as:
+$<span class="math notranslate nohighlight">\(
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\)</span>$</p>
+<p>The benefits of the sigmoid function:</p>
+<ul class="simple">
+<li><p><strong>Makes Sense as Probability</strong>: Outputs between 0 and 1 can be interpreted as “how likely” something is.</p></li>
+<li><p><strong>Smooth and Gradual</strong>: The gentle S-curve helps the network make fine distinctions between values.</p></li>
+<li><p><strong>Mathematically Friendly</strong>: Its derivative is easy to calculate, which makes training more efficient.</p></li>
+</ul>
+<p>While useful, sigmoid has a key drawback: the vanishing gradient problem. For inputs with large absolute values (very positive or very negative), the function’s slope becomes nearly flat. This means:</p>
+<ul class="simple">
+<li><p>Network training can slow down significantly</p></li>
+<li><p>Deep networks with many sigmoid layers may struggle to learn</p></li>
+</ul>
+<p>This limitation explains why, despite its intuitive appeal, sigmoid is now primarily used in output layers for binary classification rather than throughout entire networks.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Define the sigmoid function</span>
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+<span class="c1"># Generate a range of input values</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+<span class="c1"># Compute activation values for each function</span>
+<span class="n">y_sigmoid</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Create the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_sigmoid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sigmoid&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Add labels and title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Activation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Activation Functions&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01059afb90527f45ce86bec6a3b99dc5fa04401cacb033f218fc8d66c039c747.png" src="../_images/01059afb90527f45ce86bec6a3b99dc5fa04401cacb033f218fc8d66c039c747.png" />
+</div>
+</div>
+</section>
+<section id="tanh-the-centered-s-curve">
+<h4>Tanh: The “Centered S-curve”<a class="headerlink" href="#tanh-the-centered-s-curve" title="Link to this heading">#</a></h4>
+<p>The hyperbolic tangent function (<span class="math notranslate nohighlight">\(tanh\)</span>) is a powerful activation function that produces values between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span>. While structurally similar to sigmoid, tanh’s zero-centered output range offers significant advantages for neural network training.</p>
+<p>The tanh function is defined as:
+$<span class="math notranslate nohighlight">\(
+  \tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}
+\)</span>$</p>
+<p>The key benefits of tanh:</p>
+<ul class="simple">
+<li><p><strong>Zero-centered output</strong>: Unlike sigmoid (which outputs 0 to 1), tanh is centered around zero (-1 to 1).</p></li>
+<li><p><strong>Steeper gradient</strong>: The stronger slope helps networks learn faster in many situations.</p></li>
+<li><p><strong>Reduces bias</strong>: Zero-centered outputs prevent systematic bias in the next layer’s neurons.</p></li>
+</ul>
+<p>When an activation function’s outputs are centered around zero:</p>
+<ul class="simple">
+<li><p>The gradients are less likely to zigzag during training</p></li>
+<li><p>Weight updates become more efficient and direct</p></li>
+<li><p>The network can more easily learn both positive and negative correlations</p></li>
+</ul>
+<p>For these reasons, tanh is often preferred over sigmoid for hidden layers in neural networks. However, tanh still suffers from the vanishing gradient problem at extreme values, just like sigmoid.</p>
+<p>Think of tanh as an upgraded version of sigmoid that helps your network train more efficiently while maintaining the smooth, S-curve behavior that works well for many applications.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Generate a range of input values</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+<span class="c1"># Compute activation values for each function</span>
+<span class="n">y_tanh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Create the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_tanh</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tanh&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Add labels and title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Activation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Activation Functions&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/653530bf3f25f2aedfaebc1d6e516aaef5b199d9da01d26d45d001bb2c72054c.png" src="../_images/653530bf3f25f2aedfaebc1d6e516aaef5b199d9da01d26d45d001bb2c72054c.png" />
+</div>
+</div>
+</section>
+<section id="relu-the-keep-it-if-it-s-positive">
+<h4>ReLU: The “Keep it if it’s positive”<a class="headerlink" href="#relu-the-keep-it-if-it-s-positive" title="Link to this heading">#</a></h4>
+<p>The Rectified Linear Unit (ReLU) has become the most widely used activation function in modern neural networks. Its brilliance lies in its simplicity:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{ReLU}(z) = \max(0, z)
+\]</div>
+<p>ReLU follows an incredibly straightforward rule:</p>
+<ul class="simple">
+<li><p>For positive inputs: “Pass them through unchanged”</p></li>
+<li><p>For negative inputs: “Convert them to zero”</p></li>
+</ul>
+<p>This creates a hockey-stick shaped function that combines linear and non-linear properties. ReLU is computationally efficient, easy to optimize, and works well in practice. It has become the default choice for many types of neural networks.</p>
+<p>ReLU’s introduction helped enable deep networks with many layers that were previously difficult to train. It’s a perfect example of how sometimes the simplest solutions work best in machine learning.</p>
+<p>While ReLU has variants like Leaky ReLU to address its “dead neuron” problem (when neurons get stuck at 0), the original ReLU remains the default choice for most deep learning applications due to its balance of simplicity and effectiveness.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">relu</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Generate a range of input values</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+<span class="c1"># Compute activation values for each function</span>
+<span class="n">y_relu</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Create the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_relu</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ReLU&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Add labels and title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Activation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Activation Functions&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/648d23610525cd9fbbdb529ef69ab0505ee8f65cc82eeea423000da312bafdd3.png" src="../_images/648d23610525cd9fbbdb529ef69ab0505ee8f65cc82eeea423000da312bafdd3.png" />
+</div>
+</div>
+<p>Try using different activation functions in the code below to see how they affect the decision boundary for the XOR dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.optimizers</span> <span class="kn">import</span> <span class="n">SGD</span>
+
+<span class="c1"># XOR dataset</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="k">def</span> <span class="nf">train_xor</span><span class="p">(</span><span class="n">hidden_neurons</span><span class="p">,</span> <span class="n">activation_fnc</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>  
+        <span class="n">Dense</span><span class="p">(</span><span class="n">hidden_neurons</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="n">activation_fnc</span><span class="p">),</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">)</span>
+    <span class="p">])</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">SGD</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">loss</span><span class="p">,</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Activation function </span><span class="si">{</span><span class="n">activation_fnc</span><span class="si">}</span><span class="s1">, Hidden neurons: </span><span class="si">{</span><span class="n">hidden_neurons</span><span class="si">}</span><span class="s1">, Accuracy: </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predictions:</span><span class="se">\n</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">activation_fnc</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="s1">&#39;tanh&#39;</span><span class="p">,</span> <span class="s1">&#39;relu&#39;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">neurons</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+        <span class="n">train_xor</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">activation_fnc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Activation function sigmoid, Hidden neurons: 1, Accuracy: 0.50
+
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 15ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 22ms/step
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predictions:
+[[0.5 ]
+ [0.49]
+ [0.51]
+ [0.5 ]]
+</pre></div>
+</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">25</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;hinge&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="c1"># Train the model</span>
-<span class="ne">---&gt; </span><span class="mi">25</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="c1"># Evaluate the model on the XOR dataset</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">26</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="k">for</span> <span class="n">activation_fnc</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="s1">&#39;tanh&#39;</span><span class="p">,</span> <span class="s1">&#39;relu&#39;</span><span class="p">]:</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="k">for</span> <span class="n">neurons</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+<span class="ne">---&gt; </span><span class="mi">26</span>         <span class="n">train_xor</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">activation_fnc</span><span class="p">)</span>
+
+<span class="nn">Cell In[6], line 18,</span> in <span class="ni">train_xor</span><span class="nt">(hidden_neurons, activation_fnc)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>  
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="n">Dense</span><span class="p">(</span><span class="n">hidden_neurons</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="n">activation_fnc</span><span class="p">),</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">SGD</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="ne">---&gt; </span><span class="mi">18</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">loss</span><span class="p">,</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Activation function </span><span class="si">{</span><span class="n">activation_fnc</span><span class="si">}</span><span class="s1">, Hidden neurons: </span><span class="si">{</span><span class="n">hidden_neurons</span><span class="si">}</span><span class="s1">, Accuracy: </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 <span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/utils/traceback_utils.py:117,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
@@ -525,12 +818,12 @@
 <span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_epoch_iterator</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:112,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="k">yield</span> <span class="n">step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span>
-<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">112</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
-<span class="g g-Whitespace">    </span><span class="mi">113</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="g g-Whitespace">    </span><span class="mi">114</span> <span class="k">else</span><span class="p">:</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:102,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span> <span class="k">if</span> <span class="n">steps_per_epoch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_epoch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">102</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span>     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_execution</span><span class="p">):</span>
 
 <span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py:501,</span> in <span class="ni">DatasetV2.__iter__</span><span class="nt">(self)</span>
 <span class="g g-Whitespace">    </span><span class="mi">499</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ops</span><span class="o">.</span><span class="n">inside_function</span><span class="p">():</span>
@@ -568,142 +861,6 @@
 </div>
 </div>
 </section>
-<section id="non-linearity">
-<h2>Non-Linearity<a class="headerlink" href="#non-linearity" title="Link to this heading">#</a></h2>
-<section id="activation-functions">
-<h3>Activation Functions<a class="headerlink" href="#activation-functions" title="Link to this heading">#</a></h3>
-<p>An <strong>activation function</strong> is a mathematical function applied to the output of a neuron (or node) in a neural network. Its primary purpose is to introduce non-linearity into the model, which allows the network to learn and represent complex patterns.</p>
-</section>
-<section id="key-points">
-<h3>Key Points:<a class="headerlink" href="#key-points" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Transformation:</strong><br />
-After the neuron computes a weighted sum of its inputs, the activation function transforms this sum into the neuron’s output. Mathematically, if the weighted sum is given by:
-$<span class="math notranslate nohighlight">\(
-z = W \cdot x + b,
-\)</span><span class="math notranslate nohighlight">\(
-then the neuron's output is:
-\)</span><span class="math notranslate nohighlight">\(
-a = \phi(z),
-\)</span>$
-where (\phi) is the activation function.</p></li>
-<li><p><strong>Non-Linearity:</strong><br />
-Without an activation function, no matter how many layers a network has, the entire model would be equivalent to a single linear transformation. Activation functions like (\tanh), (\sigma) (sigmoid), and ReLU introduce non-linear behavior, enabling the network to model complex relationships between inputs and outputs.</p></li>
-</ul>
-</section>
-<section id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Sigmoid:</strong><br />
-$<span class="math notranslate nohighlight">\(
-\sigma(z) = \frac{1}{1 + e^{-z}}
-\)</span><span class="math notranslate nohighlight">\(
-Outputs values in the range \)</span>(0, 1)$, useful for binary classification.</p></li>
-<li><p><strong>Tanh:</strong><br />
-$<span class="math notranslate nohighlight">\(
-\tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}
-\)</span><span class="math notranslate nohighlight">\(
-Outputs values in the range \)</span>[-1, 1]$, which is zero-centered.</p></li>
-<li><p><strong>ReLU:</strong><br />
-$<span class="math notranslate nohighlight">\(
-\text{ReLU}(z) = \max(0, z)
-\)</span>$
-Outputs zero for negative inputs and a linear function for positive inputs.</p></li>
-</ul>
-<p>An activation function takes the input to a neuron (typically a weighted sum plus bias) and transforms it into a useful output for the next layer. This transformation is crucial because it allows neural networks to learn non-linear mappings from inputs to outputs, which is essential for solving complex real-world problems.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
-<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
-<span class="c1"># Define the activation functions</span>
-<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
-
-<span class="k">def</span> <span class="nf">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">relu</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-
-<span class="c1"># Generate a range of input values</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
-
-<span class="c1"># Compute activation values for each function</span>
-<span class="n">y_sigmoid</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">y_tanh</span> <span class="o">=</span> <span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">y_relu</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="c1"># Create the plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="c1"># plt.plot(x, y_sigmoid, label=&#39;Sigmoid&#39;, linewidth=2)</span>
-<span class="c1"># plt.plot(x, y_tanh, label=&#39;Tanh&#39;, linewidth=2)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_relu</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ReLU&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="c1"># Add labels and title</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Activation&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Activation Functions&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/5db907ac102dcf5c3ce3c006017721d1940c78b91c3f6adc06db43e713bf64d0.png" src="../_images/5db907ac102dcf5c3ce3c006017721d1940c78b91c3f6adc06db43e713bf64d0.png" />
-</div>
-</div>
-<p>Try using different activation functions in the code below to see how they affect the decision boundary for the XOR dataset.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
-<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
-
-<span class="c1"># Define the XOR dataset</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="p">])</span>
-<span class="c1"># XOR outputs: 0 if inputs are the same, 1 if they are different</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-<span class="c1"># Create a simple neural network with one hidden layer</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
-    <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>          
-    <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">),</span>  <span class="c1"># sigmoid, tanh, relu</span>
-    <span class="c1">#Dense(1, activation=&#39;linear&#39;) </span>
-<span class="p">])</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;hinge&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
-
-<span class="c1"># Train the model</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Evaluate the model on the XOR dataset</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predictions on the XOR dataset:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 21ms/step
-Predictions on the XOR dataset:
-[[-0.33600798]
- [ 0.8489278 ]
- [ 0.77502054]
- [ 0.9897587 ]]
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="binary-cross-entropy">
@@ -760,6 +917,101 @@ When used for classification, MSE tends to produce slower convergence and poorer
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Define binary cross-entropy loss function</span>
+<span class="k">def</span> <span class="nf">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1e-12</span>  <span class="c1"># to avoid log(0)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">loss</span>
+
+<span class="c1"># Example predictions and actual labels</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">y_pred_good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>  <span class="c1"># good predictions</span>
+<span class="n">y_pred_bad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>   <span class="c1"># bad predictions</span>
+
+<span class="c1"># Calculate losses</span>
+<span class="n">loss_good</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_good</span><span class="p">)</span>
+<span class="n">loss_bad</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_bad</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Good Predictions Loss:&quot;</span><span class="p">,</span> <span class="n">loss_good</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">loss_good</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Bad Predictions Loss:&quot;</span><span class="p">,</span> <span class="n">loss_bad</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">loss_bad</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Good Predictions Loss: [0.10536052 0.10536052 0.22314355 0.22314355]
+Average: 0.164252033486018
+
+Bad Predictions Loss: [2.30258509 2.30258509 1.2039728  1.60943791]
+Average: 1.854645225687032
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Define binary cross-entropy loss</span>
+<span class="k">def</span> <span class="nf">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1e-12</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="c1"># Define mean squared error loss</span>
+<span class="k">def</span> <span class="nf">mse_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># Generate predicted probabilities from 0 to 1</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># True label (1)</span>
+<span class="n">y_true_1</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">bce_loss_1</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true_1</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">mse_loss_1</span> <span class="o">=</span> <span class="n">mse_loss</span><span class="p">(</span><span class="n">y_true_1</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="c1"># True label (0)</span>
+<span class="n">y_true_0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">bce_loss_0</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true_0</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">mse_loss_0</span> <span class="o">=</span> <span class="n">mse_loss</span><span class="p">(</span><span class="n">y_true_0</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="c1"># Plot losses for y_true = 1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">bce_loss_1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Binary Cross-Entropy (y=1)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">mse_loss_1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean Squared Error (y=1)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted Probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Loss Comparison for True Label = 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Plot losses for y_true = 0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">bce_loss_0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Binary Cross-Entropy (y=0)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">mse_loss_0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean Squared Error (y=0)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted Probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Loss Comparison for True Label = 0&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/782b70d2063f5948f572d43773080f040a88c20cb93b03a3f92be14701dfb01a.png" src="../_images/782b70d2063f5948f572d43773080f040a88c20cb93b03a3f92be14701dfb01a.png" />
+<img alt="../_images/bb2f391eb6a1e24ccc683309d64cbc45b566d50dc24ac791f4174ee539305a30.png" src="../_images/bb2f391eb6a1e24ccc683309d64cbc45b566d50dc24ac791f4174ee539305a30.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
 
@@ -776,7 +1028,7 @@ When used for classification, MSE tends to produce slower convergence and poorer
 <span class="c1"># Create a simple neural network with one hidden layer</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
     <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>          
-    <span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">),</span>  <span class="c1"># sigmoid, tanh, relu</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">),</span>  <span class="c1"># sigmoid, tanh, relu</span>
     <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">)</span> 
 <span class="p">])</span>
 
@@ -793,12 +1045,12 @@ When used for classification, MSE tends to produce slower convergence and poorer
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 38ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 22ms/step
 Predictions on the XOR dataset:
-[[0.17061014]
- [0.6340203 ]
- [0.78563744]
- [0.41862658]]
+[[0.06523933]
+ [0.48933983]
+ [0.91622794]
+ [0.5281151 ]]
 </pre></div>
 </div>
 </div>
@@ -861,12 +1113,12 @@ An optimizer designed for large-scale machine learning tasks and online learning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 24ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 21ms/step
 Predictions on the XOR dataset:
-[[0.00388714]
- [0.9963976 ]
- [0.99792665]
- [0.00197501]]
+[[0.00126254]
+ [0.9988004 ]
+ [0.99896485]
+ [0.00155968]]
 </pre></div>
 </div>
 </div>
@@ -913,6 +1165,15 @@ Predictions on the XOR dataset:
         <p class="prev-next-title">Gradient Descent</p>
       </div>
     </a>
+    <a class="right-next"
+       href="binary-cross-entropy.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Loss Functions for Binary Classification</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -932,9 +1193,14 @@ Predictions on the XOR dataset:
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-xor-problem">The XOR Problem</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-linearity">Non-Linearity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-xor-classification">Example:  XOR Classification</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-activation-functions">Common Activation Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid-the-s-curve">Sigmoid: The “S-curve”</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tanh-the-centered-s-curve">Tanh: The “Centered S-curve”</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-the-keep-it-if-it-s-positive">ReLU: The “Keep it if it’s positive”</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-cross-entropy">Binary Cross-Entropy</a><ul class="nav section-nav flex-column">
