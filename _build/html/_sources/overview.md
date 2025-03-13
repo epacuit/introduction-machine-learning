@@ -40,4 +40,6 @@ These notes will be updated throughout the semester. Please check back regularly
 |   6   | 3/4   | Introduction to Gradient Descent |    Chollet Section 2.4,  [gradient descent](gradient-descent)     |
 |      | 3/6   |  Introduction to Gradient Descent |  Chollet Section 2.4,  [gradient descent](gradient-descent)    |
 |   7   | 3/11   | Non-Linear Classification |    [gradient descent](gradient-descent),  [non-linear classification](beyond-linear-classification), [binary cross entropy](binary-cross-entropy)     |
-|      | 3/13  |  Non-Linear Classification |    [non-linear classification](beyond-linear-classification), [binary cross entropy](binary-cross-entropy)   |
+|      | 3/13  |  Non-Linear Classification |    [binary cross entropy](binary-cross-entropy), [example: classifying movie reviews](example-classifying-reviews)  |
+|   8   | 3/18   | No Class: Spring Break |       |
+|      | 3/20  |  No Class: Spring Break |    |

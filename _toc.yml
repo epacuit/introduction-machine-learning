@@ -33,3 +33,4 @@ parts:
   chapters:
     - file: classification/beyond-linear-classification
     - file: classification/binary-cross-entropy
+    - file: classification/example-classifying-reviews

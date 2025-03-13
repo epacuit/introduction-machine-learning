@@ -197,6 +197,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Beyond Linear Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="binary-cross-entropy.html">Loss Functions for Binary Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-classifying-reviews.html">Example: Classifying Movie Reviews</a></li>
 </ul>
 
     </div>
@@ -401,12 +402,6 @@
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-cross-entropy">Binary Cross-Entropy</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-binary-cross-entropy">Why Use Binary Cross-Entropy?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-use-hinge-loss-or-mse">Why Not Use Hinge Loss or MSE?</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizers-in-keras">Optimizers in Keras</a></li>
 </ul>
             </nav>
         </div>
@@ -489,13 +484,13 @@ linear(linear(x)) = linear(x)
     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="p">])</span>
 <span class="c1"># XOR outputs: 0 if inputs are the same, 1 if they are different</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 <span class="c1"># Create a simple neural network with one hidden layer</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
     <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>          
     <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span>  
-    <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span>  
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span>  
     <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span> 
 <span class="p">])</span>
 
@@ -512,18 +507,18 @@ linear(linear(x)) = linear(x)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 17ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 18ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 23ms/step
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 26ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predictions on the XOR dataset:
-[[0.        ]
- [0.45252615]
- [0.00862631]
- [0.4611525 ]]
+[[ 0.        ]
+ [-0.11990364]
+ [-0.14784303]
+ [-0.2677467 ]]
 </pre></div>
 </div>
 </div>
@@ -541,12 +536,12 @@ linear(linear(x)) = linear(x)
 <li><p><strong>Hidden Layer</strong>: Two neurons, each with a non-linear activation function</p></li>
 <li><p><strong>Output Layer</strong>: One neuron, producing the XOR classification result</p></li>
 </ul>
-<p>The neurons in the hidden layer categorize inputs into distinct groups:</p>
+<p>Typically, the hidden neurons perform transformations such as:</p>
 <ul class="simple">
-<li><p>One neuron might activate strongly for cases where exactly one input is 1, separating <span class="math notranslate nohighlight">\((0,1)\)</span> and <span class="math notranslate nohighlight">\((1,0)\)</span> from <span class="math notranslate nohighlight">\((0,0)\)</span> and <span class="math notranslate nohighlight">\((1,1)\)</span>.</p></li>
-<li><p>Another neuron might recognize different patterns, further refining the representation.</p></li>
+<li><p>One hidden neuron might separate cases where exactly one input is ‘1’, distinguishing <span class="math notranslate nohighlight">\((0, 1)\)</span> and <span class="math notranslate nohighlight">\((1, 0)\)</span> from the other two cases <span class="math notranslate nohighlight">\((0, 0)\)</span> and <span class="math notranslate nohighlight">\((1, 1)\)</span>.</p></li>
+<li><p>The additional hidden neuron further enhances the network’s ability to represent the data more clearly, simplifying the classification task for the output neuron.</p></li>
 </ul>
-<p>As a result, the output neuron receives transformed inputs from the hidden layer that are now linearly separable, enabling correct classification of the XOR problem that was impossible with a single-layer network.</p>
+<p>As a result, the output neuron receives transformed inputs from the hidden layer that are now linearly separable, enabling correct classification of the XOR dataset, which is impossible with a single-layer network.</p>
 </section>
 <section id="activation-functions">
 <h3>Activation Functions<a class="headerlink" href="#activation-functions" title="Link to this heading">#</a></h3>
@@ -768,7 +763,7 @@ $<span class="math notranslate nohighlight">\(
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Activation function sigmoid, Hidden neurons: 1, Accuracy: 0.50
 
-<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 13ms/step
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 14ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
@@ -776,10 +771,10 @@ $<span class="math notranslate nohighlight">\(
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predictions:
-[[0.52]
- [0.53]
- [0.47]
- [0.48]]
+[[0.51]
+ [0.48]
+ [0.52]
+ [0.49]]
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -818,12 +813,12 @@ $<span class="math notranslate nohighlight">\(
 <span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_epoch_iterator</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:112,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="k">yield</span> <span class="n">step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span>
-<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">112</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
-<span class="g g-Whitespace">    </span><span class="mi">113</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="g g-Whitespace">    </span><span class="mi">114</span> <span class="k">else</span><span class="p">:</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:102,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span> <span class="k">if</span> <span class="n">steps_per_epoch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_epoch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">102</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span>     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_execution</span><span class="p">):</span>
 
 <span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py:501,</span> in <span class="ni">DatasetV2.__iter__</span><span class="nt">(self)</span>
 <span class="g g-Whitespace">    </span><span class="mi">499</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ops</span><span class="o">.</span><span class="n">inside_function</span><span class="p">():</span>
@@ -862,267 +857,6 @@ $<span class="math notranslate nohighlight">\(
 </div>
 </section>
 </section>
-</section>
-<section id="binary-cross-entropy">
-<h2>Binary Cross-Entropy<a class="headerlink" href="#binary-cross-entropy" title="Link to this heading">#</a></h2>
-<p><strong>Binary Cross-Entropy</strong> (also known as log loss) is a loss function commonly used for binary classification tasks. It measures the difference between the true labels and the predicted probabilities (usually produced by a sigmoid activation). The binary cross-entropy loss for a single example is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-\ell(y, \hat{y}) = -\left[y \log(\hat{y}) + (1-y) \log(1-\hat{y})\right]
-\]</div>
-<p>For a dataset of <span class="math notranslate nohighlight">\(N\)</span> examples, the average loss is:</p>
-<div class="math notranslate nohighlight">
-\[
-L_{\text{binary}} = -\frac{1}{N} \sum_{i=1}^{N} \left[y_i \log(\hat{y}_i) + (1-y_i) \log(1-\hat{y}_i)\right]
-\]</div>
-<section id="why-use-binary-cross-entropy">
-<h3>Why Use Binary Cross-Entropy?<a class="headerlink" href="#why-use-binary-cross-entropy" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Probabilistic Interpretation:</strong><br />
-Binary cross-entropy is ideal when the model outputs a probability between 0 and 1 (using a sigmoid activation in the output layer). It directly penalizes the distance between the predicted probability and the true label.</p></li>
-<li><p><strong>Sensitivity to Confident Errors:</strong><br />
-It heavily penalizes cases where the model is confident in its wrong prediction, which encourages the network to improve its probability estimates.</p></li>
-<li><p><strong>Smooth and Differentiable:</strong><br />
-The function is smooth and differentiable, which is crucial for gradient-based optimization methods.</p></li>
-</ul>
-</section>
-<section id="why-not-use-hinge-loss-or-mse">
-<h3>Why Not Use Hinge Loss or MSE?<a class="headerlink" href="#why-not-use-hinge-loss-or-mse" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Hinge Loss:</strong></p>
-<ul>
-<li><p><strong>Designed for Margin-Based Classifiers:</strong><br />
-Hinge loss is commonly used in SVMs. It is defined as:
-$<span class="math notranslate nohighlight">\(
-\ell_{\text{hinge}}(y, \hat{y}) = \max(0, 1 - y \cdot \hat{y})
-\)</span>$
-Hinge loss works well for “maximum-margin” classifiers but is less natural when the model outputs probabilities.</p></li>
-<li><p><strong>Non-Smooth Points:</strong><br />
-Although hinge loss is convex, it is not smooth everywhere, which can sometimes complicate optimization with gradient descent.</p></li>
-</ul>
-</li>
-<li><p><strong>Mean Squared Error (MSE):</strong></p>
-<ul>
-<li><p><strong>Designed for Regression:</strong><br />
-MSE is given by:
-$<span class="math notranslate nohighlight">\(
-\ell_{\text{MSE}}(y, \hat{y}) = (y - \hat{y})^2
-\)</span>$
-It is more appropriate for regression tasks where the target is a continuous value.</p></li>
-<li><p><strong>Less Suitable for Classification:</strong><br />
-When used for classification, MSE tends to produce slower convergence and poorer probability estimates because it does not penalize misclassifications as effectively as binary cross-entropy.</p></li>
-</ul>
-</li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c1"># Define binary cross-entropy loss function</span>
-<span class="k">def</span> <span class="nf">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
-    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1e-12</span>  <span class="c1"># to avoid log(0)</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">loss</span>
-
-<span class="c1"># Example predictions and actual labels</span>
-<span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">y_pred_good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>  <span class="c1"># good predictions</span>
-<span class="n">y_pred_bad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>   <span class="c1"># bad predictions</span>
-
-<span class="c1"># Calculate losses</span>
-<span class="n">loss_good</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_good</span><span class="p">)</span>
-<span class="n">loss_bad</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_bad</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Good Predictions Loss:&quot;</span><span class="p">,</span> <span class="n">loss_good</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">loss_good</span><span class="p">))</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Bad Predictions Loss:&quot;</span><span class="p">,</span> <span class="n">loss_bad</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">loss_bad</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Good Predictions Loss: [0.10536052 0.10536052 0.22314355 0.22314355]
-Average: 0.164252033486018
-
-Bad Predictions Loss: [2.30258509 2.30258509 1.2039728  1.60943791]
-Average: 1.854645225687032
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c1"># Define binary cross-entropy loss</span>
-<span class="k">def</span> <span class="nf">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
-    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1e-12</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">)</span>
-    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">))</span>
-
-<span class="c1"># Define mean squared error loss</span>
-<span class="k">def</span> <span class="nf">mse_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-
-<span class="c1"># Generate predicted probabilities from 0 to 1</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
-
-<span class="c1"># True label (1)</span>
-<span class="n">y_true_1</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">bce_loss_1</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true_1</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="n">mse_loss_1</span> <span class="o">=</span> <span class="n">mse_loss</span><span class="p">(</span><span class="n">y_true_1</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-
-<span class="c1"># True label (0)</span>
-<span class="n">y_true_0</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">bce_loss_0</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">y_true_0</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="n">mse_loss_0</span> <span class="o">=</span> <span class="n">mse_loss</span><span class="p">(</span><span class="n">y_true_0</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-
-<span class="c1"># Plot losses for y_true = 1</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">bce_loss_1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Binary Cross-Entropy (y=1)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">mse_loss_1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean Squared Error (y=1)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted Probability&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Loss Comparison for True Label = 1&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Plot losses for y_true = 0</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">bce_loss_0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Binary Cross-Entropy (y=0)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">mse_loss_0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean Squared Error (y=0)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted Probability&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Loss Comparison for True Label = 0&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/782b70d2063f5948f572d43773080f040a88c20cb93b03a3f92be14701dfb01a.png" src="../_images/782b70d2063f5948f572d43773080f040a88c20cb93b03a3f92be14701dfb01a.png" />
-<img alt="../_images/bb2f391eb6a1e24ccc683309d64cbc45b566d50dc24ac791f4174ee539305a30.png" src="../_images/bb2f391eb6a1e24ccc683309d64cbc45b566d50dc24ac791f4174ee539305a30.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
-<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
-
-<span class="c1"># Define the XOR dataset</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="p">])</span>
-<span class="c1"># XOR outputs: 0 if inputs are the same, 1 if they are different</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-<span class="c1"># Create a simple neural network with one hidden layer</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
-    <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>          
-    <span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">),</span>  <span class="c1"># sigmoid, tanh, relu</span>
-    <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">)</span> 
-<span class="p">])</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
-
-<span class="c1"># Train the model</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Evaluate the model on the XOR dataset</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predictions on the XOR dataset:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 22ms/step
-Predictions on the XOR dataset:
-[[0.06523933]
- [0.48933983]
- [0.91622794]
- [0.5281151 ]]
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="optimizers-in-keras">
-<h2>Optimizers in Keras<a class="headerlink" href="#optimizers-in-keras" title="Link to this heading">#</a></h2>
-<p>Keras provides several built-in optimizers that adjust the model parameters during training. Here are some of the most commonly used optimizers:</p>
-<ul class="simple">
-<li><p><strong>SGD (Stochastic Gradient Descent):</strong><br />
-A basic optimizer that updates parameters in the direction of the negative gradient. It can be enhanced with momentum and Nesterov accelerated gradients to improve convergence and help escape local minima.</p></li>
-<li><p><strong>RMSprop:</strong><br />
-An adaptive learning rate optimizer that scales the learning rate based on a moving average of squared gradients. RMSprop is particularly effective for non-stationary problems and recurrent neural networks.</p></li>
-<li><p><strong>Adam (Adaptive Moment Estimation):</strong><br />
-Combines the benefits of RMSprop and momentum. Adam maintains running averages of both the gradients and their squared values, providing adaptive learning rates for each parameter, which often leads to faster convergence.</p></li>
-<li><p><strong>Adagrad:</strong><br />
-Adjusts the learning rate for each parameter individually by accumulating the sum of squared gradients. It works well for sparse data but can suffer from an aggressive, monotonically decreasing learning rate.</p></li>
-<li><p><strong>Adadelta:</strong><br />
-An extension of Adagrad that limits the accumulation of past squared gradients to a fixed window, mitigating the aggressive decay of the learning rate.</p></li>
-<li><p><strong>Nadam:</strong><br />
-A variant of Adam that incorporates Nesterov momentum. It can sometimes improve convergence by anticipating future parameter updates.</p></li>
-<li><p><strong>Ftrl:</strong><br />
-An optimizer designed for large-scale machine learning tasks and online learning scenarios, particularly in logistic regression.</p></li>
-</ul>
-<p>Each optimizer has its own strengths and is suited to different problems. Choosing the right one and tuning its hyperparameters can significantly influence the training performance and convergence speed of your neural network.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
-<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
-
-<span class="c1"># Define the XOR dataset</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="p">])</span>
-<span class="c1"># XOR outputs: 0 if inputs are the same, 1 if they are different</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-<span class="c1"># Create a simple neural network with one hidden layer</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
-    <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>          
-    <span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">),</span>  <span class="c1"># sigmoid, tanh, relu</span>
-    <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">)</span> 
-<span class="p">])</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">)</span>
-
-<span class="c1"># Train the model</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Evaluate the model on the XOR dataset</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predictions on the XOR dataset:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 21ms/step
-Predictions on the XOR dataset:
-[[0.00126254]
- [0.9988004 ]
- [0.99896485]
- [0.00155968]]
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 </section>
 
@@ -1203,12 +937,6 @@ Predictions on the XOR dataset:
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-cross-entropy">Binary Cross-Entropy</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-binary-cross-entropy">Why Use Binary Cross-Entropy?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-use-hinge-loss-or-mse">Why Not Use Hinge Loss or MSE?</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizers-in-keras">Optimizers in Keras</a></li>
 </ul>
   </nav></div>
 
