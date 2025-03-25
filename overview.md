@@ -43,3 +43,5 @@ These notes will be updated throughout the semester. Please check back regularly
 |      | 3/13  |  Non-Linear Classification |    [binary cross entropy](binary-cross-entropy), [example: classifying movie reviews](example-classifying-reviews)  |
 |   8   | 3/18   | No Class: Spring Break |       |
 |      | 3/20  |  No Class: Spring Break |    |
+|   9   | 3/25   | Classification Example | Chollet Sections 4.1-4.2, [example: classifying movie reviews](example-classifying-reviews), [example: multiclass classification](multiclass-classification), [example: classifying digits](classifying-digits)     |
+|      | 3/27  |  Classification Example | Chollet Sections 4.1-4.2, [example: classifying movie reviews](example-classifying-reviews), [example: multiclass classification](multiclass-classification), [example: classifying digits](classifying-digits) å   |

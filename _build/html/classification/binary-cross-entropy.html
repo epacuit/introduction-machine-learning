@@ -198,6 +198,8 @@
 <li class="toctree-l1"><a class="reference internal" href="beyond-linear-classification.html">Beyond Linear Classification</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Loss Functions for Binary Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example-classifying-reviews.html">Example: Classifying Movie Reviews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-multiclass-classification.html">Example: Multiclass Classification Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-classifying-digits.html">Example: Classifying Digits</a></li>
 </ul>
 
     </div>
@@ -685,67 +687,42 @@ $<span class="math notranslate nohighlight">\(
 <span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_epoch_iterator</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:112,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="k">yield</span> <span class="n">step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span>
-<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">112</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
-<span class="g g-Whitespace">    </span><span class="mi">113</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="g g-Whitespace">    </span><span class="mi">114</span> <span class="k">else</span><span class="p">:</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:102,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span> <span class="k">if</span> <span class="n">steps_per_epoch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_epoch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">102</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span>     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_execution</span><span class="p">):</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py:500,</span> in <span class="ni">DatasetV2.__iter__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">489</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Creates an iterator for elements of this dataset.</span>
-<span class="g g-Whitespace">    </span><span class="mi">490</span><span class="sd"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">491</span><span class="sd"> The returned iterator implements the Python Iterator protocol.</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">    </span><span class="mi">497</span><span class="sd">   RuntimeError: If not inside of tf.function and not executing eagerly.</span>
-<span class="g g-Whitespace">    </span><span class="mi">498</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py:501,</span> in <span class="ni">DatasetV2.__iter__</span><span class="nt">(self)</span>
 <span class="g g-Whitespace">    </span><span class="mi">499</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ops</span><span class="o">.</span><span class="n">inside_function</span><span class="p">():</span>
-<span class="ne">--&gt; </span><span class="mi">500</span>   <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">colocate_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_variant_tensor</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">501</span>     <span class="k">return</span> <span class="n">iterator_ops</span><span class="o">.</span><span class="n">OwnedIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">500</span>   <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">colocate_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_variant_tensor</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">501</span>     <span class="k">return</span> <span class="n">iterator_ops</span><span class="o">.</span><span class="n">OwnedIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">502</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">503</span>   <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;`tf.data.Dataset` only supports Python-style &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">504</span>                      <span class="s2">&quot;iteration in eager mode or within tf.function.&quot;</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/framework/ops.py:4519,</span> in <span class="ni">colocate_with</span><span class="nt">(op, ignore_existing)</span>
-<span class="g g-Whitespace">   </span><span class="mi">4518</span> <span class="k">def</span> <span class="nf">colocate_with</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">ignore_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
-<span class="ne">-&gt; </span><span class="mi">4519</span>   <span class="k">return</span> <span class="n">_colocate_with_for_gradient</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore_existing</span><span class="o">=</span><span class="n">ignore_existing</span><span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py:709,</span> in <span class="ni">OwnedIterator.__init__</span><span class="nt">(self, dataset, components, element_spec)</span>
+<span class="g g-Whitespace">    </span><span class="mi">705</span>   <span class="k">if</span> <span class="p">(</span><span class="n">components</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">element_spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">706</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">707</span>         <span class="s2">&quot;When `dataset` is provided, `element_spec` and `components` must &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">708</span>         <span class="s2">&quot;not be specified.&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">709</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_create_iterator</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">711</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_next_call_count</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/framework/ops.py:4500,</span> in <span class="ni">_colocate_with_for_gradient</span><span class="nt">(op, gradient_uid, ignore_existing)</span>
-<span class="g g-Whitespace">   </span><span class="mi">4498</span>   <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="s2">&quot;device&quot;</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">4499</span>     <span class="n">op</span> <span class="o">=</span> <span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">4500</span>   <span class="k">return</span> <span class="n">device</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">4501</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">4502</span>   <span class="k">return</span> <span class="n">NullContextmanager</span><span class="p">()</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py:748,</span> in <span class="ni">OwnedIterator._create_iterator</span><span class="nt">(self, dataset)</span>
+<span class="g g-Whitespace">    </span><span class="mi">745</span>   <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">fulltype</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">746</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_flat_output_types</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">747</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_iterator_resource</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">experimental_set_type</span><span class="p">(</span><span class="n">fulltype</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">748</span> <span class="n">gen_dataset_ops</span><span class="o">.</span><span class="n">make_iterator</span><span class="p">(</span><span class="n">ds_variant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterator_resource</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/framework/ops.py:4405,</span> in <span class="ni">device</span><span class="nt">(device_name_or_function)</span>
-<span class="g g-Whitespace">   </span><span class="mi">4401</span>   <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">device_name_or_function</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">4402</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">4403</span>         <span class="s2">&quot;tf.device does not support functions when eager execution &quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">4404</span>         <span class="s2">&quot;is enabled.&quot;</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">4405</span>   <span class="k">return</span> <span class="n">context</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">device_name_or_function</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">4406</span> <span class="k">elif</span> <span class="n">executing_eagerly_outside_functions</span><span class="p">():</span>
-<span class="g g-Whitespace">   </span><span class="mi">4407</span>   <span class="nd">@tf_contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="g g-Whitespace">   </span><span class="mi">4408</span>   <span class="k">def</span> <span class="nf">combined</span><span class="p">(</span><span class="n">device_name_or_function</span><span class="p">):</span>
-
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/context.py:2753,</span> in <span class="ni">device</span><span class="nt">(name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2733</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Context-manager to force placement of operations and Tensors on a device.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2734</span><span class="sd"> </span>
-<span class="g g-Whitespace">   </span><span class="mi">2735</span><span class="sd"> Example:</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2750</span><span class="sd">   Context manager for setting the device.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2751</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">2752</span> <span class="n">ensure_initialized</span><span class="p">()</span>
-<span class="ne">-&gt; </span><span class="mi">2753</span> <span class="k">return</span> <span class="n">context</span><span class="p">()</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/context.py:1223,</span> in <span class="ni">Context.device</span><span class="nt">(self, name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1221</span> <span class="k">elif</span> <span class="n">pydev</span><span class="o">.</span><span class="n">is_device_spec</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1222</span>   <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
-<span class="ne">-&gt; </span><span class="mi">1223</span> <span class="k">return</span> <span class="n">_EagerDeviceContext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/context.py:2426,</span> in <span class="ni">_EagerDeviceContext.__init__</span><span class="nt">(self, ctx, device_name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2422</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Context-manager forcing placement of ops and Tensors on a device.&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">2424</span> <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_device_name&quot;</span><span class="p">,</span> <span class="s2">&quot;_ctx&quot;</span><span class="p">,</span> <span class="s2">&quot;_stack&quot;</span><span class="p">]</span>
-<span class="ne">-&gt; </span><span class="mi">2426</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">device_name</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">2427</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_device_name</span> <span class="o">=</span> <span class="n">device_name</span>
-<span class="g g-Whitespace">   </span><span class="mi">2428</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_ctx</span> <span class="o">=</span> <span class="n">ctx</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/ops/gen_dataset_ops.py:3478,</span> in <span class="ni">make_iterator</span><span class="nt">(dataset, iterator, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3476</span> <span class="k">if</span> <span class="n">tld</span><span class="o">.</span><span class="n">is_eager</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3477</span>   <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3478</span>     <span class="n">_result</span> <span class="o">=</span> <span class="n">pywrap_tfe</span><span class="o">.</span><span class="n">TFE_Py_FastPathExecute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3479</span>       <span class="n">_ctx</span><span class="p">,</span> <span class="s2">&quot;MakeIterator&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3480</span>     <span class="k">return</span> <span class="n">_result</span>
+<span class="g g-Whitespace">   </span><span class="mi">3481</span>   <span class="k">except</span> <span class="n">_core</span><span class="o">.</span><span class="n">_NotOkStatusException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
