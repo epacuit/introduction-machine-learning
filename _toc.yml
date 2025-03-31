@@ -36,6 +36,7 @@ parts:
     - file: classification/example-classifying-reviews
     - file: classification/example-multiclass-classification    
     - file: classification/example-classifying-digits
+    - file: tutorials/midterm_notebook
 - caption: Regression
   chapters:
     - file: regression/introduction-regression

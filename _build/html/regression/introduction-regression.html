@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -65,7 +65,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'regression/introduction-regression';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Example: Classifying Digits" href="../classification/example-classifying-digits.html" />
+    <link rel="next" title="Example: Predicting House Prices" href="example-predicting-house-prices.html" />
+    <link rel="prev" title="Midterm Project" href="../tutorials/midterm_notebook.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -199,10 +200,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-reviews.html">Example: Classifying Movie Reviews</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classification/example-multiclass-classification.html">Example: Multiclass Classification Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-digits.html">Example: Classifying Digits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/midterm_notebook.html">Midterm Project</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Regression Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-predicting-house-prices.html">Example: Predicting House Prices</a></li>
 </ul>
 
     </div>
@@ -503,21 +506,21 @@ The predicted value is numeric and continuous (e.g., prices, height, temperature
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/4</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 12ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/4</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 14ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 <span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 12ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 13ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 18ms/step
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 19ms/step
 </pre></div>
 </div>
-<img alt="../_images/33a3ca9c90ee89e4ffbc9c16a1e4cffb9aa2728607b85389d9dda75cb5a07f2e.png" src="../_images/33a3ca9c90ee89e4ffbc9c16a1e4cffb9aa2728607b85389d9dda75cb5a07f2e.png" />
+<img alt="../_images/ec169624ebf12ba836aab46ef5398e333026c8db988b6aaf9e92e2501706e561.png" src="../_images/ec169624ebf12ba836aab46ef5398e333026c8db988b6aaf9e92e2501706e561.png" />
 </div>
 </div>
 <p>It is more common to use the <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class from the <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> library to perform linear regression.</p>
@@ -635,7 +638,7 @@ The predicted value is numeric and continuous (e.g., prices, height, temperature
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">7/7</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 2ms/step 
 </pre></div>
 </div>
-<img alt="../_images/c67bfb8f07d657f1ef6b56c0abd20ab091eb9bded1e139a7006cec4fb4eb1fad.png" src="../_images/c67bfb8f07d657f1ef6b56c0abd20ab091eb9bded1e139a7006cec4fb4eb1fad.png" />
+<img alt="../_images/68c15d110dd39084ad82e52bce74cf4f2cd712b8ec3ef21d2105a0375084477e.png" src="../_images/68c15d110dd39084ad82e52bce74cf4f2cd712b8ec3ef21d2105a0375084477e.png" />
 </div>
 </div>
 <p>You can also use polynomial regression in <code class="docutils literal notranslate"><span class="pre">Scikit-learn</span></code> by transforming the input features into polynomial features using the <code class="docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code> class.</p>
@@ -719,13 +722,22 @@ The predicted value is numeric and continuous (e.g., prices, height, temperature
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../classification/example-classifying-digits.html"
+       href="../tutorials/midterm_notebook.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Example: Classifying Digits</p>
+        <p class="prev-next-title">Midterm Project</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="example-predicting-house-prices.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Example: Predicting House Prices</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
