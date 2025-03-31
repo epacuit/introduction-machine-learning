@@ -39,4 +39,4 @@ parts:
 - caption: Regression
   chapters:
     - file: regression/introduction-regression
-    - file: regression/example-predicting-housing-prices
+    - file: regression/example-predicting-house-prices
