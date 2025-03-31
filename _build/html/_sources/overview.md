@@ -44,4 +44,6 @@ These notes will be updated throughout the semester. Please check back regularly
 |   8   | 3/18   | No Class: Spring Break |       |
 |      | 3/20  |  No Class: Spring Break |    |
 |   9   | 3/25   | Classification Example | Chollet Sections 4.1-4.2, [example: classifying movie reviews](example-classifying-reviews), [example: multiclass classification](multiclass-classification), [example: classifying digits](classifying-digits)     |
-|      | 3/27  |  Classification Example | Chollet Sections 4.1-4.2, [example: classifying movie reviews](example-classifying-reviews), [example: multiclass classification](multiclass-classification), [example: classifying digits](classifying-digits) å   |
+|      | 3/27  |  Classification Example | Chollet Sections 4.1-4.2, [example: classifying movie reviews](example-classifying-reviews), [example: multiclass classification](multiclass-classification), [example: classifying digits](classifying-digits)  |
+|   10   | 4/1   | Regression Problems | Chollet Section 4.3, [introduction to regression](regression), [example: predicting housing prices](predicting-housing-prices)     |
+|      | 4/3  |  Image Classification | Chollet Chapter 8  |

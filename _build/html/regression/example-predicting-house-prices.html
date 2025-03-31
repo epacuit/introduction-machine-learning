@@ -1,0 +1,1543 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Example: Predicting Housing Prices &#8212; A Gentle Introduction to Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regression/example-predicting-house-prices';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">A Gentle Introduction to Machine Learning</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Course Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/jupyter.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/colab.html">Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/github.html">GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Crash Course in Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/python-essentials.html">Python Essentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial1.html">Tutorial 1: Introduction to Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial2.html">Tutorial 2: Reading CSV files</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/pitfalls.html">Thinking in Python: Key Concepts and Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/classes.html">Classes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">First Steps in Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/intro-numpy.html">A Brief Introduction to Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial4.html">Tutorial 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification.html">Introduction to Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification-algorithms.html">Finding a Decision Boundary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial5.html">Tutorial 5: Linear Classifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/gradient-descent.html">Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../classification/beyond-linear-classification.html">Beyond Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/binary-cross-entropy.html">Loss Functions for Binary Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-reviews.html">Example: Classifying Movie Reviews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-multiclass-classification.html">Example: Multiclass Classification Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-digits.html">Example: Classifying Digits</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction-regression.html">Regression Problems</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Fregression/example-predicting-house-prices.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/regression/example-predicting-house-prices.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Example: Predicting Housing Prices</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-data">Prepare the Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-model">Building the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-absolute-error-mae-vs-mean-squared-error-mse">Mean Absolute Error (MAE) vs. Mean Squared Error (MSE)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-mae-or-mse">When to use MAE or MSE?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-mae-when">Use MAE when:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-mse-when">Use MSE when:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-fold-cross-validation">K-Fold Cross Validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-k-fold-cross-validation-works">How K-Fold Cross-Validation Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reasons-to-use-k-fold-cross-validation">Reasons to Use K-Fold Cross-Validation</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/regression/example-predicting-house-prices.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<section class="tex2jax_ignore mathjax_ignore" id="example-predicting-housing-prices">
+<span id="predicting-housing-prices"></span><h1>Example: Predicting Housing Prices<a class="headerlink" href="#example-predicting-housing-prices" title="Link to this heading">#</a></h1>
+<p>In this section, we will attempt to predict the median price of homes in a given Boston suburb in the mid-1970s, given data points about the suburb at the time, such as the crime rate, the local property tax rate, and so on.</p>
+<p>See <a class="reference external" href="https://fairlearn.org/v0.12/user_guide/datasets/boston_housing_data.html">https://fairlearn.org/v0.12/user_guide/datasets/boston_housing_data.html</a> for more information about this dataset, especially some important concerns about the fairness of the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras.datasets</span> <span class="kn">import</span> <span class="n">boston_housing</span> 
+
+<span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_targets</span><span class="p">),</span> <span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_targets</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span> <span class="n">boston_housing</span><span class="o">.</span><span class="n">load_data</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training data shape:&quot;</span><span class="p">,</span> <span class="n">train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training targets shape:&quot;</span><span class="p">,</span> <span class="n">train_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing data shape:&quot;</span><span class="p">,</span> <span class="n">test_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>   
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing targets shape:&quot;</span><span class="p">,</span> <span class="n">test_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training data shape: (404, 13)
+Training targets shape: (404,)
+Testing data shape: (102, 13)
+Testing targets shape: (102,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">train_data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">train_targets</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[  1.23247   0.        8.14      0.        0.538     6.142    91.7
+   3.9769    4.      307.       21.      396.9      18.72   ]
+15.2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1"># Load the dataset</span>
+<span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_targets</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">boston_housing</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="c1"># Feature names (Boston Housing dataset)</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;CRIM&#39;</span><span class="p">,</span>    <span class="c1"># Crime rate per capita</span>
+    <span class="s1">&#39;ZN&#39;</span><span class="p">,</span>      <span class="c1"># Residential zoning</span>
+    <span class="s1">&#39;INDUS&#39;</span><span class="p">,</span>   <span class="c1"># Industrial areas proportion</span>
+    <span class="s1">&#39;CHAS&#39;</span><span class="p">,</span>    <span class="c1"># Charles River adjacency</span>
+    <span class="s1">&#39;NOX&#39;</span><span class="p">,</span>     <span class="c1"># Nitric oxides concentration</span>
+    <span class="s1">&#39;RM&#39;</span><span class="p">,</span>      <span class="c1"># Average rooms per dwelling</span>
+    <span class="s1">&#39;AGE&#39;</span><span class="p">,</span>     <span class="c1"># Units built before 1940</span>
+    <span class="s1">&#39;DIS&#39;</span><span class="p">,</span>     <span class="c1"># Distance to employment centers</span>
+    <span class="s1">&#39;RAD&#39;</span><span class="p">,</span>     <span class="c1"># Accessibility to highways</span>
+    <span class="s1">&#39;TAX&#39;</span><span class="p">,</span>     <span class="c1"># Property-tax rate</span>
+    <span class="s1">&#39;PTRATIO&#39;</span><span class="p">,</span> <span class="c1"># Pupil-teacher ratio</span>
+    <span class="s1">&#39;B&#39;</span><span class="p">,</span>       <span class="c1"># Proportion of Black residents</span>
+    <span class="s1">&#39;LSTAT&#39;</span>    <span class="c1"># Lower socio-economic status (%)</span>
+<span class="p">]</span>
+
+<span class="c1"># Convert data into a DataFrame</span>
+<span class="n">df_train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span>
+
+<span class="c1"># Display the first 5 rows</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_train_data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      CRIM    ZN  INDUS  CHAS    NOX     RM    AGE     DIS   RAD    TAX  \
+0  1.23247   0.0   8.14   0.0  0.538  6.142   91.7  3.9769   4.0  307.0   
+1  0.02177  82.5   2.03   0.0  0.415  7.610   15.7  6.2700   2.0  348.0   
+2  4.89822   0.0  18.10   0.0  0.631  4.970  100.0  1.3325  24.0  666.0   
+3  0.03961   0.0   5.19   0.0  0.515  6.037   34.5  5.9853   5.0  224.0   
+4  3.69311   0.0  18.10   0.0  0.713  6.376   88.4  2.5671  24.0  666.0   
+
+   PTRATIO       B  LSTAT  
+0     21.0  396.90  18.72  
+1     14.7  395.38   3.11  
+2     20.2  375.52   3.26  
+3     20.2  396.90   8.01  
+4     20.2  391.43  14.65  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="c1"># Set up figure size</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># Generate boxplots</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_train_data</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot details</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribution of Boston Housing Dataset Features&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Feature Values&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">trim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0a9efe003badb73d0d7fa7a4abe559ecd6207d5b9012782eb3eab45996f86713.png" src="../_images/0a9efe003badb73d0d7fa7a4abe559ecd6207d5b9012782eb3eab45996f86713.png" />
+</div>
+</div>
+<section id="prepare-the-data">
+<h2>Prepare the Data<a class="headerlink" href="#prepare-the-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_train_data</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">norm_test_data</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">norm_train_data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean:&quot;</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+<span class="n">norm_train_data</span> <span class="o">-=</span> <span class="n">mean</span> 
+<span class="n">std</span> <span class="o">=</span> <span class="n">norm_train_data</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Standard deviation:&quot;</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+<span class="n">norm_train_data</span> <span class="o">/=</span> <span class="n">std</span> 
+<span class="n">norm_test_data</span> <span class="o">-=</span> <span class="n">mean</span> 
+<span class="n">norm_test_data</span> <span class="o">/=</span> <span class="n">std</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean: [3.74511057e+00 1.14801980e+01 1.11044307e+01 6.18811881e-02
+ 5.57355941e-01 6.26708168e+00 6.90106436e+01 3.74027079e+00
+ 9.44059406e+00 4.05898515e+02 1.84759901e+01 3.54783168e+02
+ 1.27408168e+01]
+Standard deviation: [9.22929073e+00 2.37382770e+01 6.80287253e+00 2.40939633e-01
+ 1.17147847e-01 7.08908627e-01 2.79060634e+01 2.02770050e+00
+ 8.68758849e+00 1.66168506e+02 2.19765689e+00 9.39946015e+01
+ 7.24556085e+00]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="c1"># Load the dataset</span>
+<span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">boston_housing</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="c1"># Combine train and test data for visualization purposes only (not for training)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Visualize one feature before normalization (e.g., feature 5 - average number of rooms)</span>
+<span class="n">feature_idx</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Before normalization</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="n">feature_idx</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Feature before normalization&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Value of feature </span><span class="si">{</span><span class="n">feature_idx</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+
+<span class="c1"># Compute mean and std from training data only</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Normalize data</span>
+<span class="n">data_norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+
+<span class="c1"># After normalization</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data_norm</span><span class="p">[:,</span> <span class="n">feature_idx</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgreen&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Feature after normalization: mean=</span><span class="si">{</span><span class="n">mean</span><span class="p">[</span><span class="n">feature_idx</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, std=</span><span class="si">{</span><span class="n">std</span><span class="p">[</span><span class="n">feature_idx</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Normalized value of feature </span><span class="si">{</span><span class="n">feature_idx</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/da41560896d69a052d685723ef398a61f991e94027525efcf6b201de2140abad.png" src="../_images/da41560896d69a052d685723ef398a61f991e94027525efcf6b201de2140abad.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_mean</span> <span class="o">=</span> <span class="n">norm_train_data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">norm_std</span> <span class="o">=</span> <span class="n">norm_train_data</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Feature&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Original:   &quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;mean=</span><span class="si">{</span><span class="n">mean</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">,  std=</span><span class="si">{</span><span class="n">std</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Normalized: &quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;mean=</span><span class="si">{</span><span class="n">norm_mean</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">,  std=</span><span class="si">{</span><span class="n">norm_std</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>    
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Feature 0
+Original:    mean=3.745,  std=9.229
+Normalized:  mean=-0.000,  std=1.000
+
+Feature 1
+Original:    mean=11.480,  std=23.738
+Normalized:  mean=0.000,  std=1.000
+
+Feature 2
+Original:    mean=11.104,  std=6.803
+Normalized:  mean=0.000,  std=1.000
+
+Feature 3
+Original:    mean=0.062,  std=0.241
+Normalized:  mean=-0.000,  std=1.000
+
+Feature 4
+Original:    mean=0.557,  std=0.117
+Normalized:  mean=-0.000,  std=1.000
+
+Feature 5
+Original:    mean=6.267,  std=0.709
+Normalized:  mean=0.000,  std=1.000
+
+Feature 6
+Original:    mean=69.011,  std=27.906
+Normalized:  mean=0.000,  std=1.000
+
+Feature 7
+Original:    mean=3.740,  std=2.028
+Normalized:  mean=0.000,  std=1.000
+
+Feature 8
+Original:    mean=9.441,  std=8.688
+Normalized:  mean=0.000,  std=1.000
+
+Feature 9
+Original:    mean=405.899,  std=166.169
+Normalized:  mean=-0.000,  std=1.000
+
+Feature 10
+Original:    mean=18.476,  std=2.198
+Normalized:  mean=0.000,  std=1.000
+
+Feature 11
+Original:    mean=354.783,  std=93.995
+Normalized:  mean=0.000,  std=1.000
+
+Feature 12
+Original:    mean=12.741,  std=7.246
+Normalized:  mean=0.000,  std=1.000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="building-the-model">
+<h2>Building the Model<a class="headerlink" href="#building-the-model" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+
+<span class="k">def</span> <span class="nf">build_model</span><span class="p">():</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)])</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span> 
+        <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span> 
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mae&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="mean-absolute-error-mae-vs-mean-squared-error-mse">
+<h3>Mean Absolute Error (MAE) vs. Mean Squared Error (MSE)<a class="headerlink" href="#mean-absolute-error-mae-vs-mean-squared-error-mse" title="Link to this heading">#</a></h3>
+<p>The <strong>Mean Absolute Error (MAE)</strong> and <strong>Mean Squared Error (MSE)</strong> both measure prediction errors but differ significantly in how they handle those errors: Suppose that <span class="math notranslate nohighlight">\(\hat{y}\)</span> are the predicted values and <span class="math notranslate nohighlight">\(y\)</span> are the actual values.</p>
+<ul class="simple">
+<li><p><strong>Mean Absolute Error (MAE)</strong> measures the <em>average absolute difference</em>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}\left|y_i - \hat{y}_i\right|
+\]</div>
+<ul class="simple">
+<li><p><strong>Mean Squared Error (MSE)</strong> measures the <em>average squared difference</em>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2
+\]</div>
+</section>
+<section id="when-to-use-mae-or-mse">
+<h3>When to use MAE or MSE?<a class="headerlink" href="#when-to-use-mae-or-mse" title="Link to this heading">#</a></h3>
+<section id="use-mae-when">
+<h4>Use MAE when:<a class="headerlink" href="#use-mae-when" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>You want a metric that’s easy to interpret (“On average, predictions are off by <span class="math notranslate nohighlight">\(x\)</span> units”).</p></li>
+<li><p>You prefer robustness against outliers (large, rare errors don’t disproportionately affect results).</p></li>
+<li><p>You need stable behavior regardless of occasional large errors.</p></li>
+</ul>
+</section>
+<section id="use-mse-when">
+<h4>Use MSE when:<a class="headerlink" href="#use-mse-when" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>You specifically want to penalize large errors heavily.</p></li>
+<li><p>Large prediction errors carry significant consequences, and small errors matter less.</p></li>
+<li><p>Your optimization method benefits from smoother, more sensitive loss functions.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Sample actual and predicted values</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="c1"># Calculate absolute errors and squared errors</span>
+<span class="n">absolute_errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">actual</span> <span class="o">-</span> <span class="n">predicted</span><span class="p">)</span>
+<span class="n">squared_errors</span> <span class="o">=</span> <span class="p">(</span><span class="n">actual</span> <span class="o">-</span> <span class="n">predicted</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># MAE visualization</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">)),</span> <span class="n">absolute_errors</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Absolute Errors (MAE)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Data Point&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Absolute Error&#39;</span><span class="p">)</span>
+
+<span class="c1"># MSE visualization</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">)),</span> <span class="n">squared_errors</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;salmon&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Squared Errors (MSE)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Data Point&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Squared Error&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add actual error values on top of bars for clarity</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">)):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">absolute_errors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mf">0.05</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">absolute_errors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">squared_errors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mf">0.05</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">squared_errors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/19b683fa26dd353a687f7cf241bff2de1ec7a2a99470827f9438034d734994c6.png" src="../_images/19b683fa26dd353a687f7cf241bff2de1ec7a2a99470827f9438034d734994c6.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="k-fold-cross-validation">
+<h2>K-Fold Cross Validation<a class="headerlink" href="#k-fold-cross-validation" title="Link to this heading">#</a></h2>
+<p><strong>K-Fold Cross-Validation</strong> is a robust method to evaluate the performance of machine learning models. The main idea is to repeatedly split the dataset into training and validation subsets in different ways.</p>
+<p>This process helps ensure that the model is not just memorizing the training data but is genuinely learning to generalize to unseen data.</p>
+<section id="how-k-fold-cross-validation-works">
+<h3>How K-Fold Cross-Validation Works<a class="headerlink" href="#how-k-fold-cross-validation-works" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Split the Data:</strong><br />
+The dataset is divided into <code class="docutils literal notranslate"><span class="pre">k</span></code> equally sized folds (subsets).</p></li>
+<li><p><strong>Training and Validation:</strong>
+For each fold:</p>
+<ul class="simple">
+<li><p>The model is trained on <code class="docutils literal notranslate"><span class="pre">k-1</span></code> folds (the training set).</p></li>
+<li><p>The remaining fold is used for validation (the test set).</p></li>
+</ul>
+</li>
+<li><p><strong>Repeat:</strong>
+This process is repeated <code class="docutils literal notranslate"><span class="pre">k</span></code> times, with each fold being used as the validation set once.</p></li>
+<li><p><strong>Average the Results:</strong>
+The performance metric (e.g., accuracy, MAE, MSE) is averaged across all <code class="docutils literal notranslate"><span class="pre">k</span></code> iterations to provide a more reliable estimate of the model’s performance.</p></li>
+</ol>
+</section>
+<section id="reasons-to-use-k-fold-cross-validation">
+<h3>Reasons to Use K-Fold Cross-Validation<a class="headerlink" href="#reasons-to-use-k-fold-cross-validation" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Better Estimate of Model Performance:</strong><br />
+It provides a more reliable estimate by averaging results across multiple splits, reducing variability caused by a single random train-test split.</p></li>
+<li><p><strong>Efficient Use of Data:</strong><br />
+Each data point is used exactly once for validation, ensuring that the entire dataset contributes to the evaluation of the model’s performance.</p></li>
+<li><p><strong>Reduces Overfitting and Bias:</strong><br />
+It helps detect whether the model generalizes well to unseen data, avoiding overly optimistic (biased) estimates of accuracy.</p></li>
+<li><p><strong>Tuning and Comparing Models:</strong><br />
+Facilitates comparison of different models or hyperparameters, giving you confidence in selecting the best model for your task.</p></li>
+</ul>
+<p>In short, <strong>K-Fold Cross-Validation</strong> enhances the trustworthiness and stability of your model evaluation results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># number of folds</span>
+
+<span class="n">sample_train_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">sample_target_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample train data shape:&quot;</span><span class="p">,</span> <span class="n">sample_train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_train_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample train target shape:&quot;</span><span class="p">,</span> <span class="n">sample_target_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_target_data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">num_val_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_train_data</span><span class="p">)</span> <span class="o">//</span> <span class="n">k</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of validation samples:&quot;</span><span class="p">,</span> <span class="n">num_val_samples</span><span class="p">)</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># the current fold</span>
+
+<span class="n">val_data</span> <span class="o">=</span> <span class="n">sample_train_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fold: &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">val_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">val_data</span><span class="p">)</span>
+<span class="n">val_targets</span> <span class="o">=</span> <span class="n">sample_target_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">val_targets</span><span class="p">)</span>
+
+<span class="n">partial_train_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sample_train_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+        <span class="n">sample_train_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="n">partial_train_targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sample_target_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+        <span class="n">sample_target_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial train data shape:&quot;</span><span class="p">,</span> <span class="n">partial_train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">partial_train_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial train targets shape:&quot;</span><span class="p">,</span> <span class="n">partial_train_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">partial_train_targets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># the current fold</span>
+
+<span class="n">val_data</span> <span class="o">=</span> <span class="n">sample_train_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fold: &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">val_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">val_data</span><span class="p">)</span>
+<span class="n">val_targets</span> <span class="o">=</span> <span class="n">sample_target_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">val_targets</span><span class="p">)</span>
+
+<span class="n">partial_train_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sample_train_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+        <span class="n">sample_train_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="n">partial_train_targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sample_target_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+        <span class="n">sample_target_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial train data shape:&quot;</span><span class="p">,</span> <span class="n">partial_train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">partial_train_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial train targets shape:&quot;</span><span class="p">,</span> <span class="n">partial_train_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">partial_train_targets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># the current fold</span>
+
+<span class="n">val_data</span> <span class="o">=</span> <span class="n">sample_train_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fold: &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">val_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">val_data</span><span class="p">)</span>
+<span class="n">val_targets</span> <span class="o">=</span> <span class="n">sample_target_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">val_targets</span><span class="p">)</span>
+
+<span class="n">partial_train_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sample_train_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+        <span class="n">sample_train_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="n">partial_train_targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sample_target_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+        <span class="n">sample_target_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial train data shape:&quot;</span><span class="p">,</span> <span class="n">partial_train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">partial_train_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial train targets shape:&quot;</span><span class="p">,</span> <span class="n">partial_train_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">partial_train_targets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># the current fold</span>
+
+<span class="n">val_data</span> <span class="o">=</span> <span class="n">sample_train_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fold: &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">val_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">val_data</span><span class="p">)</span>
+<span class="n">val_targets</span> <span class="o">=</span> <span class="n">sample_target_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">val_targets</span><span class="p">)</span>
+
+<span class="n">partial_train_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sample_train_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+        <span class="n">sample_train_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="n">partial_train_targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sample_target_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+        <span class="n">sample_target_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial train data shape:&quot;</span><span class="p">,</span> <span class="n">partial_train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">partial_train_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial train targets shape:&quot;</span><span class="p">,</span> <span class="n">partial_train_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">partial_train_targets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample train data shape: (10, 3)
+[[0.67404031 0.01950265 0.63743565]
+ [0.21578098 0.20899091 0.81314992]
+ [0.19261951 0.80495211 0.7418309 ]
+ [0.85415217 0.23980581 0.73373812]
+ [0.09003339 0.08532572 0.73563271]
+ [0.09237069 0.40294973 0.75605944]
+ [0.84888321 0.99848033 0.46676821]
+ [0.74850969 0.08926607 0.47219463]
+ [0.96316226 0.64706756 0.9439552 ]
+ [0.05437822 0.99584186 0.30034118]]
+Sample train target shape: (10,)
+[42 20 23 13 40 25 35 10  4 38]
+
+Number of validation samples: 2
+Fold:  0
+data: 
+ (2, 3)
+[[0.67404031 0.01950265 0.63743565]
+ [0.21578098 0.20899091 0.81314992]]
+targets: 
+ (2,)
+[42 20]
+Partial train data shape: (8, 3)
+[[0.19261951 0.80495211 0.7418309 ]
+ [0.85415217 0.23980581 0.73373812]
+ [0.09003339 0.08532572 0.73563271]
+ [0.09237069 0.40294973 0.75605944]
+ [0.84888321 0.99848033 0.46676821]
+ [0.74850969 0.08926607 0.47219463]
+ [0.96316226 0.64706756 0.9439552 ]
+ [0.05437822 0.99584186 0.30034118]]
+Partial train targets shape: (8,)
+[23 13 40 25 35 10  4 38]
+
+------
+
+Fold:  1
+data: 
+ (2, 3)
+[[0.19261951 0.80495211 0.7418309 ]
+ [0.85415217 0.23980581 0.73373812]]
+targets: 
+ (2,)
+[23 13]
+Partial train data shape: (8, 3)
+[[0.67404031 0.01950265 0.63743565]
+ [0.21578098 0.20899091 0.81314992]
+ [0.09003339 0.08532572 0.73563271]
+ [0.09237069 0.40294973 0.75605944]
+ [0.84888321 0.99848033 0.46676821]
+ [0.74850969 0.08926607 0.47219463]
+ [0.96316226 0.64706756 0.9439552 ]
+ [0.05437822 0.99584186 0.30034118]]
+Partial train targets shape: (8,)
+[42 20 40 25 35 10  4 38]
+
+------
+
+Fold:  2
+data: 
+ (2, 3)
+[[0.09003339 0.08532572 0.73563271]
+ [0.09237069 0.40294973 0.75605944]]
+targets: 
+ (2,)
+[40 25]
+Partial train data shape: (8, 3)
+[[0.67404031 0.01950265 0.63743565]
+ [0.21578098 0.20899091 0.81314992]
+ [0.19261951 0.80495211 0.7418309 ]
+ [0.85415217 0.23980581 0.73373812]
+ [0.84888321 0.99848033 0.46676821]
+ [0.74850969 0.08926607 0.47219463]
+ [0.96316226 0.64706756 0.9439552 ]
+ [0.05437822 0.99584186 0.30034118]]
+Partial train targets shape: (8,)
+[42 20 23 13 35 10  4 38]
+
+------
+
+Fold:  3
+data: 
+ (2, 3)
+[[0.84888321 0.99848033 0.46676821]
+ [0.74850969 0.08926607 0.47219463]]
+targets: 
+ (2,)
+[35 10]
+Partial train data shape: (8, 3)
+[[0.67404031 0.01950265 0.63743565]
+ [0.21578098 0.20899091 0.81314992]
+ [0.19261951 0.80495211 0.7418309 ]
+ [0.85415217 0.23980581 0.73373812]
+ [0.09003339 0.08532572 0.73563271]
+ [0.09237069 0.40294973 0.75605944]
+ [0.96316226 0.64706756 0.9439552 ]
+ [0.05437822 0.99584186 0.30034118]]
+Partial train targets shape: (8,)
+[42 20 23 13 40 25  4 38]
+
+------
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">num_val_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">norm_train_data</span><span class="p">)</span> <span class="o">//</span> <span class="n">k</span> 
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>  
+<span class="n">all_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>  
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing fold #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> 
+    <span class="n">val_data</span> <span class="o">=</span> <span class="n">norm_train_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+    <span class="n">val_targets</span> <span class="o">=</span> <span class="n">train_targets</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+
+    <span class="n">partial_train_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">norm_train_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+         <span class="n">norm_train_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+    <span class="n">partial_train_targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">train_targets</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+         <span class="n">train_targets</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">()</span> 
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">partial_train_data</span><span class="p">,</span> 
+              <span class="n">partial_train_targets</span><span class="p">,</span> 
+              <span class="n">epochs</span><span class="o">=</span><span class="n">num_epochs</span><span class="p">,</span> 
+              <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> 
+              <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">val_mse</span><span class="p">,</span> <span class="n">val_mae</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">val_data</span><span class="p">,</span> 
+        <span class="n">val_targets</span><span class="p">,</span> 
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+    
+    <span class="n">all_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_mae</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing fold #0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing fold #1
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing fold #2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing fold #3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">all_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.849865198135376, 2.533411979675293, 2.559157371520996, 2.3885834217071533]
+2.3327544927597046
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">num_val_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">norm_train_data</span><span class="p">)</span> <span class="o">//</span> <span class="n">k</span> 
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">500</span>  
+<span class="n">all_mae_histories</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>  
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing fold #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> 
+    <span class="n">val_data</span> <span class="o">=</span> <span class="n">norm_train_data</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+    <span class="n">val_targets</span> <span class="o">=</span> <span class="n">train_targets</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">]</span> 
+
+    <span class="n">partial_train_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">norm_train_data</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+         <span class="n">norm_train_data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+    
+    <span class="n">partial_train_targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">train_targets</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+         <span class="n">train_targets</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">()</span> 
+    <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">partial_train_data</span><span class="p">,</span> 
+        <span class="n">partial_train_targets</span><span class="p">,</span> 
+        <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_data</span><span class="p">,</span> <span class="n">val_targets</span><span class="p">),</span>
+        <span class="n">epochs</span><span class="o">=</span><span class="n">num_epochs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">mae_history</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_mae&quot;</span><span class="p">]</span>
+
+    <span class="n">all_mae_histories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mae_history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing fold #0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing fold #1
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">19</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">partial_train_targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="p">[</span><span class="n">train_targets</span><span class="p">[:</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">],</span> 
+<span class="g g-Whitespace">     </span><span class="mi">16</span>      <span class="n">train_targets</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_val_samples</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">()</span> 
+<span class="ne">---&gt; </span><span class="mi">19</span> <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="n">partial_train_data</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="n">partial_train_targets</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_data</span><span class="p">,</span> <span class="n">val_targets</span><span class="p">),</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">epochs</span><span class="o">=</span><span class="n">num_epochs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="n">mae_history</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_mae&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="n">all_mae_histories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mae_history</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/utils/traceback_utils.py:117,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">117</span>     <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:371,</span> in <span class="ni">TensorFlowTrainer.fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq)</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span> <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">iterator</span> <span class="ow">in</span> <span class="n">epoch_iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">370</span>     <span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">371</span>     <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span>     <span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_batch_end</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">logs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">373</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_training</span><span class="p">:</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:219,</span> in <span class="ni">TensorFlowTrainer._make_function.&lt;locals&gt;.function</span><span class="nt">(iterator)</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span> <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">216</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>         <span class="n">iterator</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Iterator</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">DistributedIterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span>     <span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">219</span>         <span class="n">opt_outputs</span> <span class="o">=</span> <span class="n">multi_step_on_iterator</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span>         <span class="k">if</span> <span class="ow">not</span> <span class="n">opt_outputs</span><span class="o">.</span><span class="n">has_value</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">221</span>             <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/util/traceback_utils.py:150,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">150</span>   <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">151</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">152</span>   <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/polymorphic_function.py:833,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">830</span> <span class="n">compiler</span> <span class="o">=</span> <span class="s2">&quot;xla&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jit_compile</span> <span class="k">else</span> <span class="s2">&quot;nonXla&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">832</span> <span class="k">with</span> <span class="n">OptionalXlaContext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jit_compile</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">833</span>   <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">835</span> <span class="n">new_tracing_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_get_tracing_count</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">836</span> <span class="n">without_tracing</span> <span class="o">=</span> <span class="p">(</span><span class="n">tracing_count</span> <span class="o">==</span> <span class="n">new_tracing_count</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/polymorphic_function.py:878,</span> in <span class="ni">Function._call</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span> <span class="c1"># In this case we have not created variables on the first call. So we can</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span> <span class="c1"># run the first trace but we should fail if variables are created.</span>
+<span class="ne">--&gt; </span><span class="mi">878</span> <span class="n">results</span> <span class="o">=</span> <span class="n">tracing_compilation</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span>     <span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variable_creation_config</span>
+<span class="g g-Whitespace">    </span><span class="mi">880</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_variables</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>   <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Creating variables on a non-first call to a function&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span>                    <span class="s2">&quot; decorated with tf.function.&quot;</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/tracing_compilation.py:139,</span> in <span class="ni">call_function</span><span class="nt">(args, kwargs, tracing_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">137</span> <span class="n">bound_args</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span> <span class="n">flat_inputs</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">unpack_inputs</span><span class="p">(</span><span class="n">bound_args</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">139</span> <span class="k">return</span> <span class="n">function</span><span class="o">.</span><span class="n">_call_flat</span><span class="p">(</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span>     <span class="n">flat_inputs</span><span class="p">,</span> <span class="n">captured_inputs</span><span class="o">=</span><span class="n">function</span><span class="o">.</span><span class="n">captured_inputs</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span> <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/concrete_function.py:1322,</span> in <span class="ni">ConcreteFunction._call_flat</span><span class="nt">(self, tensor_inputs, captured_inputs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1318</span> <span class="n">possible_gradient_type</span> <span class="o">=</span> <span class="n">gradients_util</span><span class="o">.</span><span class="n">PossibleTapeGradientTypes</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1319</span> <span class="k">if</span> <span class="p">(</span><span class="n">possible_gradient_type</span> <span class="o">==</span> <span class="n">gradients_util</span><span class="o">.</span><span class="n">POSSIBLE_GRADIENT_TYPES_NONE</span>
+<span class="g g-Whitespace">   </span><span class="mi">1320</span>     <span class="ow">and</span> <span class="n">executing_eagerly</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1321</span>   <span class="c1"># No tape is watching; skip to running the function.</span>
+<span class="ne">-&gt; </span><span class="mi">1322</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inference_function</span><span class="o">.</span><span class="n">call_preflattened</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1323</span> <span class="n">forward_backward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_forward_and_backward_functions</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1324</span>     <span class="n">args</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1325</span>     <span class="n">possible_gradient_type</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1326</span>     <span class="n">executing_eagerly</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1327</span> <span class="n">forward_function</span><span class="p">,</span> <span class="n">args_with_tangents</span> <span class="o">=</span> <span class="n">forward_backward</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/atomic_function.py:217,</span> in <span class="ni">AtomicFunction.call_preflattened</span><span class="nt">(self, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Calls with flattened tensor inputs and returns the structured output.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">216</span> <span class="n">flat_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_flat</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">217</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">pack_output</span><span class="p">(</span><span class="n">flat_outputs</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/core/function/polymorphism/function_type.py:446,</span> in <span class="ni">FunctionType.pack_output</span><span class="nt">(self, flat_values)</span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span>   <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can not pack outputs for undefined output type.&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">446</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">from_tensors</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">flat_values</span><span class="p">))</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/framework/type_spec.py:260,</span> in <span class="ni">TypeSpec.from_tensors</span><span class="nt">(self, tensors)</span>
+<span class="g g-Whitespace">    </span><span class="mi">257</span> <span class="nd">@doc_controls</span><span class="o">.</span><span class="n">do_not_doc_inheritable</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span> <span class="k">def</span> <span class="nf">from_tensors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensors</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span><span class="w">   </span><span class="sd">&quot;&quot;&quot;See TraceType base class for details. Do not override.&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">260</span>   <span class="n">components</span> <span class="o">=</span> <span class="n">nest</span><span class="o">.</span><span class="n">map_structure</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>       <span class="k">lambda</span> <span class="n">spec</span><span class="p">:</span> <span class="n">spec</span><span class="o">.</span><span class="n">from_tensors</span><span class="p">(</span><span class="n">tensors</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_component_specs</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>   <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">264</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_components</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/util/nest.py:628,</span> in <span class="ni">map_structure</span><span class="nt">(func, *structure, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">542</span> <span class="nd">@tf_export</span><span class="p">(</span><span class="s2">&quot;nest.map_structure&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">543</span> <span class="k">def</span> <span class="nf">map_structure</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">structure</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">544</span><span class="w">   </span><span class="sd">&quot;&quot;&quot;Creates a new structure by applying `func` to each atom in `structure`.</span>
+<span class="g g-Whitespace">    </span><span class="mi">545</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">546</span><span class="sd">   Refer to [tf.nest](https://www.tensorflow.org/api_docs/python/tf/nest)</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">626</span><span class="sd">     ValueError: If wrong keyword arguments are provided.</span>
+<span class="g g-Whitespace">    </span><span class="mi">627</span><span class="sd">   &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">628</span>   <span class="k">return</span> <span class="n">nest_util</span><span class="o">.</span><span class="n">map_structure</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">629</span>       <span class="n">nest_util</span><span class="o">.</span><span class="n">Modality</span><span class="o">.</span><span class="n">CORE</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">structure</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">630</span>   <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/util/nest_util.py:1065,</span> in <span class="ni">map_structure</span><span class="nt">(modality, func, *structure, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">968</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Creates a new structure by applying `func` to each atom in `structure`.</span>
+<span class="g g-Whitespace">    </span><span class="mi">969</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">970</span><span class="sd"> - For Modality.CORE: Refer to</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1062</span><span class="sd">   ValueError: If wrong keyword arguments are provided.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1063</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1064</span> <span class="k">if</span> <span class="n">modality</span> <span class="o">==</span> <span class="n">Modality</span><span class="o">.</span><span class="n">CORE</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1065</span>   <span class="k">return</span> <span class="n">_tf_core_map_structure</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">structure</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1066</span> <span class="k">elif</span> <span class="n">modality</span> <span class="o">==</span> <span class="n">Modality</span><span class="o">.</span><span class="n">DATA</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1067</span>   <span class="k">return</span> <span class="n">_tf_data_map_structure</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">structure</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/util/nest_util.py:1103,</span> in <span class="ni">_tf_core_map_structure</span><span class="nt">(func, *structure, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1100</span> <span class="n">flat_structure</span> <span class="o">=</span> <span class="p">(</span><span class="n">_tf_core_flatten</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">expand_composites</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">structure</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1101</span> <span class="n">entries</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">flat_structure</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1103</span> <span class="k">return</span> <span class="n">_tf_core_pack_sequence_as</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1104</span>     <span class="n">structure</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1105</span>     <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1106</span>     <span class="n">expand_composites</span><span class="o">=</span><span class="n">expand_composites</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1107</span> <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/util/nest_util.py:919,</span> in <span class="ni">_tf_core_pack_sequence_as</span><span class="nt">(structure, flat_sequence, expand_composites, sequence_fn)</span>
+<span class="g g-Whitespace">    </span><span class="mi">912</span>   <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat_structure</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat_sequence</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">913</span>     <span class="c1"># pylint: disable=raise-missing-from</span>
+<span class="g g-Whitespace">    </span><span class="mi">914</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">915</span>         <span class="s2">&quot;Could not pack sequence. Structure had </span><span class="si">%d</span><span class="s2"> atoms, but &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">916</span>         <span class="s2">&quot;flat_sequence had </span><span class="si">%d</span><span class="s2"> items.  Structure: </span><span class="si">%s</span><span class="s2">, flat_sequence: </span><span class="si">%s</span><span class="s2">.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">917</span>         <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flat_structure</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat_sequence</span><span class="p">),</span> <span class="n">structure</span><span class="p">,</span> <span class="n">flat_sequence</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">918</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">919</span> <span class="k">return</span> <span class="n">sequence_fn</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="n">packed</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/util/nest_util.py:244,</span> in <span class="ni">sequence_like</span><span class="nt">(instance, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">240</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">_wrapt</span><span class="o">.</span><span class="n">ObjectProxy</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">241</span>   <span class="c1"># For object proxies, first create the underlying type and then re-wrap it</span>
+<span class="g g-Whitespace">    </span><span class="mi">242</span>   <span class="c1"># in the proxy type.</span>
+<span class="g g-Whitespace">    </span><span class="mi">243</span>   <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">instance</span><span class="p">)(</span><span class="n">sequence_like</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">__wrapped__</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">244</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">CustomNestProtocol</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">245</span>   <span class="n">metadata</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">__tf_flatten__</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">246</span>   <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="n">__tf_unflatten__</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/typing.py:1899,</span> in <span class="ni">_ProtocolMeta.__instancecheck__</span><span class="nt">(cls, instance)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1894</span>             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1895</span>                 <span class="s2">&quot;Protocols with non-method members don&#39;t support issubclass()&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1896</span>             <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1897</span>     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__subclasscheck__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1899</span> <span class="k">def</span> <span class="fm">__instancecheck__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1900</span>     <span class="c1"># We need this method for situations where attributes are</span>
+<span class="g g-Whitespace">   </span><span class="mi">1901</span>     <span class="c1"># assigned in __init__.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1902</span>     <span class="k">if</span> <span class="bp">cls</span> <span class="ow">is</span> <span class="n">Protocol</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1903</span>         <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__instancecheck__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">average_mae_history</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_mae_histories</span><span class="p">])</span> 
+                       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">average_mae_history</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">average_mae_history</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Validation MAE&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a9a6279863f6552b4a4c1f9287e60c78f90f518875915de8dbf0ce0a51dd2385.png" src="../_images/a9a6279863f6552b4a4c1f9287e60c78f90f518875915de8dbf0ce0a51dd2385.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">truncated_mae_history</span> <span class="o">=</span> <span class="n">average_mae_history</span><span class="p">[</span><span class="mi">10</span><span class="p">:]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">truncated_mae_history</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">truncated_mae_history</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Validation MAE&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c9aef35ccd0de04fb3b5a7aba6e1b66d6364f2408764d5bc0f14bbc84f4dd8d9.png" src="../_images/c9aef35ccd0de04fb3b5a7aba6e1b66d6364f2408764d5bc0f14bbc84f4dd8d9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">()</span> 
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">,</span> 
+    <span class="n">train_targets</span><span class="p">,</span> 
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">130</span><span class="p">,</span> 
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> 
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">test_mse_score</span><span class="p">,</span> <span class="n">test_mae_score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_targets</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">test_mae_score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 3ms/step - loss: 28.4149 - mae: 3.6281 
+4.021370887756348
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+
+<span class="n">test_idx</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_data</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 7ms/step 
+[1.9510e-02 1.7500e+01 1.3800e+00 0.0000e+00 4.1610e-01 7.1040e+00
+ 5.9500e+01 9.2229e+00 3.0000e+00 2.1600e+02 1.8600e+01 3.9324e+02
+ 8.0500e+00]
+[23.901943]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot the histogram of the predictions</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Plot predictions</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Predictions&#39;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Plot actual targets</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">test_targets</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;salmon&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Actual Targets&#39;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Housing Prices&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparison of Predicted and Actual Housing Prices&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/62505cde3a453df209bc8d7c3cf29f6a15779dd83b3c53868ca9373c11cd512a.png" src="../_images/62505cde3a453df209bc8d7c3cf29f6a15779dd83b3c53868ca9373c11cd512a.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-data">Prepare the Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-model">Building the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-absolute-error-mae-vs-mean-squared-error-mse">Mean Absolute Error (MAE) vs. Mean Squared Error (MSE)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-mae-or-mse">When to use MAE or MSE?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-mae-when">Use MAE when:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-mse-when">Use MSE when:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-fold-cross-validation">K-Fold Cross Validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-k-fold-cross-validation-works">How K-Fold Cross-Validation Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reasons-to-use-k-fold-cross-validation">Reasons to Use K-Fold Cross-Validation</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Eric Pacuit
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
