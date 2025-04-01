@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -65,6 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'regression/example-predicting-house-prices';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Convnets - Convolutional Neural Networks" href="../image-classification/introduction-convnet.html" />
     <link rel="prev" title="Regression Problems" href="introduction-regression.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -205,6 +206,10 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="introduction-regression.html">Regression Problems</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Example: Predicting House Prices</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
 </ul>
 
     </div>
@@ -933,105 +938,105 @@ Facilitates comparison of different models or hyperparameters, giving you confid
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample train data shape: (10, 3)
-[[0.9642334  0.38406843 0.83507041]
- [0.0901452  0.36511444 0.04868929]
- [0.26158109 0.22424269 0.17961708]
- [0.45237561 0.53206769 0.55747807]
- [0.9607693  0.33137516 0.48921599]
- [0.98608032 0.83537552 0.79286499]
- [0.44819212 0.61414082 0.31610987]
- [0.96828053 0.5669493  0.93137897]
- [0.13047845 0.51647391 0.42236468]
- [0.04344363 0.6804595  0.89745973]]
+[[0.46100566 0.01240367 0.72065131]
+ [0.23206801 0.36879554 0.33008322]
+ [0.43753126 0.45040406 0.93349904]
+ [0.50980361 0.70853615 0.38908146]
+ [0.09175171 0.11695365 0.38726834]
+ [0.15410594 0.41176874 0.88547301]
+ [0.11901178 0.60589378 0.59761997]
+ [0.40667391 0.84410997 0.52168092]
+ [0.46303443 0.66635351 0.11826542]
+ [0.63958386 0.38019701 0.02020293]]
 Sample train target shape: (10,)
-[ 6 38 21  9  5 32 42 34 16  3]
+[15 42 18  3 25 40 18  2 13 19]
 
 Number of validation samples: 2
 Fold:  0
 data: 
  (2, 3)
-[[0.9642334  0.38406843 0.83507041]
- [0.0901452  0.36511444 0.04868929]]
+[[0.46100566 0.01240367 0.72065131]
+ [0.23206801 0.36879554 0.33008322]]
 targets: 
  (2,)
-[ 6 38]
+[15 42]
 Partial train data shape: (8, 3)
-[[0.26158109 0.22424269 0.17961708]
- [0.45237561 0.53206769 0.55747807]
- [0.9607693  0.33137516 0.48921599]
- [0.98608032 0.83537552 0.79286499]
- [0.44819212 0.61414082 0.31610987]
- [0.96828053 0.5669493  0.93137897]
- [0.13047845 0.51647391 0.42236468]
- [0.04344363 0.6804595  0.89745973]]
+[[0.43753126 0.45040406 0.93349904]
+ [0.50980361 0.70853615 0.38908146]
+ [0.09175171 0.11695365 0.38726834]
+ [0.15410594 0.41176874 0.88547301]
+ [0.11901178 0.60589378 0.59761997]
+ [0.40667391 0.84410997 0.52168092]
+ [0.46303443 0.66635351 0.11826542]
+ [0.63958386 0.38019701 0.02020293]]
 Partial train targets shape: (8,)
-[21  9  5 32 42 34 16  3]
+[18  3 25 40 18  2 13 19]
 
 ------
 
 Fold:  1
 data: 
  (2, 3)
-[[0.26158109 0.22424269 0.17961708]
- [0.45237561 0.53206769 0.55747807]]
+[[0.43753126 0.45040406 0.93349904]
+ [0.50980361 0.70853615 0.38908146]]
 targets: 
  (2,)
-[21  9]
+[18  3]
 Partial train data shape: (8, 3)
-[[0.9642334  0.38406843 0.83507041]
- [0.0901452  0.36511444 0.04868929]
- [0.9607693  0.33137516 0.48921599]
- [0.98608032 0.83537552 0.79286499]
- [0.44819212 0.61414082 0.31610987]
- [0.96828053 0.5669493  0.93137897]
- [0.13047845 0.51647391 0.42236468]
- [0.04344363 0.6804595  0.89745973]]
+[[0.46100566 0.01240367 0.72065131]
+ [0.23206801 0.36879554 0.33008322]
+ [0.09175171 0.11695365 0.38726834]
+ [0.15410594 0.41176874 0.88547301]
+ [0.11901178 0.60589378 0.59761997]
+ [0.40667391 0.84410997 0.52168092]
+ [0.46303443 0.66635351 0.11826542]
+ [0.63958386 0.38019701 0.02020293]]
 Partial train targets shape: (8,)
-[ 6 38  5 32 42 34 16  3]
+[15 42 25 40 18  2 13 19]
 
 ------
 
 Fold:  2
 data: 
  (2, 3)
-[[0.9607693  0.33137516 0.48921599]
- [0.98608032 0.83537552 0.79286499]]
+[[0.09175171 0.11695365 0.38726834]
+ [0.15410594 0.41176874 0.88547301]]
 targets: 
  (2,)
-[ 5 32]
+[25 40]
 Partial train data shape: (8, 3)
-[[0.9642334  0.38406843 0.83507041]
- [0.0901452  0.36511444 0.04868929]
- [0.26158109 0.22424269 0.17961708]
- [0.45237561 0.53206769 0.55747807]
- [0.44819212 0.61414082 0.31610987]
- [0.96828053 0.5669493  0.93137897]
- [0.13047845 0.51647391 0.42236468]
- [0.04344363 0.6804595  0.89745973]]
+[[0.46100566 0.01240367 0.72065131]
+ [0.23206801 0.36879554 0.33008322]
+ [0.43753126 0.45040406 0.93349904]
+ [0.50980361 0.70853615 0.38908146]
+ [0.11901178 0.60589378 0.59761997]
+ [0.40667391 0.84410997 0.52168092]
+ [0.46303443 0.66635351 0.11826542]
+ [0.63958386 0.38019701 0.02020293]]
 Partial train targets shape: (8,)
-[ 6 38 21  9 42 34 16  3]
+[15 42 18  3 18  2 13 19]
 
 ------
 
 Fold:  3
 data: 
  (2, 3)
-[[0.44819212 0.61414082 0.31610987]
- [0.96828053 0.5669493  0.93137897]]
+[[0.11901178 0.60589378 0.59761997]
+ [0.40667391 0.84410997 0.52168092]]
 targets: 
  (2,)
-[42 34]
+[18  2]
 Partial train data shape: (8, 3)
-[[0.9642334  0.38406843 0.83507041]
- [0.0901452  0.36511444 0.04868929]
- [0.26158109 0.22424269 0.17961708]
- [0.45237561 0.53206769 0.55747807]
- [0.9607693  0.33137516 0.48921599]
- [0.98608032 0.83537552 0.79286499]
- [0.13047845 0.51647391 0.42236468]
- [0.04344363 0.6804595  0.89745973]]
+[[0.46100566 0.01240367 0.72065131]
+ [0.23206801 0.36879554 0.33008322]
+ [0.43753126 0.45040406 0.93349904]
+ [0.50980361 0.70853615 0.38908146]
+ [0.09175171 0.11695365 0.38726834]
+ [0.15410594 0.41176874 0.88547301]
+ [0.46303443 0.66635351 0.11826542]
+ [0.63958386 0.38019701 0.02020293]]
 Partial train targets shape: (8,)
-[ 6 38 21  9  5 32 16  3]
+[15 42 18  3 25 40 13 19]
 
 ------
 </pre></div>
@@ -1096,8 +1101,8 @@ Partial train targets shape: (8,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2.0415267944335938, 2.3461949825286865, 2.31585955619812, 2.374784231185913]
-2.2695913910865784
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2.100975275039673, 2.6860275268554688, 2.6197330951690674, 2.496953010559082]
+2.4759222269058228
 </pre></div>
 </div>
 </div>
@@ -1163,23 +1168,53 @@ Partial train targets shape: (8,)
 <span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:369,</span> in <span class="ni">TensorFlowTrainer.fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq)</span>
-<span class="g g-Whitespace">    </span><span class="mi">367</span> <span class="n">callbacks</span><span class="o">.</span><span class="n">on_epoch_begin</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">368</span> <span class="k">with</span> <span class="n">epoch_iterator</span><span class="o">.</span><span class="n">catch_stop_iteration</span><span class="p">():</span>
-<span class="ne">--&gt; </span><span class="mi">369</span>     <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">iterator</span> <span class="ow">in</span> <span class="n">epoch_iterator</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">370</span>         <span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">371</span>         <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:395,</span> in <span class="ni">TensorFlowTrainer.fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq)</span>
+<span class="g g-Whitespace">    </span><span class="mi">384</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_eval_epoch_iterator&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">385</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_eval_epoch_iterator</span> <span class="o">=</span> <span class="n">TFEpochIterator</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">386</span>         <span class="n">x</span><span class="o">=</span><span class="n">val_x</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span>         <span class="n">y</span><span class="o">=</span><span class="n">val_y</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">393</span>         <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">394</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">395</span> <span class="n">val_logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">396</span>     <span class="n">x</span><span class="o">=</span><span class="n">val_x</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">397</span>     <span class="n">y</span><span class="o">=</span><span class="n">val_y</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">398</span>     <span class="n">sample_weight</span><span class="o">=</span><span class="n">val_sample_weight</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">399</span>     <span class="n">batch_size</span><span class="o">=</span><span class="n">validation_batch_size</span> <span class="ow">or</span> <span class="n">batch_size</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">400</span>     <span class="n">steps</span><span class="o">=</span><span class="n">validation_steps</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">401</span>     <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">402</span>     <span class="n">return_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">403</span>     <span class="n">_use_cached_eval_dataset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">404</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">405</span> <span class="n">val_logs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="nn">    406     &quot;val_&quot; + name: val for name, val</span> in <span class="ni">val_logs.items</span><span class="nt">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">407</span> <span class="p">}</span>
+<span class="g g-Whitespace">    </span><span class="mi">408</span> <span class="n">epoch_logs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">val_logs</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/utils/traceback_utils.py:117,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">117</span>     <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:482,</span> in <span class="ni">TensorFlowTrainer.evaluate</span><span class="nt">(self, x, y, batch_size, verbose, sample_weight, steps, callbacks, return_dict, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">480</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset_metrics</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">481</span> <span class="k">with</span> <span class="n">epoch_iterator</span><span class="o">.</span><span class="n">catch_stop_iteration</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">482</span>     <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">iterator</span> <span class="ow">in</span> <span class="n">epoch_iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">483</span>         <span class="n">callbacks</span><span class="o">.</span><span class="n">on_test_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">484</span>         <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
 
 <span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:736,</span> in <span class="ni">TFEpochIterator.__next__</span><span class="nt">(self)</span>
 <span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_epoch_iterator</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:112,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="k">yield</span> <span class="n">step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span>
-<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">112</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
-<span class="g g-Whitespace">    </span><span class="mi">113</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="g g-Whitespace">    </span><span class="mi">114</span> <span class="k">else</span><span class="p">:</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:102,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span> <span class="k">if</span> <span class="n">steps_per_epoch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_epoch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">102</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span>     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_execution</span><span class="p">):</span>
 
 <span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py:501,</span> in <span class="ni">DatasetV2.__iter__</span><span class="nt">(self)</span>
 <span class="g g-Whitespace">    </span><span class="mi">499</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ops</span><span class="o">.</span><span class="n">inside_function</span><span class="p">():</span>
@@ -1235,7 +1270,7 @@ Partial train targets shape: (8,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/a9a6279863f6552b4a4c1f9287e60c78f90f518875915de8dbf0ce0a51dd2385.png" src="../_images/a9a6279863f6552b4a4c1f9287e60c78f90f518875915de8dbf0ce0a51dd2385.png" />
+<img alt="../_images/56f4277fcf6ff2d189098e65bd3ac0e51493fd2579da459bb98c437a5aa32c72.png" src="../_images/56f4277fcf6ff2d189098e65bd3ac0e51493fd2579da459bb98c437a5aa32c72.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1250,7 +1285,7 @@ Partial train targets shape: (8,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c9aef35ccd0de04fb3b5a7aba6e1b66d6364f2408764d5bc0f14bbc84f4dd8d9.png" src="../_images/c9aef35ccd0de04fb3b5a7aba6e1b66d6364f2408764d5bc0f14bbc84f4dd8d9.png" />
+<img alt="../_images/342c8176b015d371f23922cf5c859111bc597b964670e80e54e7ee453477adee.png" src="../_images/342c8176b015d371f23922cf5c859111bc597b964670e80e54e7ee453477adee.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1271,8 +1306,8 @@ Partial train targets shape: (8,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 3ms/step - loss: 28.4149 - mae: 3.6281 
-4.021370887756348
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 3ms/step - loss: 36.7568 - mae: 4.4139 
+4.623236656188965
 </pre></div>
 </div>
 </div>
@@ -1288,11 +1323,11 @@ Partial train targets shape: (8,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 7ms/step 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step 
 [1.9510e-02 1.7500e+01 1.3800e+00 0.0000e+00 4.1610e-01 7.1040e+00
  5.9500e+01 9.2229e+00 3.0000e+00 2.1600e+02 1.8600e+01 3.9324e+02
  8.0500e+00]
-[23.901943]
+[22.461094]
 </pre></div>
 </div>
 </div>
@@ -1322,7 +1357,7 @@ Partial train targets shape: (8,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/62505cde3a453df209bc8d7c3cf29f6a15779dd83b3c53868ca9373c11cd512a.png" src="../_images/62505cde3a453df209bc8d7c3cf29f6a15779dd83b3c53868ca9373c11cd512a.png" />
+<img alt="../_images/904e792f12c948f3d1d85520dfcd6e05d823fc0782ffde4e57d4fae62739d594.png" src="../_images/904e792f12c948f3d1d85520dfcd6e05d823fc0782ffde4e57d4fae62739d594.png" />
 </div>
 </div>
 </section>
@@ -1367,6 +1402,15 @@ Partial train targets shape: (8,)
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Regression Problems</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="../image-classification/introduction-convnet.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Convnets - Convolutional Neural Networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

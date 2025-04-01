@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -206,6 +206,10 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Regression Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example-predicting-house-prices.html">Example: Predicting House Prices</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
 </ul>
 
     </div>
@@ -398,7 +402,6 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-characteristics">Key characteristics:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-regression-algorithms-include">Common regression algorithms include:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluating-regression-models">Evaluating regression models:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-a-linear-regression-problem">Example of a Linear Regression Problem</a></li>
@@ -417,21 +420,13 @@
   <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/regression/introduction-regression.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <section class="tex2jax_ignore mathjax_ignore" id="regression-problems">
 <span id="regression"></span><h1>Regression Problems<a class="headerlink" href="#regression-problems" title="Link to this heading">#</a></h1>
-<p><strong>Regression</strong> is a type of supervised machine learning task where the goal is to predict a continuous numeric outcome based on given input features.</p>
-<section id="key-characteristics">
-<h2>Key characteristics:<a class="headerlink" href="#key-characteristics" title="Link to this heading">#</a></h2>
+<p><strong>Regression</strong> is a type of supervised machine learning task where the goal is to predict a continuous numeric outcome (e.g., prices, height, temperature) based on given input features.</p>
+<p><strong>Examples of regression problems</strong>:</p>
 <ul class="simple">
-<li><p><strong>Continuous Output</strong>:<br />
-The predicted value is numeric and continuous (e.g., prices, height, temperature).</p></li>
-<li><p><strong>Examples of regression problems</strong>:</p>
-<ul>
 <li><p>Predicting median house prices from property details.</p></li>
 <li><p>Estimating a person’s salary from their years of education and experience.</p></li>
 <li><p>Forecasting temperature or rainfall based on weather data.</p></li>
 </ul>
-</li>
-</ul>
-</section>
 <section id="common-regression-algorithms-include">
 <h2>Common regression algorithms include:<a class="headerlink" href="#common-regression-algorithms-include" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -506,21 +501,21 @@ The predicted value is numeric and continuous (e.g., prices, height, temperature
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/4</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 14ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/4</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 12ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 <span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 13ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 12ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 19ms/step
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 18ms/step
 </pre></div>
 </div>
-<img alt="../_images/ec169624ebf12ba836aab46ef5398e333026c8db988b6aaf9e92e2501706e561.png" src="../_images/ec169624ebf12ba836aab46ef5398e333026c8db988b6aaf9e92e2501706e561.png" />
+<img alt="../_images/fb2ddfb46c5c1d587cfbc2b15dd07b7f219dd3f50e95f4931ba4c77eb684e70f.png" src="../_images/fb2ddfb46c5c1d587cfbc2b15dd07b7f219dd3f50e95f4931ba4c77eb684e70f.png" />
 </div>
 </div>
 <p>It is more common to use the <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class from the <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> library to perform linear regression.</p>
@@ -635,10 +630,11 @@ The predicted value is numeric and continuous (e.g., prices, height, temperature
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">7/7</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 2ms/step 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/7</span> <span class=" -Color -Color-Green">━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 14ms/stepWARNING:tensorflow:5 out of the last 12 calls to &lt;function TensorFlowTrainer.make_predict_function.&lt;locals&gt;.one_step_on_data_distributed at 0x2fa21e480&gt; triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+<span class=" -Color -Color-Bold">7/7</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 3ms/step 
 </pre></div>
 </div>
-<img alt="../_images/68c15d110dd39084ad82e52bce74cf4f2cd712b8ec3ef21d2105a0375084477e.png" src="../_images/68c15d110dd39084ad82e52bce74cf4f2cd712b8ec3ef21d2105a0375084477e.png" />
+<img alt="../_images/70cd5ef6e0dcba1ff20995fd991aaaea9155db66c8f9d855530a4a8197709c69.png" src="../_images/70cd5ef6e0dcba1ff20995fd991aaaea9155db66c8f9d855530a4a8197709c69.png" />
 </div>
 </div>
 <p>You can also use polynomial regression in <code class="docutils literal notranslate"><span class="pre">Scikit-learn</span></code> by transforming the input features into polynomial features using the <code class="docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code> class.</p>
@@ -756,7 +752,6 @@ The predicted value is numeric and continuous (e.g., prices, height, temperature
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-characteristics">Key characteristics:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-regression-algorithms-include">Common regression algorithms include:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluating-regression-models">Evaluating regression models:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-a-linear-regression-problem">Example of a Linear Regression Problem</a></li>

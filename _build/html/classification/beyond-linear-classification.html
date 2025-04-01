@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -206,6 +206,10 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../regression/introduction-regression.html">Regression Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../regression/example-predicting-house-prices.html">Example: Predicting House Prices</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
 </ul>
 
     </div>
@@ -515,18 +519,71 @@ linear(linear(x)) = linear(x)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 19ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 26ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predictions on the XOR dataset:
-[[ 0.        ]
- [ 0.22222741]
- [-0.7686753 ]
- [-0.54644793]]
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">26</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;hinge&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="c1"># Train the model</span>
+<span class="ne">---&gt; </span><span class="mi">26</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="c1"># Evaluate the model on the XOR dataset</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/utils/traceback_utils.py:117,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">117</span>     <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:369,</span> in <span class="ni">TensorFlowTrainer.fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq)</span>
+<span class="g g-Whitespace">    </span><span class="mi">367</span> <span class="n">callbacks</span><span class="o">.</span><span class="n">on_epoch_begin</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">368</span> <span class="k">with</span> <span class="n">epoch_iterator</span><span class="o">.</span><span class="n">catch_stop_iteration</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">369</span>     <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">iterator</span> <span class="ow">in</span> <span class="n">epoch_iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">370</span>         <span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">371</span>         <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:736,</span> in <span class="ni">TFEpochIterator.__next__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">736</span>     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_epoch_iterator</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:112,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="k">yield</span> <span class="n">step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">112</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py:501,</span> in <span class="ni">DatasetV2.__iter__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">499</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ops</span><span class="o">.</span><span class="n">inside_function</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">500</span>   <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">colocate_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_variant_tensor</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">501</span>     <span class="k">return</span> <span class="n">iterator_ops</span><span class="o">.</span><span class="n">OwnedIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">502</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">503</span>   <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;`tf.data.Dataset` only supports Python-style &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">504</span>                      <span class="s2">&quot;iteration in eager mode or within tf.function.&quot;</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py:709,</span> in <span class="ni">OwnedIterator.__init__</span><span class="nt">(self, dataset, components, element_spec)</span>
+<span class="g g-Whitespace">    </span><span class="mi">705</span>   <span class="k">if</span> <span class="p">(</span><span class="n">components</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">element_spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">706</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">707</span>         <span class="s2">&quot;When `dataset` is provided, `element_spec` and `components` must &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">708</span>         <span class="s2">&quot;not be specified.&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">709</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_create_iterator</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">711</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_next_call_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py:748,</span> in <span class="ni">OwnedIterator._create_iterator</span><span class="nt">(self, dataset)</span>
+<span class="g g-Whitespace">    </span><span class="mi">745</span>   <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">fulltype</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">746</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_flat_output_types</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">747</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_iterator_resource</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">experimental_set_type</span><span class="p">(</span><span class="n">fulltype</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">748</span> <span class="n">gen_dataset_ops</span><span class="o">.</span><span class="n">make_iterator</span><span class="p">(</span><span class="n">ds_variant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterator_resource</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/ops/gen_dataset_ops.py:3478,</span> in <span class="ni">make_iterator</span><span class="nt">(dataset, iterator, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3476</span> <span class="k">if</span> <span class="n">tld</span><span class="o">.</span><span class="n">is_eager</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3477</span>   <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3478</span>     <span class="n">_result</span> <span class="o">=</span> <span class="n">pywrap_tfe</span><span class="o">.</span><span class="n">TFE_Py_FastPathExecute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3479</span>       <span class="n">_ctx</span><span class="p">,</span> <span class="s2">&quot;MakeIterator&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3480</span>     <span class="k">return</span> <span class="n">_result</span>
+<span class="g g-Whitespace">   </span><span class="mi">3481</span>   <span class="k">except</span> <span class="n">_core</span><span class="o">.</span><span class="n">_NotOkStatusException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
@@ -769,80 +826,77 @@ $<span class="math notranslate nohighlight">\(
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">26</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="k">for</span> <span class="n">activation_fnc</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="s1">&#39;tanh&#39;</span><span class="p">,</span> <span class="s1">&#39;relu&#39;</span><span class="p">]:</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="k">for</span> <span class="n">neurons</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
-<span class="ne">---&gt; </span><span class="mi">26</span>         <span class="n">train_xor</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">activation_fnc</span><span class="p">)</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Activation function sigmoid, Hidden neurons: 1, Accuracy: 0.50
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 23ms/step
+Predictions:
+[[0.51]
+ [0.51]
+ [0.49]
+ [0.49]]
 
-<span class="nn">Cell In[6], line 18,</span> in <span class="ni">train_xor</span><span class="nt">(hidden_neurons, activation_fnc)</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>  
-<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="n">Dense</span><span class="p">(</span><span class="n">hidden_neurons</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="n">activation_fnc</span><span class="p">),</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">SGD</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
-<span class="ne">---&gt; </span><span class="mi">18</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">loss</span><span class="p">,</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Activation function </span><span class="si">{</span><span class="n">activation_fnc</span><span class="si">}</span><span class="s1">, Hidden neurons: </span><span class="si">{</span><span class="n">hidden_neurons</span><span class="si">}</span><span class="s1">, Accuracy: </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+Activation function sigmoid, Hidden neurons: 2, Accuracy: 0.50
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 21ms/step
+Predictions:
+[[0.39]
+ [0.61]
+ [0.48]
+ [0.55]]
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/utils/traceback_utils.py:117,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">117</span>     <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+Activation function sigmoid, Hidden neurons: 3, Accuracy: 0.50
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 22ms/step
+Predictions:
+[[0.49]
+ [0.51]
+ [0.49]
+ [0.51]]
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:369,</span> in <span class="ni">TensorFlowTrainer.fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq)</span>
-<span class="g g-Whitespace">    </span><span class="mi">367</span> <span class="n">callbacks</span><span class="o">.</span><span class="n">on_epoch_begin</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">368</span> <span class="k">with</span> <span class="n">epoch_iterator</span><span class="o">.</span><span class="n">catch_stop_iteration</span><span class="p">():</span>
-<span class="ne">--&gt; </span><span class="mi">369</span>     <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">iterator</span> <span class="ow">in</span> <span class="n">epoch_iterator</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">370</span>         <span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">371</span>         <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+Activation function tanh, Hidden neurons: 1, Accuracy: 0.75
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 23ms/step
+Predictions:
+[[0.09]
+ [0.66]
+ [0.66]
+ [0.67]]
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:736,</span> in <span class="ni">TFEpochIterator.__next__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">736</span>     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_epoch_iterator</span><span class="p">)</span>
+Activation function tanh, Hidden neurons: 2, Accuracy: 0.50
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 23ms/step
+Predictions:
+[[0.1 ]
+ [0.92]
+ [0.49]
+ [0.5 ]]
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:112,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="k">yield</span> <span class="n">step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span>
-<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_batches</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">112</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
-<span class="g g-Whitespace">    </span><span class="mi">113</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="g g-Whitespace">    </span><span class="mi">114</span> <span class="k">else</span><span class="p">:</span>
+Activation function tanh, Hidden neurons: 3, Accuracy: 1.00
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 25ms/step
+Predictions:
+[[0.04]
+ [0.91]
+ [0.91]
+ [0.1 ]]
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py:501,</span> in <span class="ni">DatasetV2.__iter__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">499</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ops</span><span class="o">.</span><span class="n">inside_function</span><span class="p">():</span>
-<span class="g g-Whitespace">    </span><span class="mi">500</span>   <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">colocate_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_variant_tensor</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">501</span>     <span class="k">return</span> <span class="n">iterator_ops</span><span class="o">.</span><span class="n">OwnedIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">502</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">503</span>   <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;`tf.data.Dataset` only supports Python-style &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">504</span>                      <span class="s2">&quot;iteration in eager mode or within tf.function.&quot;</span><span class="p">)</span>
+Activation function relu, Hidden neurons: 1, Accuracy: 0.75
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 23ms/step
+Predictions:
+[[0.66]
+ [0.66]
+ [0.66]
+ [0.05]]
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py:709,</span> in <span class="ni">OwnedIterator.__init__</span><span class="nt">(self, dataset, components, element_spec)</span>
-<span class="g g-Whitespace">    </span><span class="mi">705</span>   <span class="k">if</span> <span class="p">(</span><span class="n">components</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">element_spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">706</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">707</span>         <span class="s2">&quot;When `dataset` is provided, `element_spec` and `components` must &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">708</span>         <span class="s2">&quot;not be specified.&quot;</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">709</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_create_iterator</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">711</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_next_call_count</span> <span class="o">=</span> <span class="mi">0</span>
+Activation function relu, Hidden neurons: 2, Accuracy: 0.50
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 23ms/step
+Predictions:
+[[0.49]
+ [0.5 ]
+ [0.5 ]
+ [0.51]]
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py:748,</span> in <span class="ni">OwnedIterator._create_iterator</span><span class="nt">(self, dataset)</span>
-<span class="g g-Whitespace">    </span><span class="mi">745</span>   <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">fulltype</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">746</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_flat_output_types</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">747</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_iterator_resource</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">experimental_set_type</span><span class="p">(</span><span class="n">fulltype</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">748</span> <span class="n">gen_dataset_ops</span><span class="o">.</span><span class="n">make_iterator</span><span class="p">(</span><span class="n">ds_variant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterator_resource</span><span class="p">)</span>
-
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/ops/gen_dataset_ops.py:3478,</span> in <span class="ni">make_iterator</span><span class="nt">(dataset, iterator, name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3476</span> <span class="k">if</span> <span class="n">tld</span><span class="o">.</span><span class="n">is_eager</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">3477</span>   <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">3478</span>     <span class="n">_result</span> <span class="o">=</span> <span class="n">pywrap_tfe</span><span class="o">.</span><span class="n">TFE_Py_FastPathExecute</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">3479</span>       <span class="n">_ctx</span><span class="p">,</span> <span class="s2">&quot;MakeIterator&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">iterator</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3480</span>     <span class="k">return</span> <span class="n">_result</span>
-<span class="g g-Whitespace">   </span><span class="mi">3481</span>   <span class="k">except</span> <span class="n">_core</span><span class="o">.</span><span class="n">_NotOkStatusException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
+Activation function relu, Hidden neurons: 3, Accuracy: 1.00
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 22ms/step
+Predictions:
+[[0.08]
+ [0.95]
+ [0.95]
+ [0.05]]
 </pre></div>
 </div>
 </div>

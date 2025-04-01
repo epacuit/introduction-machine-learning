@@ -41,3 +41,6 @@ parts:
   chapters:
     - file: regression/introduction-regression
     - file: regression/example-predicting-house-prices
+- caption: Image Classification
+  chapters:
+    - file: image-classification/introduction-convnet
