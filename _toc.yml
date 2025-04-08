@@ -45,3 +45,7 @@ parts:
   chapters:
     - file: image-classification/introduction-convnet
     - file: image-classification/example-classifying-dogs-vs-cats
+- caption: Topics in Machine Learning
+  chapters:
+    - file: topics-machine-learning/overfitting
+    

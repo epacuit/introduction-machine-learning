@@ -47,5 +47,5 @@ These notes will be updated throughout the semester. Please check back regularly
 |      | 3/27  |  Classification Example | Chollet Sections 4.1-4.2, [example: classifying movie reviews](classifying-movie-reviews), [example: multiclass classification](multiclass-classification), [example: classifying digits](classifying-digits)  |
 |   10   | 4/1   | Regression Problems | Chollet Section 4.3, [introduction to regression](regression), [example: predicting housing prices](predicting-housing-prices)     |
 |      | 4/3  |  Image Classification | Chollet Chapter 8, [convolution neural networks](introduction-convnets)  |
-|   11   | 4/8   | Image Classification | Chollet Chapter 8, [convolution neural networks](introduction-convnets), [example: classifying dogs vs. cats images](classifying_dogs_vs_cats)   |
-|      | 4/10  |  Image Classification | Chollet Chapter 8, [convolution neural networks](introduction-convnets), [example: classifying dogs vs. cats images](classifying_dogs_vs_cats)  |
+|   11   | 4/8   | Image Classification | Chollet Chapter 8, [convolution neural networks](introduction-convnets), [example: classifying dogs vs. cats images](classifying_dogs_vs_cats), [overfitting](overfitting)  |
+|      | 4/10  |  Image Classification | Chollet Chapter 8, [convolution neural networks](introduction-convnets), [example: classifying dogs vs. cats images](classifying_dogs_vs_cats), [overfitting](overfitting)   |
