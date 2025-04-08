@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -210,6 +210,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/example-classifying-dogs-vs-cats.html">Example: Classifying Images -  Dogs vs. Cats</a></li>
 </ul>
 
     </div>
@@ -589,7 +590,7 @@ Standard deviation: [9.22929073e+00 2.37382770e+01 6.80287253e+00 2.40939633e-01
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># Visualize one feature before normalization (e.g., feature 5 - average number of rooms)</span>
-<span class="n">feature_idx</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">feature_idx</span> <span class="o">=</span> <span class="mi">7</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
@@ -620,7 +621,7 @@ Standard deviation: [9.22929073e+00 2.37382770e+01 6.80287253e+00 2.40939633e-01
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/da41560896d69a052d685723ef398a61f991e94027525efcf6b201de2140abad.png" src="../_images/da41560896d69a052d685723ef398a61f991e94027525efcf6b201de2140abad.png" />
+<img alt="../_images/8f922a05b195bc7bf7978ec70b458597aa9e8048d7a418c1445a53de6ea2ba7e.png" src="../_images/8f922a05b195bc7bf7978ec70b458597aa9e8048d7a418c1445a53de6ea2ba7e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -938,105 +939,105 @@ Facilitates comparison of different models or hyperparameters, giving you confid
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample train data shape: (10, 3)
-[[0.46100566 0.01240367 0.72065131]
- [0.23206801 0.36879554 0.33008322]
- [0.43753126 0.45040406 0.93349904]
- [0.50980361 0.70853615 0.38908146]
- [0.09175171 0.11695365 0.38726834]
- [0.15410594 0.41176874 0.88547301]
- [0.11901178 0.60589378 0.59761997]
- [0.40667391 0.84410997 0.52168092]
- [0.46303443 0.66635351 0.11826542]
- [0.63958386 0.38019701 0.02020293]]
+[[0.16996099 0.63541747 0.74833096]
+ [0.72547108 0.41633578 0.01138648]
+ [0.95521208 0.19407948 0.97455491]
+ [0.12725195 0.92173385 0.77076887]
+ [0.72095606 0.06351972 0.46113291]
+ [0.17410981 0.88939549 0.85376828]
+ [0.05315342 0.7915102  0.99562606]
+ [0.55130436 0.03925124 0.33702277]
+ [0.26232893 0.62150177 0.78561643]
+ [0.28849877 0.43633258 0.28677648]]
 Sample train target shape: (10,)
-[15 42 18  3 25 40 18  2 13 19]
+[ 4 27 33 32  3 41 41  2 35 14]
 
 Number of validation samples: 2
 Fold:  0
 data: 
  (2, 3)
-[[0.46100566 0.01240367 0.72065131]
- [0.23206801 0.36879554 0.33008322]]
+[[0.16996099 0.63541747 0.74833096]
+ [0.72547108 0.41633578 0.01138648]]
 targets: 
  (2,)
-[15 42]
+[ 4 27]
 Partial train data shape: (8, 3)
-[[0.43753126 0.45040406 0.93349904]
- [0.50980361 0.70853615 0.38908146]
- [0.09175171 0.11695365 0.38726834]
- [0.15410594 0.41176874 0.88547301]
- [0.11901178 0.60589378 0.59761997]
- [0.40667391 0.84410997 0.52168092]
- [0.46303443 0.66635351 0.11826542]
- [0.63958386 0.38019701 0.02020293]]
+[[0.95521208 0.19407948 0.97455491]
+ [0.12725195 0.92173385 0.77076887]
+ [0.72095606 0.06351972 0.46113291]
+ [0.17410981 0.88939549 0.85376828]
+ [0.05315342 0.7915102  0.99562606]
+ [0.55130436 0.03925124 0.33702277]
+ [0.26232893 0.62150177 0.78561643]
+ [0.28849877 0.43633258 0.28677648]]
 Partial train targets shape: (8,)
-[18  3 25 40 18  2 13 19]
+[33 32  3 41 41  2 35 14]
 
 ------
 
 Fold:  1
 data: 
  (2, 3)
-[[0.43753126 0.45040406 0.93349904]
- [0.50980361 0.70853615 0.38908146]]
+[[0.95521208 0.19407948 0.97455491]
+ [0.12725195 0.92173385 0.77076887]]
 targets: 
  (2,)
-[18  3]
+[33 32]
 Partial train data shape: (8, 3)
-[[0.46100566 0.01240367 0.72065131]
- [0.23206801 0.36879554 0.33008322]
- [0.09175171 0.11695365 0.38726834]
- [0.15410594 0.41176874 0.88547301]
- [0.11901178 0.60589378 0.59761997]
- [0.40667391 0.84410997 0.52168092]
- [0.46303443 0.66635351 0.11826542]
- [0.63958386 0.38019701 0.02020293]]
+[[0.16996099 0.63541747 0.74833096]
+ [0.72547108 0.41633578 0.01138648]
+ [0.72095606 0.06351972 0.46113291]
+ [0.17410981 0.88939549 0.85376828]
+ [0.05315342 0.7915102  0.99562606]
+ [0.55130436 0.03925124 0.33702277]
+ [0.26232893 0.62150177 0.78561643]
+ [0.28849877 0.43633258 0.28677648]]
 Partial train targets shape: (8,)
-[15 42 25 40 18  2 13 19]
+[ 4 27  3 41 41  2 35 14]
 
 ------
 
 Fold:  2
 data: 
  (2, 3)
-[[0.09175171 0.11695365 0.38726834]
- [0.15410594 0.41176874 0.88547301]]
+[[0.72095606 0.06351972 0.46113291]
+ [0.17410981 0.88939549 0.85376828]]
 targets: 
  (2,)
-[25 40]
+[ 3 41]
 Partial train data shape: (8, 3)
-[[0.46100566 0.01240367 0.72065131]
- [0.23206801 0.36879554 0.33008322]
- [0.43753126 0.45040406 0.93349904]
- [0.50980361 0.70853615 0.38908146]
- [0.11901178 0.60589378 0.59761997]
- [0.40667391 0.84410997 0.52168092]
- [0.46303443 0.66635351 0.11826542]
- [0.63958386 0.38019701 0.02020293]]
+[[0.16996099 0.63541747 0.74833096]
+ [0.72547108 0.41633578 0.01138648]
+ [0.95521208 0.19407948 0.97455491]
+ [0.12725195 0.92173385 0.77076887]
+ [0.05315342 0.7915102  0.99562606]
+ [0.55130436 0.03925124 0.33702277]
+ [0.26232893 0.62150177 0.78561643]
+ [0.28849877 0.43633258 0.28677648]]
 Partial train targets shape: (8,)
-[15 42 18  3 18  2 13 19]
+[ 4 27 33 32 41  2 35 14]
 
 ------
 
 Fold:  3
 data: 
  (2, 3)
-[[0.11901178 0.60589378 0.59761997]
- [0.40667391 0.84410997 0.52168092]]
+[[0.05315342 0.7915102  0.99562606]
+ [0.55130436 0.03925124 0.33702277]]
 targets: 
  (2,)
-[18  2]
+[41  2]
 Partial train data shape: (8, 3)
-[[0.46100566 0.01240367 0.72065131]
- [0.23206801 0.36879554 0.33008322]
- [0.43753126 0.45040406 0.93349904]
- [0.50980361 0.70853615 0.38908146]
- [0.09175171 0.11695365 0.38726834]
- [0.15410594 0.41176874 0.88547301]
- [0.46303443 0.66635351 0.11826542]
- [0.63958386 0.38019701 0.02020293]]
+[[0.16996099 0.63541747 0.74833096]
+ [0.72547108 0.41633578 0.01138648]
+ [0.95521208 0.19407948 0.97455491]
+ [0.12725195 0.92173385 0.77076887]
+ [0.72095606 0.06351972 0.46113291]
+ [0.17410981 0.88939549 0.85376828]
+ [0.26232893 0.62150177 0.78561643]
+ [0.28849877 0.43633258 0.28677648]]
 Partial train targets shape: (8,)
-[15 42 18  3 25 40 13 19]
+[ 4 27 33 32  3 41 35 14]
 
 ------
 </pre></div>
@@ -1101,8 +1102,8 @@ Partial train targets shape: (8,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2.100975275039673, 2.6860275268554688, 2.6197330951690674, 2.496953010559082]
-2.4759222269058228
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.8490740060806274, 2.4632768630981445, 2.436091184616089, 2.331439971923828]
+2.2699705064296722
 </pre></div>
 </div>
 </div>
@@ -1198,53 +1199,112 @@ Partial train targets shape: (8,)
 <span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:482,</span> in <span class="ni">TensorFlowTrainer.evaluate</span><span class="nt">(self, x, y, batch_size, verbose, sample_weight, steps, callbacks, return_dict, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">480</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset_metrics</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">481</span> <span class="k">with</span> <span class="n">epoch_iterator</span><span class="o">.</span><span class="n">catch_stop_iteration</span><span class="p">():</span>
-<span class="ne">--&gt; </span><span class="mi">482</span>     <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">iterator</span> <span class="ow">in</span> <span class="n">epoch_iterator</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">483</span>         <span class="n">callbacks</span><span class="o">.</span><span class="n">on_test_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">484</span>         <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:484,</span> in <span class="ni">TensorFlowTrainer.evaluate</span><span class="nt">(self, x, y, batch_size, verbose, sample_weight, steps, callbacks, return_dict, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">482</span> <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">iterator</span> <span class="ow">in</span> <span class="n">epoch_iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">483</span>     <span class="n">callbacks</span><span class="o">.</span><span class="n">on_test_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">484</span>     <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">485</span>     <span class="n">callbacks</span><span class="o">.</span><span class="n">on_test_batch_end</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">logs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">486</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_evaluating</span><span class="p">:</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:736,</span> in <span class="ni">TFEpochIterator.__next__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">736</span>     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_epoch_iterator</span><span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:219,</span> in <span class="ni">TensorFlowTrainer._make_function.&lt;locals&gt;.function</span><span class="nt">(iterator)</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span> <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">216</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>         <span class="n">iterator</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Iterator</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">DistributedIterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span>     <span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">219</span>         <span class="n">opt_outputs</span> <span class="o">=</span> <span class="n">multi_step_on_iterator</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span>         <span class="k">if</span> <span class="ow">not</span> <span class="n">opt_outputs</span><span class="o">.</span><span class="n">has_value</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">221</span>             <span class="k">raise</span> <span class="ne">StopIteration</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/trainers/epoch_iterator.py:102,</span> in <span class="ni">EpochIterator._enumerate_iterator</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">100</span> <span class="k">if</span> <span class="n">steps_per_epoch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">101</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_epoch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">102</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_current_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">())</span>
-<span class="g g-Whitespace">    </span><span class="mi">103</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_steps_seen</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="g g-Whitespace">    </span><span class="mi">104</span>     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_per_execution</span><span class="p">):</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/util/traceback_utils.py:150,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">150</span>   <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">151</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">152</span>   <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py:501,</span> in <span class="ni">DatasetV2.__iter__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">499</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ops</span><span class="o">.</span><span class="n">inside_function</span><span class="p">():</span>
-<span class="g g-Whitespace">    </span><span class="mi">500</span>   <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">colocate_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_variant_tensor</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">501</span>     <span class="k">return</span> <span class="n">iterator_ops</span><span class="o">.</span><span class="n">OwnedIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">502</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">503</span>   <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;`tf.data.Dataset` only supports Python-style &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">504</span>                      <span class="s2">&quot;iteration in eager mode or within tf.function.&quot;</span><span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/polymorphic_function.py:833,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">830</span> <span class="n">compiler</span> <span class="o">=</span> <span class="s2">&quot;xla&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jit_compile</span> <span class="k">else</span> <span class="s2">&quot;nonXla&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">832</span> <span class="k">with</span> <span class="n">OptionalXlaContext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jit_compile</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">833</span>   <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">835</span> <span class="n">new_tracing_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_get_tracing_count</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">836</span> <span class="n">without_tracing</span> <span class="o">=</span> <span class="p">(</span><span class="n">tracing_count</span> <span class="o">==</span> <span class="n">new_tracing_count</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py:709,</span> in <span class="ni">OwnedIterator.__init__</span><span class="nt">(self, dataset, components, element_spec)</span>
-<span class="g g-Whitespace">    </span><span class="mi">705</span>   <span class="k">if</span> <span class="p">(</span><span class="n">components</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">element_spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">706</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">707</span>         <span class="s2">&quot;When `dataset` is provided, `element_spec` and `components` must &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">708</span>         <span class="s2">&quot;not be specified.&quot;</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">709</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_create_iterator</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">711</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_next_call_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/polymorphic_function.py:878,</span> in <span class="ni">Function._call</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span> <span class="c1"># In this case we have not created variables on the first call. So we can</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span> <span class="c1"># run the first trace but we should fail if variables are created.</span>
+<span class="ne">--&gt; </span><span class="mi">878</span> <span class="n">results</span> <span class="o">=</span> <span class="n">tracing_compilation</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span>     <span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variable_creation_config</span>
+<span class="g g-Whitespace">    </span><span class="mi">880</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_variables</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>   <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Creating variables on a non-first call to a function&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span>                    <span class="s2">&quot; decorated with tf.function.&quot;</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py:748,</span> in <span class="ni">OwnedIterator._create_iterator</span><span class="nt">(self, dataset)</span>
-<span class="g g-Whitespace">    </span><span class="mi">745</span>   <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">fulltype</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">746</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_flat_output_types</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">747</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_iterator_resource</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">experimental_set_type</span><span class="p">(</span><span class="n">fulltype</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">748</span> <span class="n">gen_dataset_ops</span><span class="o">.</span><span class="n">make_iterator</span><span class="p">(</span><span class="n">ds_variant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterator_resource</span><span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/tracing_compilation.py:139,</span> in <span class="ni">call_function</span><span class="nt">(args, kwargs, tracing_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">137</span> <span class="n">bound_args</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span> <span class="n">flat_inputs</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">unpack_inputs</span><span class="p">(</span><span class="n">bound_args</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">139</span> <span class="k">return</span> <span class="n">function</span><span class="o">.</span><span class="n">_call_flat</span><span class="p">(</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span>     <span class="n">flat_inputs</span><span class="p">,</span> <span class="n">captured_inputs</span><span class="o">=</span><span class="n">function</span><span class="o">.</span><span class="n">captured_inputs</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span> <span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/ops/gen_dataset_ops.py:3478,</span> in <span class="ni">make_iterator</span><span class="nt">(dataset, iterator, name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3476</span> <span class="k">if</span> <span class="n">tld</span><span class="o">.</span><span class="n">is_eager</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">3477</span>   <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">3478</span>     <span class="n">_result</span> <span class="o">=</span> <span class="n">pywrap_tfe</span><span class="o">.</span><span class="n">TFE_Py_FastPathExecute</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">3479</span>       <span class="n">_ctx</span><span class="p">,</span> <span class="s2">&quot;MakeIterator&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">iterator</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3480</span>     <span class="k">return</span> <span class="n">_result</span>
-<span class="g g-Whitespace">   </span><span class="mi">3481</span>   <span class="k">except</span> <span class="n">_core</span><span class="o">.</span><span class="n">_NotOkStatusException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/concrete_function.py:1322,</span> in <span class="ni">ConcreteFunction._call_flat</span><span class="nt">(self, tensor_inputs, captured_inputs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1318</span> <span class="n">possible_gradient_type</span> <span class="o">=</span> <span class="n">gradients_util</span><span class="o">.</span><span class="n">PossibleTapeGradientTypes</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1319</span> <span class="k">if</span> <span class="p">(</span><span class="n">possible_gradient_type</span> <span class="o">==</span> <span class="n">gradients_util</span><span class="o">.</span><span class="n">POSSIBLE_GRADIENT_TYPES_NONE</span>
+<span class="g g-Whitespace">   </span><span class="mi">1320</span>     <span class="ow">and</span> <span class="n">executing_eagerly</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1321</span>   <span class="c1"># No tape is watching; skip to running the function.</span>
+<span class="ne">-&gt; </span><span class="mi">1322</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inference_function</span><span class="o">.</span><span class="n">call_preflattened</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1323</span> <span class="n">forward_backward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_forward_and_backward_functions</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1324</span>     <span class="n">args</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1325</span>     <span class="n">possible_gradient_type</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1326</span>     <span class="n">executing_eagerly</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1327</span> <span class="n">forward_function</span><span class="p">,</span> <span class="n">args_with_tangents</span> <span class="o">=</span> <span class="n">forward_backward</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/atomic_function.py:216,</span> in <span class="ni">AtomicFunction.call_preflattened</span><span class="nt">(self, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span> <span class="k">def</span> <span class="nf">call_preflattened</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span><span class="w">   </span><span class="sd">&quot;&quot;&quot;Calls with flattened tensor inputs and returns the structured output.&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">216</span>   <span class="n">flat_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_flat</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">pack_output</span><span class="p">(</span><span class="n">flat_outputs</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/atomic_function.py:251,</span> in <span class="ni">AtomicFunction.call_flat</span><span class="nt">(self, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span> <span class="k">with</span> <span class="n">record</span><span class="o">.</span><span class="n">stop_recording</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span>   <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">251</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">252</span>         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">253</span>         <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">254</span>         <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">flat_outputs</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">255</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">256</span>   <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">257</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="n">make_call_op_in_graph</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span>         <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span>         <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">function_call_options</span><span class="o">.</span><span class="n">as_attrs</span><span class="p">(),</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>     <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/context.py:1683,</span> in <span class="ni">Context.call_function</span><span class="nt">(self, name, tensor_inputs, num_outputs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1681</span> <span class="n">cancellation_context</span> <span class="o">=</span> <span class="n">cancellation</span><span class="o">.</span><span class="n">context</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1682</span> <span class="k">if</span> <span class="n">cancellation_context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1683</span>   <span class="n">outputs</span> <span class="o">=</span> <span class="n">execute</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1684</span>       <span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1685</span>       <span class="n">num_outputs</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1686</span>       <span class="n">inputs</span><span class="o">=</span><span class="n">tensor_inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1687</span>       <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1688</span>       <span class="n">ctx</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1689</span>   <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1690</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1691</span>   <span class="n">outputs</span> <span class="o">=</span> <span class="n">execute</span><span class="o">.</span><span class="n">execute_with_cancellation</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1692</span>       <span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1693</span>       <span class="n">num_outputs</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1697</span>       <span class="n">cancellation_manager</span><span class="o">=</span><span class="n">cancellation_context</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1698</span>   <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/execute.py:53,</span> in <span class="ni">quick_execute</span><span class="nt">(op_name, num_outputs, inputs, attrs, ctx, name)</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span>   <span class="n">ctx</span><span class="o">.</span><span class="n">ensure_initialized</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">53</span>   <span class="n">tensors</span> <span class="o">=</span> <span class="n">pywrap_tfe</span><span class="o">.</span><span class="n">TFE_Py_Execute</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">_handle</span><span class="p">,</span> <span class="n">device_name</span><span class="p">,</span> <span class="n">op_name</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span>                                       <span class="n">inputs</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="k">except</span> <span class="n">core</span><span class="o">.</span><span class="n">_NotOkStatusException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>   <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>

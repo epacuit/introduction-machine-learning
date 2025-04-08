@@ -44,3 +44,4 @@ parts:
 - caption: Image Classification
   chapters:
     - file: image-classification/introduction-convnet
+    - file: image-classification/example-classifying-dogs-vs-cats

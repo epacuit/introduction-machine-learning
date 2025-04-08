@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -210,6 +210,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/example-classifying-dogs-vs-cats.html">Example: Classifying Images -  Dogs vs. Cats</a></li>
 </ul>
 
     </div>
@@ -453,6 +454,140 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.          0.1010101   0.2020202   0.3030303   0.4040404   0.50505051
+  0.60606061  0.70707071  0.80808081  0.90909091  1.01010101  1.11111111
+  1.21212121  1.31313131  1.41414141  1.51515152  1.61616162  1.71717172
+  1.81818182  1.91919192  2.02020202  2.12121212  2.22222222  2.32323232
+  2.42424242  2.52525253  2.62626263  2.72727273  2.82828283  2.92929293
+  3.03030303  3.13131313  3.23232323  3.33333333  3.43434343  3.53535354
+  3.63636364  3.73737374  3.83838384  3.93939394  4.04040404  4.14141414
+  4.24242424  4.34343434  4.44444444  4.54545455  4.64646465  4.74747475
+  4.84848485  4.94949495  5.05050505  5.15151515  5.25252525  5.35353535
+  5.45454545  5.55555556  5.65656566  5.75757576  5.85858586  5.95959596
+  6.06060606  6.16161616  6.26262626  6.36363636  6.46464646  6.56565657
+  6.66666667  6.76767677  6.86868687  6.96969697  7.07070707  7.17171717
+  7.27272727  7.37373737  7.47474747  7.57575758  7.67676768  7.77777778
+  7.87878788  7.97979798  8.08080808  8.18181818  8.28282828  8.38383838
+  8.48484848  8.58585859  8.68686869  8.78787879  8.88888889  8.98989899
+  9.09090909  9.19191919  9.29292929  9.39393939  9.49494949  9.5959596
+  9.6969697   9.7979798   9.8989899  10.        ]
+[[ 0.        ]
+ [ 0.1010101 ]
+ [ 0.2020202 ]
+ [ 0.3030303 ]
+ [ 0.4040404 ]
+ [ 0.50505051]
+ [ 0.60606061]
+ [ 0.70707071]
+ [ 0.80808081]
+ [ 0.90909091]
+ [ 1.01010101]
+ [ 1.11111111]
+ [ 1.21212121]
+ [ 1.31313131]
+ [ 1.41414141]
+ [ 1.51515152]
+ [ 1.61616162]
+ [ 1.71717172]
+ [ 1.81818182]
+ [ 1.91919192]
+ [ 2.02020202]
+ [ 2.12121212]
+ [ 2.22222222]
+ [ 2.32323232]
+ [ 2.42424242]
+ [ 2.52525253]
+ [ 2.62626263]
+ [ 2.72727273]
+ [ 2.82828283]
+ [ 2.92929293]
+ [ 3.03030303]
+ [ 3.13131313]
+ [ 3.23232323]
+ [ 3.33333333]
+ [ 3.43434343]
+ [ 3.53535354]
+ [ 3.63636364]
+ [ 3.73737374]
+ [ 3.83838384]
+ [ 3.93939394]
+ [ 4.04040404]
+ [ 4.14141414]
+ [ 4.24242424]
+ [ 4.34343434]
+ [ 4.44444444]
+ [ 4.54545455]
+ [ 4.64646465]
+ [ 4.74747475]
+ [ 4.84848485]
+ [ 4.94949495]
+ [ 5.05050505]
+ [ 5.15151515]
+ [ 5.25252525]
+ [ 5.35353535]
+ [ 5.45454545]
+ [ 5.55555556]
+ [ 5.65656566]
+ [ 5.75757576]
+ [ 5.85858586]
+ [ 5.95959596]
+ [ 6.06060606]
+ [ 6.16161616]
+ [ 6.26262626]
+ [ 6.36363636]
+ [ 6.46464646]
+ [ 6.56565657]
+ [ 6.66666667]
+ [ 6.76767677]
+ [ 6.86868687]
+ [ 6.96969697]
+ [ 7.07070707]
+ [ 7.17171717]
+ [ 7.27272727]
+ [ 7.37373737]
+ [ 7.47474747]
+ [ 7.57575758]
+ [ 7.67676768]
+ [ 7.77777778]
+ [ 7.87878788]
+ [ 7.97979798]
+ [ 8.08080808]
+ [ 8.18181818]
+ [ 8.28282828]
+ [ 8.38383838]
+ [ 8.48484848]
+ [ 8.58585859]
+ [ 8.68686869]
+ [ 8.78787879]
+ [ 8.88888889]
+ [ 8.98989899]
+ [ 9.09090909]
+ [ 9.19191919]
+ [ 9.29292929]
+ [ 9.39393939]
+ [ 9.49494949]
+ [ 9.5959596 ]
+ [ 9.6969697 ]
+ [ 9.7979798 ]
+ [ 9.8989899 ]
+ [10.        ]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
@@ -482,7 +617,7 @@
 <span class="n">y_line</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_line</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="c1"># New predictions within training range</span>
-<span class="n">x_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">y_new_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span>
 
 <span class="c1"># Plotting clearly shows correct fitting</span>
@@ -501,21 +636,21 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/4</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 12ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/4</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 14ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 <span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 12ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 13ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 18ms/step
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 20ms/step
 </pre></div>
 </div>
-<img alt="../_images/fb2ddfb46c5c1d587cfbc2b15dd07b7f219dd3f50e95f4931ba4c77eb684e70f.png" src="../_images/fb2ddfb46c5c1d587cfbc2b15dd07b7f219dd3f50e95f4931ba4c77eb684e70f.png" />
+<img alt="../_images/6f31895f33564ec7ce5c70e9e6110951ea0b4e17c040d50442bfa6ba69669d32.png" src="../_images/6f31895f33564ec7ce5c70e9e6110951ea0b4e17c040d50442bfa6ba69669d32.png" />
 </div>
 </div>
 <p>It is more common to use the <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class from the <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> library to perform linear regression.</p>
@@ -541,7 +676,7 @@
 
 <span class="c1"># Define and train linear regression model</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># Generate predictions for regression line</span>
 <span class="n">y_line</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
@@ -569,7 +704,7 @@
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>

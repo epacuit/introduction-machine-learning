@@ -1,0 +1,1267 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Example: Classifying Images - Dogs vs. Cats &#8212; A Gentle Introduction to Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'image-classification/example-classifying-dogs-vs-cats';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Convnets - Convolutional Neural Networks" href="introduction-convnet.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">A Gentle Introduction to Machine Learning</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Course Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/jupyter.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/colab.html">Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/github.html">GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Crash Course in Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/python-essentials.html">Python Essentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial1.html">Tutorial 1: Introduction to Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial2.html">Tutorial 2: Reading CSV files</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/pitfalls.html">Thinking in Python: Key Concepts and Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/classes.html">Classes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">First Steps in Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/intro-numpy.html">A Brief Introduction to Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial4.html">Tutorial 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification.html">Introduction to Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification-algorithms.html">Finding a Decision Boundary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial5.html">Tutorial 5: Linear Classifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/gradient-descent.html">Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../classification/beyond-linear-classification.html">Beyond Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/binary-cross-entropy.html">Loss Functions for Binary Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-reviews.html">Example: Classifying Movie Reviews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-multiclass-classification.html">Example: Multiclass Classification Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-digits.html">Example: Classifying Digits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/midterm_notebook.html">Midterm Project</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression/introduction-regression.html">Regression Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/example-predicting-house-prices.html">Example: Predicting House Prices</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Example: Classifying Images -  Dogs vs. Cats</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Fimage-classification/example-classifying-dogs-vs-cats.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/image-classification/example-classifying-dogs-vs-cats.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Example: Classifying Images -  Dogs vs. Cats</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-dataset">Download the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-dataset">Create the Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-tensorflow-datasets">Digression: Tensorflow Datasets</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-model">Create the Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-overfitting-data-augmentation">Dealing with Overfitting - Data Augmentation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="example-classifying-images-dogs-vs-cats">
+<span id="classifying-dogs-vs-cats"></span><h1>Example: Classifying Images -  Dogs vs. Cats<a class="headerlink" href="#example-classifying-images-dogs-vs-cats" title="Link to this heading">#</a></h1>
+<p>The <em>Dogs vs. Cats dataset</em> is a popular dataset for binary image classification tasks. It consists of 25,000 images of dogs and cats, with 12,500 images of each class. The goal is to build a model that can accurately classify whether an image contains a dog or a cat.</p>
+<section id="download-the-dataset">
+<h2>Download the Dataset<a class="headerlink" href="#download-the-dataset" title="Link to this heading">#</a></h2>
+<p>The <em>Dogs vs. Cats dataset</em> is not packaged with Keras. It was made available by Kaggle as part of a computer vision competition in late 2013. You can download the original dataset from <a class="reference external" href="https://www.kaggle.com/c/dogs-vs-cats/data">www.kaggle.com/c/dogs-vs-cats/data</a> (you’ll need to create a Kaggle account if you don’t already have one).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The following code assumes that you have already downloaded the dataset and unzipped it into a folder named <code class="docutils literal notranslate"><span class="pre">dogs-vs-cats</span></code> in your current working directory. The dataset contains two folders: <code class="docutils literal notranslate"><span class="pre">train</span></code> and <code class="docutils literal notranslate"><span class="pre">test</span></code>. The <code class="docutils literal notranslate"><span class="pre">train</span></code> folder contains 25,000 images of dogs and cats (that are labelled), while the <code class="docutils literal notranslate"><span class="pre">test</span></code> folder contains 12,500 images of dogs and cats (that are unlabelled).</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="n">original_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;dogs-vs-cats/train&quot;</span><span class="p">)</span> 
+<span class="n">new_base_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;cats_vs_dogs_small&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_subset</span><span class="p">(</span><span class="n">subset_name</span><span class="p">,</span> <span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">):</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="n">new_base_dir</span> <span class="o">/</span> <span class="n">subset_name</span> <span class="o">/</span> <span class="n">category</span> 
+        <span class="c1"># Create the directory if it doesn&#39;t exist</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span> 
+        <span class="n">fnames</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.jpg&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">original_dir</span> <span class="o">/</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">original_dir</span> <span class="o">/</span> <span class="n">fname</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="nb">dir</span> <span class="o">/</span> <span class="n">fname</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_subset</span><span class="p">(</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end_index</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">make_subset</span><span class="p">(</span><span class="s2">&quot;validation&quot;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">end_index</span><span class="o">=</span><span class="mi">1500</span><span class="p">)</span>
+<span class="n">make_subset</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">end_index</span><span class="o">=</span><span class="mi">2500</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dogs-vs-cats/train/cat.0.jpg
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">make_subset</span><span class="p">(</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end_index</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">make_subset</span><span class="p">(</span><span class="s2">&quot;validation&quot;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">end_index</span><span class="o">=</span><span class="mi">1500</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">make_subset</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">end_index</span><span class="o">=</span><span class="mi">2500</span><span class="p">)</span>
+
+<span class="nn">Cell In[2], line 10,</span> in <span class="ni">make_subset</span><span class="nt">(subset_name, start_index, end_index)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="nb">print</span><span class="p">(</span><span class="n">original_dir</span> <span class="o">/</span> <span class="n">fname</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">10</span>     <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">original_dir</span> <span class="o">/</span> <span class="n">fname</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="nb">dir</span> <span class="o">/</span> <span class="n">fname</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/shutil.py:260,</span> in <span class="ni">copyfile</span><span class="nt">(src, dst, follow_symlinks)</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span>     <span class="n">os</span><span class="o">.</span><span class="n">symlink</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">readlink</span><span class="p">(</span><span class="n">src</span><span class="p">),</span> <span class="n">dst</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">260</span>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fsrc</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>         <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span>             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdst</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>                 <span class="c1"># macOS</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;dogs-vs-cats/train/cat.0.jpg&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-the-dataset">
+<h2>Create the Dataset<a class="headerlink" href="#create-the-dataset" title="Link to this heading">#</a></h2>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">image_dataset_from_directory</span></code> utility to create a dataset from the downloaded images. This utility will automatically label the images based on their directory structure.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras.utils</span> <span class="kn">import</span> <span class="n">image_dataset_from_directory</span>
+
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">image_dataset_from_directory</span><span class="p">(</span> <span class="n">new_base_dir</span> <span class="o">/</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">image_size</span><span class="o">=</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> 
+
+<span class="n">validation_dataset</span> <span class="o">=</span> <span class="n">image_dataset_from_directory</span><span class="p">(</span> <span class="n">new_base_dir</span> <span class="o">/</span> <span class="s2">&quot;validation&quot;</span><span class="p">,</span> <span class="n">image_size</span><span class="o">=</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> 
+
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">image_dataset_from_directory</span><span class="p">(</span> <span class="n">new_base_dir</span> <span class="o">/</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">image_size</span><span class="o">=</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found 2001 files belonging to 2 classes.
+Found 1000 files belonging to 2 classes.
+Found 2000 files belonging to 2 classes.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;tensorflow.python.data.ops.prefetch_op._PrefetchDataset&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="digression-tensorflow-datasets">
+<h3>Digression: Tensorflow Datasets<a class="headerlink" href="#digression-tensorflow-datasets" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">tf.data.Dataset</span></code> class in TensorFlow is a convenient way to build efficient, scalable data pipelines for machine learning. It helps you load, preprocess, and batch data to feed into your models during training, testing, or inference.</p>
+<p>You typically start by creating a dataset from arrays, tensors, or generators.</p>
+<p>Common ways include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">from_tensor_slices</span></code>: Creates a dataset from slices of tensors or arrays.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">from_generator</span></code>: Creates a dataset from a generator function.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image_dataset_from_directory</span></code>: Create a dataset for image classification tasks directly from images stored in folders.</p></li>
+</ul>
+<p>Datasets provide key methods to preprocess your data easily:</p>
+<ul class="simple">
+<li><p><strong>batch</strong>: Combines dataset elements into batches for training.</p></li>
+<li><p><strong>shuffle</strong>: Randomly shuffles the elements to reduce training bias.</p></li>
+<li><p><strong>map</strong>: Applies a preprocessing function to each element.</p></li>
+<li><p><strong>prefetch</strong>: Loads data ahead of time for improved training performance.</p></li>
+</ul>
+<p>Using a <code class="docutils literal notranslate"><span class="pre">tf.data.Dataset</span></code> provides several important benefits:</p>
+<ul class="simple">
+<li><p><strong>Efficiency</strong>: Optimized data loading and preprocessing reduces training time.</p></li>
+<li><p><strong>Scalability</strong>: Handles very large datasets seamlessly.</p></li>
+<li><p><strong>Flexibility</strong>: Makes preprocessing transparent and easy to maintain.</p></li>
+</ul>
+<p>You can directly pass a dataset object to Keras model methods such as <code class="docutils literal notranslate"><span class="pre">model.fit()</span></code> or <code class="docutils literal notranslate"><span class="pre">model.evaluate()</span></code>, simplifying your training workflow.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="c1"># Example data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Create dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Iterate over dataset</span>
+<span class="k">for</span> <span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch X:&quot;</span><span class="p">,</span> <span class="n">batch_x</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch y:&quot;</span><span class="p">,</span> <span class="n">batch_y</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+ 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Batch X: [[1 2]
+ [3 4]
+ [5 6]]
+Batch y: [0 1 0]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="c1"># Prepare dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span> \
+                 <span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> \
+                 <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span> \
+                 <span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+
+<span class="c1"># Fit model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;rmsprop&#39;</span><span class="p">,</span>
+              <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;sparse_categorical_crossentropy&#39;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Final accuracy</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9824666380882263
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># Fetch the first batch from the dataset</span>
+<span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">train_dataset</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">first_image</span> <span class="o">=</span> <span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
+    <span class="n">first_label</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="c1"># Display the first image</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">first_image</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Label: </span><span class="si">{</span><span class="n">first_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6e5837c5e23595580a24471cac3a845b5634422b98626f650a227b2f71e1d289.png" src="../_images/6e5837c5e23595580a24471cac3a845b5634422b98626f650a227b2f71e1d289.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="create-the-model">
+<h2>Create the Model<a class="headerlink" href="#create-the-model" title="Link to this heading">#</a></h2>
+<p>We will use a simple convolutional neural network (CNN) architecture for this task. The model will consist of several convolutional layers followed by max-pooling layers, and finally a fully connected layer with a softmax activation function for binary classification.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span> 
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> 
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Rescaling</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mi">255</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+              <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span> <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
+    <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;convnet_from_scratch.keras&quot;</span><span class="p">,</span>
+    <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">)</span>
+    
+<span class="p">]</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="p">,</span> 
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> 
+    <span class="n">validation_data</span><span class="o">=</span><span class="n">validation_dataset</span><span class="p">,</span> 
+    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 281ms/step - accuracy: 0.5000 - loss: 0.8022 - val_accuracy: 0.5000 - val_loss: 0.6927
+Epoch 2/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">17s</span> 275ms/step - accuracy: 0.5167 - loss: 0.6950 - val_accuracy: 0.5010 - val_loss: 0.7006
+Epoch 3/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">17s</span> 272ms/step - accuracy: 0.5300 - loss: 0.7146 - val_accuracy: 0.5570 - val_loss: 0.6803
+Epoch 4/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 279ms/step - accuracy: 0.5863 - loss: 0.6926 - val_accuracy: 0.6160 - val_loss: 0.6379
+Epoch 5/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 289ms/step - accuracy: 0.6275 - loss: 0.6480 - val_accuracy: 0.6800 - val_loss: 0.6071
+Epoch 6/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 293ms/step - accuracy: 0.6873 - loss: 0.6017 - val_accuracy: 0.6100 - val_loss: 0.6368
+Epoch 7/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 292ms/step - accuracy: 0.7203 - loss: 0.5653 - val_accuracy: 0.6280 - val_loss: 0.6287
+Epoch 8/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 299ms/step - accuracy: 0.7216 - loss: 0.5507 - val_accuracy: 0.6670 - val_loss: 0.6393
+Epoch 9/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 299ms/step - accuracy: 0.7575 - loss: 0.5079 - val_accuracy: 0.6400 - val_loss: 0.6433
+Epoch 10/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 297ms/step - accuracy: 0.7778 - loss: 0.4863 - val_accuracy: 0.6940 - val_loss: 0.6379
+Epoch 11/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 299ms/step - accuracy: 0.7691 - loss: 0.4660 - val_accuracy: 0.7030 - val_loss: 0.5620
+Epoch 12/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 314ms/step - accuracy: 0.8177 - loss: 0.4066 - val_accuracy: 0.6800 - val_loss: 0.7359
+Epoch 13/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 333ms/step - accuracy: 0.8400 - loss: 0.3648 - val_accuracy: 0.6860 - val_loss: 0.7909
+Epoch 14/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 330ms/step - accuracy: 0.8721 - loss: 0.3063 - val_accuracy: 0.7180 - val_loss: 0.6858
+Epoch 15/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 332ms/step - accuracy: 0.8823 - loss: 0.2816 - val_accuracy: 0.6760 - val_loss: 0.9185
+Epoch 16/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 307ms/step - accuracy: 0.9089 - loss: 0.2203 - val_accuracy: 0.7230 - val_loss: 0.8226
+Epoch 17/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 305ms/step - accuracy: 0.9293 - loss: 0.1775 - val_accuracy: 0.7190 - val_loss: 0.8825
+Epoch 18/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 304ms/step - accuracy: 0.9543 - loss: 0.1327 - val_accuracy: 0.6740 - val_loss: 1.5215
+Epoch 19/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 312ms/step - accuracy: 0.9453 - loss: 0.1529 - val_accuracy: 0.7180 - val_loss: 1.1064
+Epoch 20/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 339ms/step - accuracy: 0.9499 - loss: 0.1440 - val_accuracy: 0.7250 - val_loss: 1.1883
+Epoch 21/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 338ms/step - accuracy: 0.9667 - loss: 0.0942 - val_accuracy: 0.7450 - val_loss: 1.0451
+Epoch 22/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 320ms/step - accuracy: 0.9728 - loss: 0.0775 - val_accuracy: 0.6850 - val_loss: 1.9213
+Epoch 23/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 320ms/step - accuracy: 0.9672 - loss: 0.0954 - val_accuracy: 0.7340 - val_loss: 1.3025
+Epoch 24/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 300ms/step - accuracy: 0.9776 - loss: 0.0669 - val_accuracy: 0.7230 - val_loss: 1.3260
+Epoch 25/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 295ms/step - accuracy: 0.9829 - loss: 0.0446 - val_accuracy: 0.7260 - val_loss: 1.5698
+Epoch 26/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 298ms/step - accuracy: 0.9905 - loss: 0.0356 - val_accuracy: 0.7040 - val_loss: 1.6625
+Epoch 27/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">24s</span> 377ms/step - accuracy: 0.9784 - loss: 0.0628 - val_accuracy: 0.7060 - val_loss: 1.6952
+Epoch 28/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 304ms/step - accuracy: 0.9881 - loss: 0.0470 - val_accuracy: 0.7020 - val_loss: 1.7940
+Epoch 29/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 336ms/step - accuracy: 0.9912 - loss: 0.0332 - val_accuracy: 0.7090 - val_loss: 2.1535
+Epoch 30/30
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 320ms/step - accuracy: 0.9896 - loss: 0.0337 - val_accuracy: 0.7420 - val_loss: 1.9025
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
+<span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_accuracy&quot;</span><span class="p">]</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span>
+<span class="n">val_loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">]</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="s2">&quot;bo&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Training accuracy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_accuracy</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation accuracy&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training and validation accuracy&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="s2">&quot;bo&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Training loss&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation loss&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training and validation loss&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/610ca18b3f4cdd69f3b75ecb26cfa65196f3c6f6d216de47dc8a73939d335762.png" src="../_images/610ca18b3f4cdd69f3b75ecb26cfa65196f3c6f6d216de47dc8a73939d335762.png" />
+<img alt="../_images/45a1ebf3185b93df2ccde1840a73e5aec56058bf249651b85c10de69237ef952.png" src="../_images/45a1ebf3185b93df2ccde1840a73e5aec56058bf249651b85c10de69237ef952.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">test_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;convnet_from_scratch.keras&quot;</span><span class="p">)</span>
+
+<span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">test_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test accuracy: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">5s</span> 75ms/step - accuracy: 0.7104 - loss: 0.5777
+Test accuracy: 0.698
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dealing-with-overfitting-data-augmentation">
+<h2>Dealing with Overfitting - Data Augmentation<a class="headerlink" href="#dealing-with-overfitting-data-augmentation" title="Link to this heading">#</a></h2>
+<p>One approach to reduce overfitting is to use data augmentation. Data augmentation is a technique that artificially increases the size of the training dataset by applying random transformations to the images, such as rotation, zoom, and flipping. This helps the model generalize better to unseen data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_augmentation</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span> <span class="p">[</span> 
+    <span class="n">layers</span><span class="o">.</span><span class="n">RandomFlip</span><span class="p">(</span><span class="s2">&quot;horizontal&quot;</span><span class="p">),</span> 
+    <span class="n">layers</span><span class="o">.</span><span class="n">RandomRotation</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span>
+    <span class="n">layers</span><span class="o">.</span><span class="n">RandomZoom</span><span class="p">(</span><span class="mf">0.2</span><span class="p">),</span> <span class="p">]</span> 
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">train_dataset</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> 
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>  
+        <span class="n">augmented_images</span> <span class="o">=</span> <span class="n">data_augmentation</span><span class="p">(</span><span class="n">images</span><span class="p">)</span> 
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> 
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">augmented_images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">))</span> 
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-07 19:49:41.643322: I tensorflow/core/framework/local_rendezvous.cc:405] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+</pre></div>
+</div>
+<img alt="../_images/220b2f92669917f3729ed365af1ec06618472d08bdabb53fbea439f81b443645.png" src="../_images/220b2f92669917f3729ed365af1ec06618472d08bdabb53fbea439f81b443645.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> 
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">data_augmentation</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> 
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Rescaling</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mi">255</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span> 
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span> 
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span> 
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+              <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span> <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
+    <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;convnet_from_scratch_with_augmentation.keras&quot;</span><span class="p">,</span>
+    <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">)]</span> 
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="p">,</span> 
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+    <span class="n">validation_data</span><span class="o">=</span><span class="n">validation_dataset</span><span class="p">,</span> 
+    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span> 
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 323ms/step - accuracy: 0.5094 - loss: 0.7265 - val_accuracy: 0.6000 - val_loss: 0.6890
+Epoch 2/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 323ms/step - accuracy: 0.5333 - loss: 0.6933 - val_accuracy: 0.5460 - val_loss: 0.6823
+Epoch 3/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 301ms/step - accuracy: 0.5455 - loss: 0.6925 - val_accuracy: 0.5000 - val_loss: 0.7760
+Epoch 4/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 324ms/step - accuracy: 0.6124 - loss: 0.6767 - val_accuracy: 0.6440 - val_loss: 0.6412
+Epoch 5/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 303ms/step - accuracy: 0.6178 - loss: 0.6636 - val_accuracy: 0.5890 - val_loss: 0.6650
+Epoch 6/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 315ms/step - accuracy: 0.6409 - loss: 0.6417 - val_accuracy: 0.5540 - val_loss: 0.7131
+Epoch 7/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 304ms/step - accuracy: 0.6424 - loss: 0.6260 - val_accuracy: 0.6440 - val_loss: 0.6137
+Epoch 8/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 295ms/step - accuracy: 0.6551 - loss: 0.6180 - val_accuracy: 0.5890 - val_loss: 0.7788
+Epoch 9/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 316ms/step - accuracy: 0.6822 - loss: 0.6246 - val_accuracy: 0.6700 - val_loss: 0.6033
+Epoch 10/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 291ms/step - accuracy: 0.6925 - loss: 0.5951 - val_accuracy: 0.6690 - val_loss: 0.5928
+Epoch 11/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 294ms/step - accuracy: 0.7157 - loss: 0.5640 - val_accuracy: 0.7200 - val_loss: 0.5491
+Epoch 12/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 297ms/step - accuracy: 0.6837 - loss: 0.5653 - val_accuracy: 0.7250 - val_loss: 0.5275
+Epoch 13/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 299ms/step - accuracy: 0.7173 - loss: 0.5406 - val_accuracy: 0.7340 - val_loss: 0.5523
+Epoch 14/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 290ms/step - accuracy: 0.7235 - loss: 0.5426 - val_accuracy: 0.7510 - val_loss: 0.4948
+Epoch 15/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 291ms/step - accuracy: 0.7599 - loss: 0.5075 - val_accuracy: 0.7550 - val_loss: 0.5056
+Epoch 16/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 299ms/step - accuracy: 0.7595 - loss: 0.4944 - val_accuracy: 0.7410 - val_loss: 0.5288
+Epoch 17/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 307ms/step - accuracy: 0.7261 - loss: 0.5297 - val_accuracy: 0.7690 - val_loss: 0.4692
+Epoch 18/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 306ms/step - accuracy: 0.7640 - loss: 0.4874 - val_accuracy: 0.7410 - val_loss: 0.5169
+Epoch 19/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 292ms/step - accuracy: 0.7767 - loss: 0.4732 - val_accuracy: 0.7150 - val_loss: 0.6351
+Epoch 20/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 296ms/step - accuracy: 0.7723 - loss: 0.4876 - val_accuracy: 0.7580 - val_loss: 0.5101
+Epoch 21/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 285ms/step - accuracy: 0.8032 - loss: 0.4389 - val_accuracy: 0.7730 - val_loss: 0.4788
+Epoch 22/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 328ms/step - accuracy: 0.7735 - loss: 0.4675 - val_accuracy: 0.7530 - val_loss: 0.5288
+Epoch 23/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 339ms/step - accuracy: 0.7864 - loss: 0.4543 - val_accuracy: 0.7830 - val_loss: 0.4542
+Epoch 24/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 340ms/step - accuracy: 0.8020 - loss: 0.4297 - val_accuracy: 0.7250 - val_loss: 0.5223
+Epoch 25/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 329ms/step - accuracy: 0.8089 - loss: 0.4159 - val_accuracy: 0.7150 - val_loss: 0.5733
+Epoch 26/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 313ms/step - accuracy: 0.7878 - loss: 0.4381 - val_accuracy: 0.7570 - val_loss: 0.4786
+Epoch 27/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 297ms/step - accuracy: 0.8109 - loss: 0.4031 - val_accuracy: 0.7910 - val_loss: 0.4596
+Epoch 28/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 300ms/step - accuracy: 0.8281 - loss: 0.3926 - val_accuracy: 0.6450 - val_loss: 0.7954
+Epoch 29/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 294ms/step - accuracy: 0.8005 - loss: 0.4345 - val_accuracy: 0.6490 - val_loss: 0.8004
+Epoch 30/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 296ms/step - accuracy: 0.8100 - loss: 0.4188 - val_accuracy: 0.8010 - val_loss: 0.4159
+Epoch 31/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 296ms/step - accuracy: 0.8355 - loss: 0.3871 - val_accuracy: 0.8090 - val_loss: 0.4328
+Epoch 32/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 307ms/step - accuracy: 0.8387 - loss: 0.3590 - val_accuracy: 0.7880 - val_loss: 0.4538
+Epoch 33/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 305ms/step - accuracy: 0.8512 - loss: 0.3685 - val_accuracy: 0.8050 - val_loss: 0.4250
+Epoch 34/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 318ms/step - accuracy: 0.8192 - loss: 0.3915 - val_accuracy: 0.6990 - val_loss: 0.7107
+Epoch 35/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 317ms/step - accuracy: 0.8475 - loss: 0.3755 - val_accuracy: 0.8050 - val_loss: 0.4238
+Epoch 36/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 310ms/step - accuracy: 0.8436 - loss: 0.3721 - val_accuracy: 0.7920 - val_loss: 0.4646
+Epoch 37/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 312ms/step - accuracy: 0.8439 - loss: 0.3671 - val_accuracy: 0.8240 - val_loss: 0.3988
+Epoch 38/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 313ms/step - accuracy: 0.8433 - loss: 0.3475 - val_accuracy: 0.7860 - val_loss: 0.4908
+Epoch 39/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">24s</span> 385ms/step - accuracy: 0.8448 - loss: 0.3578 - val_accuracy: 0.8110 - val_loss: 0.4690
+Epoch 40/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 298ms/step - accuracy: 0.8601 - loss: 0.3505 - val_accuracy: 0.8200 - val_loss: 0.4057
+Epoch 41/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 285ms/step - accuracy: 0.8467 - loss: 0.3548 - val_accuracy: 0.7530 - val_loss: 0.5718
+Epoch 42/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 297ms/step - accuracy: 0.8558 - loss: 0.3400 - val_accuracy: 0.7600 - val_loss: 0.5693
+Epoch 43/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 319ms/step - accuracy: 0.8659 - loss: 0.3306 - val_accuracy: 0.8190 - val_loss: 0.4292
+Epoch 44/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 314ms/step - accuracy: 0.8752 - loss: 0.3291 - val_accuracy: 0.8290 - val_loss: 0.3983
+Epoch 45/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 299ms/step - accuracy: 0.8628 - loss: 0.3116 - val_accuracy: 0.8220 - val_loss: 0.5230
+Epoch 46/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 288ms/step - accuracy: 0.8577 - loss: 0.3463 - val_accuracy: 0.8310 - val_loss: 0.4466
+Epoch 47/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 286ms/step - accuracy: 0.8660 - loss: 0.3161 - val_accuracy: 0.7860 - val_loss: 0.5352
+Epoch 48/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 294ms/step - accuracy: 0.8784 - loss: 0.3051 - val_accuracy: 0.8200 - val_loss: 0.4314
+Epoch 49/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 295ms/step - accuracy: 0.8691 - loss: 0.2991 - val_accuracy: 0.8320 - val_loss: 0.4142
+Epoch 50/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 300ms/step - accuracy: 0.8673 - loss: 0.2904 - val_accuracy: 0.8470 - val_loss: 0.3662
+Epoch 51/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 294ms/step - accuracy: 0.8923 - loss: 0.2736 - val_accuracy: 0.8110 - val_loss: 0.5385
+Epoch 52/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 296ms/step - accuracy: 0.8793 - loss: 0.2964 - val_accuracy: 0.8350 - val_loss: 0.4106
+Epoch 53/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 307ms/step - accuracy: 0.8849 - loss: 0.2529 - val_accuracy: 0.8380 - val_loss: 0.4201
+Epoch 54/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 307ms/step - accuracy: 0.9016 - loss: 0.2868 - val_accuracy: 0.8230 - val_loss: 0.5032
+Epoch 55/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 300ms/step - accuracy: 0.9014 - loss: 0.2642 - val_accuracy: 0.8400 - val_loss: 0.4100
+Epoch 56/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 298ms/step - accuracy: 0.8861 - loss: 0.2910 - val_accuracy: 0.8020 - val_loss: 0.5265
+Epoch 57/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 311ms/step - accuracy: 0.8833 - loss: 0.2870 - val_accuracy: 0.8420 - val_loss: 0.4017
+Epoch 58/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 312ms/step - accuracy: 0.9100 - loss: 0.2262 - val_accuracy: 0.8400 - val_loss: 0.4306
+Epoch 59/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 305ms/step - accuracy: 0.9060 - loss: 0.2381 - val_accuracy: 0.7790 - val_loss: 0.6038
+Epoch 60/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 294ms/step - accuracy: 0.8978 - loss: 0.2649 - val_accuracy: 0.8340 - val_loss: 0.5539
+Epoch 61/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 296ms/step - accuracy: 0.9057 - loss: 0.2305 - val_accuracy: 0.8540 - val_loss: 0.3911
+Epoch 62/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 299ms/step - accuracy: 0.9011 - loss: 0.2050 - val_accuracy: 0.8390 - val_loss: 0.4931
+Epoch 63/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 330ms/step - accuracy: 0.9075 - loss: 0.2339 - val_accuracy: 0.7930 - val_loss: 0.5473
+Epoch 64/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 306ms/step - accuracy: 0.9206 - loss: 0.2002 - val_accuracy: 0.8460 - val_loss: 0.3762
+Epoch 65/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 294ms/step - accuracy: 0.8964 - loss: 0.2354 - val_accuracy: 0.8110 - val_loss: 0.5908
+Epoch 66/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 307ms/step - accuracy: 0.8942 - loss: 0.2616 - val_accuracy: 0.8610 - val_loss: 0.3814
+Epoch 67/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 307ms/step - accuracy: 0.9269 - loss: 0.1940 - val_accuracy: 0.8680 - val_loss: 0.4113
+Epoch 68/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 293ms/step - accuracy: 0.9119 - loss: 0.2252 - val_accuracy: 0.8720 - val_loss: 0.3579
+Epoch 69/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 295ms/step - accuracy: 0.9292 - loss: 0.1890 - val_accuracy: 0.8560 - val_loss: 0.3845
+Epoch 70/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 309ms/step - accuracy: 0.9171 - loss: 0.2197 - val_accuracy: 0.8270 - val_loss: 0.5384
+Epoch 71/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 309ms/step - accuracy: 0.9142 - loss: 0.2132 - val_accuracy: 0.8850 - val_loss: 0.3282
+Epoch 72/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 314ms/step - accuracy: 0.9333 - loss: 0.1976 - val_accuracy: 0.8700 - val_loss: 0.4532
+Epoch 73/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 306ms/step - accuracy: 0.9093 - loss: 0.2002 - val_accuracy: 0.8570 - val_loss: 0.4931
+Epoch 74/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">22s</span> 356ms/step - accuracy: 0.9149 - loss: 0.1918 - val_accuracy: 0.8620 - val_loss: 0.4225
+Epoch 75/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 338ms/step - accuracy: 0.9272 - loss: 0.1936 - val_accuracy: 0.8100 - val_loss: 0.5455
+Epoch 76/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 324ms/step - accuracy: 0.9305 - loss: 0.1804 - val_accuracy: 0.8360 - val_loss: 0.6797
+Epoch 77/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 325ms/step - accuracy: 0.9257 - loss: 0.1927 - val_accuracy: 0.8610 - val_loss: 0.4665
+Epoch 78/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 299ms/step - accuracy: 0.9308 - loss: 0.1977 - val_accuracy: 0.8230 - val_loss: 0.5686
+Epoch 79/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 291ms/step - accuracy: 0.9214 - loss: 0.1985 - val_accuracy: 0.7690 - val_loss: 0.9063
+Epoch 80/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 298ms/step - accuracy: 0.9209 - loss: 0.2135 - val_accuracy: 0.8780 - val_loss: 0.4108
+Epoch 81/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 306ms/step - accuracy: 0.9322 - loss: 0.1664 - val_accuracy: 0.8670 - val_loss: 0.4159
+Epoch 82/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 302ms/step - accuracy: 0.9415 - loss: 0.1708 - val_accuracy: 0.8180 - val_loss: 0.6062
+Epoch 83/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 324ms/step - accuracy: 0.9346 - loss: 0.1950 - val_accuracy: 0.8390 - val_loss: 0.5537
+Epoch 84/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">21s</span> 329ms/step - accuracy: 0.9329 - loss: 0.1854 - val_accuracy: 0.8710 - val_loss: 0.4248
+Epoch 85/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 311ms/step - accuracy: 0.9383 - loss: 0.1733 - val_accuracy: 0.8660 - val_loss: 0.4829
+Epoch 86/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">22s</span> 353ms/step - accuracy: 0.9307 - loss: 0.1866 - val_accuracy: 0.8140 - val_loss: 0.5829
+Epoch 87/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">22s</span> 356ms/step - accuracy: 0.9328 - loss: 0.1677 - val_accuracy: 0.8040 - val_loss: 0.5911
+Epoch 88/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 305ms/step - accuracy: 0.9277 - loss: 0.2027 - val_accuracy: 0.8520 - val_loss: 0.5531
+Epoch 89/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 308ms/step - accuracy: 0.9332 - loss: 0.1714 - val_accuracy: 0.8640 - val_loss: 0.5910
+Epoch 90/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 301ms/step - accuracy: 0.9404 - loss: 0.1843 - val_accuracy: 0.8530 - val_loss: 0.5646
+Epoch 91/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 293ms/step - accuracy: 0.9255 - loss: 0.1938 - val_accuracy: 0.8450 - val_loss: 0.5222
+Epoch 92/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 295ms/step - accuracy: 0.9467 - loss: 0.1639 - val_accuracy: 0.8620 - val_loss: 0.5384
+Epoch 93/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">18s</span> 289ms/step - accuracy: 0.9230 - loss: 0.2284 - val_accuracy: 0.8510 - val_loss: 0.6424
+Epoch 94/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 312ms/step - accuracy: 0.9334 - loss: 0.2083 - val_accuracy: 0.8540 - val_loss: 0.5688
+Epoch 95/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 315ms/step - accuracy: 0.9244 - loss: 0.1856 - val_accuracy: 0.8450 - val_loss: 0.4506
+Epoch 96/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">20s</span> 318ms/step - accuracy: 0.9391 - loss: 0.1649 - val_accuracy: 0.8560 - val_loss: 0.6265
+Epoch 97/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 298ms/step - accuracy: 0.9361 - loss: 0.1832 - val_accuracy: 0.7790 - val_loss: 1.4561
+Epoch 98/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 294ms/step - accuracy: 0.9319 - loss: 0.2136 - val_accuracy: 0.8690 - val_loss: 0.4607
+Epoch 99/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 294ms/step - accuracy: 0.9345 - loss: 0.1812 - val_accuracy: 0.8830 - val_loss: 0.4867
+Epoch 100/100
+<span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">19s</span> 309ms/step - accuracy: 0.9353 - loss: 0.1882 - val_accuracy: 0.8400 - val_loss: 0.4993
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
+<span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_accuracy&quot;</span><span class="p">]</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span>
+<span class="n">val_loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">]</span>
+
+<span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="s2">&quot;bo&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Training accuracy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_accuracy</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation accuracy&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training and validation accuracy&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="s2">&quot;bo&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Training loss&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation loss&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training and validation loss&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/201a4cde5b05a5a80b7fd5304a0451a54808fe64694c6d84b560faf0fd283fe9.png" src="../_images/201a4cde5b05a5a80b7fd5304a0451a54808fe64694c6d84b560faf0fd283fe9.png" />
+<img alt="../_images/cdd6f80795905edf3631dd388a4771bf1e2785d1b88c54676e2a00cdd53dd835.png" src="../_images/cdd6f80795905edf3631dd388a4771bf1e2785d1b88c54676e2a00cdd53dd835.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span> <span class="s2">&quot;convnet_from_scratch_with_augmentation.keras&quot;</span><span class="p">)</span> 
+<span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">test_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test accuracy: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">63/63</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">5s</span> 78ms/step - accuracy: 0.8660 - loss: 0.3908
+Test accuracy: 0.868
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./image-classification"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction-convnet.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Convnets - Convolutional Neural Networks</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-dataset">Download the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-dataset">Create the Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-tensorflow-datasets">Digression: Tensorflow Datasets</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-model">Create the Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-overfitting-data-augmentation">Dealing with Overfitting - Data Augmentation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Eric Pacuit
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
