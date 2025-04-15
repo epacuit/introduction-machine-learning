@@ -49,3 +49,5 @@ These notes will be updated throughout the semester. Please check back regularly
 |      | 4/3  |  Image Classification | Chollet Chapter 8, [convolution neural networks](introduction-convnets)  |
 |   11   | 4/8   | Image Classification | Chollet Chapter 8, [convolution neural networks](introduction-convnets), [example: classifying dogs vs. cats images](classifying_dogs_vs_cats), [overfitting](overfitting)  |
 |      | 4/10  |  Image Classification | Chollet Chapter 8, [convolution neural networks](introduction-convnets), [example: classifying dogs vs. cats images](classifying_dogs_vs_cats), [overfitting](overfitting)   |
+|   11   | 4/15   | Fine-Tuning Models | Chollet Chapter 8, [using pretrained models](using-pretrained-models), [gpu vs. cpu](gpu-vs-cpu)  |
+|      | 4/17  |  Introduction to Language Processing |  |
