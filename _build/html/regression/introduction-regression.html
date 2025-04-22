@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -218,6 +218,13 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/overfitting.html">Overfitting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/gpu-vs-cpu.html">GPU vs. CPU</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/encoding-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
 </ul>
 
     </div>
@@ -643,30 +650,30 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-15 08:36:14.987936: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
-2025-04-15 08:36:14.987955: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
-2025-04-15 08:36:14.987959: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-22 10:14:18.629390: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
+2025-04-22 10:14:18.629415: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
+2025-04-22 10:14:18.629418: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1744720574.987976 17889608 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
-I0000 00:00:1744720574.987995 17889608 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
-2025-04-15 08:36:15.196064: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
+I0000 00:00:1745331258.629430 5196556 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+I0000 00:00:1745331258.629451 5196556 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
+2025-04-22 10:14:18.839767: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/4</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 16ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/4</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 17ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 7ms/step 
+<span class=" -Color -Color-Bold">4/4</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 6ms/step 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 20ms/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 19ms/step
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 <span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 27ms/step
 </pre></div>
 </div>
-<img alt="../_images/e33c6916bdc1f0e09e4e6b98523ed6b183a66be3c6ec8b825351a584ea7e4d36.png" src="../_images/e33c6916bdc1f0e09e4e6b98523ed6b183a66be3c6ec8b825351a584ea7e4d36.png" />
+<img alt="../_images/aa7a884f329ff0946e03d7949fb2a14bd38363498e5b345e48a3515f6ae4ddef.png" src="../_images/aa7a884f329ff0946e03d7949fb2a14bd38363498e5b345e48a3515f6ae4ddef.png" />
 </div>
 </div>
 <p>It is more common to use the <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class from the <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> library to perform linear regression.</p>

@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -216,6 +216,13 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/overfitting.html">Overfitting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/gpu-vs-cpu.html">GPU vs. CPU</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/encoding-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
 </ul>
 
     </div>
@@ -590,12 +597,12 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-15 08:33:31.912783: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
-2025-04-15 08:33:31.912803: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
-2025-04-15 08:33:31.912811: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-22 10:09:28.747822: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
+2025-04-22 10:09:28.747844: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
+2025-04-22 10:09:28.747848: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1744720411.912824 17853732 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
-I0000 00:00:1744720411.912843 17853732 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
+I0000 00:00:1745330968.747865 5160318 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+I0000 00:00:1745330968.747885 5160318 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
 </pre></div>
 </div>
 </div>
@@ -611,7 +618,7 @@ I0000 00:00:1744720411.912843 17853732 pluggable_device_factory.cc:271] Created 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-15 08:33:32.196213: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-22 10:09:29.068996: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
 </pre></div>
 </div>
 </div>
@@ -640,7 +647,7 @@ I0000 00:00:1744720411.912843 17853732 pluggable_device_factory.cc:271] Created 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/5d25b7e3aa0c022ddc0ed09c083ac87df92982091e9c90bded82f15036db5c78.png" src="../_images/5d25b7e3aa0c022ddc0ed09c083ac87df92982091e9c90bded82f15036db5c78.png" />
+<img alt="../_images/2db0c5ef2dd217f562d0958c360b3e1421e9df591b970ee5220b240f500d4014.png" src="../_images/2db0c5ef2dd217f562d0958c360b3e1421e9df591b970ee5220b240f500d4014.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -661,7 +668,7 @@ I0000 00:00:1744720411.912843 17853732 pluggable_device_factory.cc:271] Created 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/4974a1f7cad46cef7bec425de72e8a5ad618c37253282bc5f9ba1df1ecdcb56b.png" src="../_images/4974a1f7cad46cef7bec425de72e8a5ad618c37253282bc5f9ba1df1ecdcb56b.png" />
+<img alt="../_images/4b591c44c9161ce46c303796db43baa6ff3c8e1ea652546aa8c2953143ac76cc.png" src="../_images/4b591c44c9161ce46c303796db43baa6ff3c8e1ea652546aa8c2953143ac76cc.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -677,150 +684,24 @@ I0000 00:00:1744720411.912843 17853732 pluggable_device_factory.cc:271] Created 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">  1/313</span> <span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">27s</span> 90ms/step - accuracy: 0.8125 - loss: 5.5160
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold"> 12/313</span> <span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">1s</span> 5ms/step - accuracy: 0.7892 - loss: 4.5235  
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold"> 28/313</span> <span class=" -Color -Color-Green">━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">1s</span> 4ms/step - accuracy: 0.7968 - loss: 4.5740
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold"> 42/313</span> <span class=" -Color -Color-Green">━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">1s</span> 4ms/step - accuracy: 0.7970 - loss: 4.7517
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold"> 56/313</span> <span class=" -Color -Color-Green">━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7965 - loss: 4.9175
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold"> 71/313</span> <span class=" -Color -Color-Green">━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7951 - loss: 5.0917
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold"> 86/313</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7942 - loss: 5.2494
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">101/313</span> <span class=" -Color -Color-Green">━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7936 - loss: 5.3552
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">116/313</span> <span class=" -Color -Color-Green">━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7937 - loss: 5.4168
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">132/313</span> <span class=" -Color -Color-Green">━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7941 - loss: 5.4790
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">146/313</span> <span class=" -Color -Color-Green">━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7945 - loss: 5.5252
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">161/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7949 - loss: 5.5567
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">176/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7958 - loss: 5.5632
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">190/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7968 - loss: 5.5568
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">206/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7982 - loss: 5.5409
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">220/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.7994 - loss: 5.5283
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">235/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.8008 - loss: 5.5083
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">250/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.8021 - loss: 5.4914
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">264/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.8032 - loss: 5.4823
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">279/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.8045 - loss: 5.4685
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">295/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.8059 - loss: 5.4504
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">310/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━</span> <span class=" -Color -Color-Bold">0s</span> 4ms/step - accuracy: 0.8072 - loss: 5.4325
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">313/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">1s</span> 4ms/step - accuracy: 0.8075 - loss: 5.4293
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The test loss is 5.181574821472168
-The test accuracy is 0.8299999833106995
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">313/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 461us/step - accuracy: 0.9731 - loss: 0.0985
+The test loss is 0.08282630890607834
+The test accuracy is 0.9763000011444092
 The predictions are:
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">  1/313</span> <span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">7s</span> 24ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold"> 40/313</span> <span class=" -Color -Color-Green">━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 1ms/step 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold"> 85/313</span> <span class=" -Color -Color-Green">━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 1ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">132/313</span> <span class=" -Color -Color-Green">━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 1ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">180/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 1ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">226/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 1ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">274/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━</span><span class=" -Color -Color-White">━━━</span> <span class=" -Color -Color-Bold">0s</span> 1ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">313/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 1ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">313/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 1ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.0000000e+00 0.0000000e+00 0.0000000e+00 ... 1.0000000e+00
-  0.0000000e+00 2.1919921e-34]
- [2.4117469e-31 0.0000000e+00 1.0000000e+00 ... 0.0000000e+00
-  3.2001518e-34 0.0000000e+00]
- [0.0000000e+00 1.0000000e+00 1.1492209e-14 ... 1.6407855e-36
-  1.3545803e-26 0.0000000e+00]
+<span class=" -Color -Color-Bold">313/313</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 343us/step
+[[9.87493681e-12 7.84769139e-09 1.14026044e-07 ... 9.99997497e-01
+  1.73625381e-07 1.52393579e-06]
+ [7.79907484e-14 6.42986242e-06 9.99992371e-01 ... 4.96238657e-15
+  6.73853776e-07 2.52265147e-18]
+ [1.70551910e-08 9.99878883e-01 2.28347130e-06 ... 2.91024062e-05
+  5.01239592e-05 1.69830699e-07]
  ...
- [0.0000000e+00 0.0000000e+00 4.4580702e-38 ... 1.6308731e-24
-  3.1110816e-09 1.1364752e-03]
- [0.0000000e+00 0.0000000e+00 0.0000000e+00 ... 0.0000000e+00
-  0.0000000e+00 0.0000000e+00]
- [0.0000000e+00 0.0000000e+00 0.0000000e+00 ... 0.0000000e+00
-  0.0000000e+00 0.0000000e+00]]
+ [5.59415851e-20 1.27931069e-10 5.52213679e-19 ... 2.47705485e-11
+  1.58642048e-13 6.60931709e-09]
+ [8.73641030e-14 9.59674459e-16 3.59107903e-16 ... 1.31544680e-16
+  6.01234206e-07 2.11670688e-16]
+ [8.93554572e-14 9.99309222e-17 1.94375901e-14 ... 3.23735563e-19
+  2.88672860e-14 1.43133118e-14]]
 </pre></div>
 </div>
 </div>

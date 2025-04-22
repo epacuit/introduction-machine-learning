@@ -52,3 +52,9 @@ parts:
     - file: topics-machine-learning/overfitting
     - file: topics-machine-learning/gpu-vs-cpu
     
+- caption: Natural Language Processing
+  chapters:
+    - file: text-processing/encoding-text
+    - file: text-processing/introduction-rnn
+    - file: text-processing/intro-processing-text
+    - file: text-processing/intro-processing-text-word-embeddings

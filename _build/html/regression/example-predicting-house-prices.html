@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -218,6 +218,13 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/overfitting.html">Overfitting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/gpu-vs-cpu.html">GPU vs. CPU</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/encoding-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
 </ul>
 
     </div>
@@ -946,105 +953,105 @@ Facilitates comparison of different models or hyperparameters, giving you confid
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample train data shape: (10, 3)
-[[0.83269301 0.14766977 0.18709705]
- [0.94573454 0.50348924 0.84575466]
- [0.73174125 0.77417122 0.29438399]
- [0.10744429 0.35168403 0.32390108]
- [0.75518357 0.95903709 0.57256711]
- [0.45510925 0.80867589 0.70671782]
- [0.67052181 0.50251523 0.59573753]
- [0.18583408 0.2725009  0.30690587]
- [0.83524182 0.49104895 0.25246754]
- [0.737663   0.75666924 0.68469601]]
+[[0.47052005 0.15017308 0.89522783]
+ [0.79615608 0.07587347 0.36219565]
+ [0.76638116 0.00235717 0.91888963]
+ [0.49082903 0.83454816 0.41444744]
+ [0.87368918 0.20755427 0.23428714]
+ [0.35407612 0.6175404  0.92319151]
+ [0.94824704 0.57518401 0.12812307]
+ [0.34960554 0.00254533 0.52431538]
+ [0.04968961 0.220561   0.41866809]
+ [0.81604413 0.24267007 0.34703563]]
 Sample train target shape: (10,)
-[32  1 40  8 24 31 18 38 17  8]
+[26 35 15  3 38  7 19  2 12 41]
 
 Number of validation samples: 2
 Fold:  0
 data: 
  (2, 3)
-[[0.83269301 0.14766977 0.18709705]
- [0.94573454 0.50348924 0.84575466]]
+[[0.47052005 0.15017308 0.89522783]
+ [0.79615608 0.07587347 0.36219565]]
 targets: 
  (2,)
-[32  1]
+[26 35]
 Partial train data shape: (8, 3)
-[[0.73174125 0.77417122 0.29438399]
- [0.10744429 0.35168403 0.32390108]
- [0.75518357 0.95903709 0.57256711]
- [0.45510925 0.80867589 0.70671782]
- [0.67052181 0.50251523 0.59573753]
- [0.18583408 0.2725009  0.30690587]
- [0.83524182 0.49104895 0.25246754]
- [0.737663   0.75666924 0.68469601]]
+[[0.76638116 0.00235717 0.91888963]
+ [0.49082903 0.83454816 0.41444744]
+ [0.87368918 0.20755427 0.23428714]
+ [0.35407612 0.6175404  0.92319151]
+ [0.94824704 0.57518401 0.12812307]
+ [0.34960554 0.00254533 0.52431538]
+ [0.04968961 0.220561   0.41866809]
+ [0.81604413 0.24267007 0.34703563]]
 Partial train targets shape: (8,)
-[40  8 24 31 18 38 17  8]
+[15  3 38  7 19  2 12 41]
 
 ------
 
 Fold:  1
 data: 
  (2, 3)
-[[0.73174125 0.77417122 0.29438399]
- [0.10744429 0.35168403 0.32390108]]
+[[0.76638116 0.00235717 0.91888963]
+ [0.49082903 0.83454816 0.41444744]]
 targets: 
  (2,)
-[40  8]
+[15  3]
 Partial train data shape: (8, 3)
-[[0.83269301 0.14766977 0.18709705]
- [0.94573454 0.50348924 0.84575466]
- [0.75518357 0.95903709 0.57256711]
- [0.45510925 0.80867589 0.70671782]
- [0.67052181 0.50251523 0.59573753]
- [0.18583408 0.2725009  0.30690587]
- [0.83524182 0.49104895 0.25246754]
- [0.737663   0.75666924 0.68469601]]
+[[0.47052005 0.15017308 0.89522783]
+ [0.79615608 0.07587347 0.36219565]
+ [0.87368918 0.20755427 0.23428714]
+ [0.35407612 0.6175404  0.92319151]
+ [0.94824704 0.57518401 0.12812307]
+ [0.34960554 0.00254533 0.52431538]
+ [0.04968961 0.220561   0.41866809]
+ [0.81604413 0.24267007 0.34703563]]
 Partial train targets shape: (8,)
-[32  1 24 31 18 38 17  8]
+[26 35 38  7 19  2 12 41]
 
 ------
 
 Fold:  2
 data: 
  (2, 3)
-[[0.75518357 0.95903709 0.57256711]
- [0.45510925 0.80867589 0.70671782]]
+[[0.87368918 0.20755427 0.23428714]
+ [0.35407612 0.6175404  0.92319151]]
 targets: 
  (2,)
-[24 31]
+[38  7]
 Partial train data shape: (8, 3)
-[[0.83269301 0.14766977 0.18709705]
- [0.94573454 0.50348924 0.84575466]
- [0.73174125 0.77417122 0.29438399]
- [0.10744429 0.35168403 0.32390108]
- [0.67052181 0.50251523 0.59573753]
- [0.18583408 0.2725009  0.30690587]
- [0.83524182 0.49104895 0.25246754]
- [0.737663   0.75666924 0.68469601]]
+[[0.47052005 0.15017308 0.89522783]
+ [0.79615608 0.07587347 0.36219565]
+ [0.76638116 0.00235717 0.91888963]
+ [0.49082903 0.83454816 0.41444744]
+ [0.94824704 0.57518401 0.12812307]
+ [0.34960554 0.00254533 0.52431538]
+ [0.04968961 0.220561   0.41866809]
+ [0.81604413 0.24267007 0.34703563]]
 Partial train targets shape: (8,)
-[32  1 40  8 18 38 17  8]
+[26 35 15  3 19  2 12 41]
 
 ------
 
 Fold:  3
 data: 
  (2, 3)
-[[0.67052181 0.50251523 0.59573753]
- [0.18583408 0.2725009  0.30690587]]
+[[0.94824704 0.57518401 0.12812307]
+ [0.34960554 0.00254533 0.52431538]]
 targets: 
  (2,)
-[18 38]
+[19  2]
 Partial train data shape: (8, 3)
-[[0.83269301 0.14766977 0.18709705]
- [0.94573454 0.50348924 0.84575466]
- [0.73174125 0.77417122 0.29438399]
- [0.10744429 0.35168403 0.32390108]
- [0.75518357 0.95903709 0.57256711]
- [0.45510925 0.80867589 0.70671782]
- [0.83524182 0.49104895 0.25246754]
- [0.737663   0.75666924 0.68469601]]
+[[0.47052005 0.15017308 0.89522783]
+ [0.79615608 0.07587347 0.36219565]
+ [0.76638116 0.00235717 0.91888963]
+ [0.49082903 0.83454816 0.41444744]
+ [0.87368918 0.20755427 0.23428714]
+ [0.35407612 0.6175404  0.92319151]
+ [0.04968961 0.220561   0.41866809]
+ [0.81604413 0.24267007 0.34703563]]
 Partial train targets shape: (8,)
-[32  1 40  8 24 31 17  8]
+[26 35 15  3 38  7 12 41]
 
 ------
 </pre></div>
@@ -1090,15 +1097,15 @@ Partial train targets shape: (8,)
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing fold #0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-15 08:35:40.571604: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
-2025-04-15 08:35:40.571624: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
-2025-04-15 08:35:40.571628: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-22 10:13:44.291206: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
+2025-04-22 10:13:44.291227: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
+2025-04-22 10:13:44.291231: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1744720540.571641 17882356 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
-I0000 00:00:1744720540.571660 17882356 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
+I0000 00:00:1745331224.291243 5189804 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+I0000 00:00:1745331224.291260 5189804 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-15 08:35:40.824558: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-22 10:13:44.551731: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing fold #1

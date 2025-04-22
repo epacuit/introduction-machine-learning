@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -218,6 +218,13 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/overfitting.html">Overfitting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/gpu-vs-cpu.html">GPU vs. CPU</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/encoding-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
 </ul>
 
     </div>
@@ -464,7 +471,7 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">SSLCertVerificationError</span><span class="g g-Whitespace">                  </span>Traceback (most recent call last)
+<span class="ne">gaierror</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
 <span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/urllib/request.py:1344,</span> in <span class="ni">AbstractHTTPHandler.do_open</span><span class="nt">(self, http_class, req, **http_conn_args)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1343</span> <span class="k">try</span><span class="p">:</span>
 <span class="ne">-&gt; </span><span class="mi">1344</span>     <span class="n">h</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">get_method</span><span class="p">(),</span> <span class="n">req</span><span class="o">.</span><span class="n">selector</span><span class="p">,</span> <span class="n">req</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span>
@@ -495,39 +502,28 @@
 <span class="ne">-&gt; </span><span class="mi">1035</span>     <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 <span class="g g-Whitespace">   </span><span class="mi">1036</span> <span class="k">else</span><span class="p">:</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py:1477,</span> in <span class="ni">HTTPSConnection.connect</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1475</span>     <span class="n">server_hostname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span>
-<span class="ne">-&gt; </span><span class="mi">1477</span> <span class="bp">self</span><span class="o">.</span><span class="n">sock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context</span><span class="o">.</span><span class="n">wrap_socket</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sock</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1478</span>                                       <span class="n">server_hostname</span><span class="o">=</span><span class="n">server_hostname</span><span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py:1470,</span> in <span class="ni">HTTPSConnection.connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1468</span> <span class="s2">&quot;Connect to a host on a given (SSL) port.&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1470</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1472</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tunnel_host</span><span class="p">:</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:455,</span> in <span class="ni">SSLContext.wrap_socket</span><span class="nt">(self, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, session)</span>
-<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="k">def</span> <span class="nf">wrap_socket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">server_side</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">450</span>                 <span class="n">do_handshake_on_connect</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">451</span>                 <span class="n">suppress_ragged_eofs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">452</span>                 <span class="n">server_hostname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">453</span>     <span class="c1"># SSLSocket class handles server_hostname encoding before it calls</span>
-<span class="g g-Whitespace">    </span><span class="mi">454</span>     <span class="c1"># ctx._wrap_socket()</span>
-<span class="ne">--&gt; </span><span class="mi">455</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sslsocket_class</span><span class="o">.</span><span class="n">_create</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">456</span>         <span class="n">sock</span><span class="o">=</span><span class="n">sock</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">457</span>         <span class="n">server_side</span><span class="o">=</span><span class="n">server_side</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">458</span>         <span class="n">do_handshake_on_connect</span><span class="o">=</span><span class="n">do_handshake_on_connect</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">459</span>         <span class="n">suppress_ragged_eofs</span><span class="o">=</span><span class="n">suppress_ragged_eofs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">460</span>         <span class="n">server_hostname</span><span class="o">=</span><span class="n">server_hostname</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">461</span>         <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">462</span>         <span class="n">session</span><span class="o">=</span><span class="n">session</span>
-<span class="g g-Whitespace">    </span><span class="mi">463</span>     <span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py:1001,</span> in <span class="ni">HTTPConnection.connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1000</span> <span class="n">sys</span><span class="o">.</span><span class="n">audit</span><span class="p">(</span><span class="s2">&quot;http.client.connect&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1001</span> <span class="bp">self</span><span class="o">.</span><span class="n">sock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_connection</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1002</span>     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_address</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1003</span> <span class="c1"># Might fail in OSs that don&#39;t implement TCP_NODELAY</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1041,</span> in <span class="ni">SSLSocket._create</span><span class="nt">(cls, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, context, session)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1040</span>                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;do_handshake_on_connect should not be specified for non-blocking sockets&quot;</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1041</span>             <span class="bp">self</span><span class="o">.</span><span class="n">do_handshake</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1042</span> <span class="k">except</span><span class="p">:</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socket.py:841,</span> in <span class="ni">create_connection</span><span class="nt">(address, timeout, source_address, all_errors)</span>
+<span class="g g-Whitespace">    </span><span class="mi">840</span> <span class="n">exceptions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">841</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">842</span>     <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1319,</span> in <span class="ni">SSLSocket.do_handshake</span><span class="nt">(self, block)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1318</span>         <span class="bp">self</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1319</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_sslobj</span><span class="o">.</span><span class="n">do_handshake</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1320</span> <span class="k">finally</span><span class="p">:</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socket.py:976,</span> in <span class="ni">getaddrinfo</span><span class="nt">(host, port, family, type, proto, flags)</span>
+<span class="g g-Whitespace">    </span><span class="mi">975</span> <span class="n">addrlist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">976</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">_socket</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">977</span>     <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
 
-<span class="ne">SSLCertVerificationError</span>: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1000)
+<span class="ne">gaierror</span>: [Errno 8] nodename nor servname provided, or not known
 
 <span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
 
@@ -643,7 +639,7 @@
 <span class="g g-Whitespace">   </span><span class="mi">1348</span>     <span class="n">r</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span>
 <span class="g g-Whitespace">   </span><span class="mi">1349</span> <span class="k">except</span><span class="p">:</span>
 
-<span class="ne">URLError</span>: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1000)&gt;
+<span class="ne">URLError</span>: &lt;urlopen error [Errno 8] nodename nor servname provided, or not known&gt;
 </pre></div>
 </div>
 </div>

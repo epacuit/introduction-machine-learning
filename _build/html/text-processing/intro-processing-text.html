@@ -1,0 +1,1216 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Encoding Text &#8212; A Gentle Introduction to Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'text-processing/intro-processing-text';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Encoding Text - Using Predefined Word Embeddings" href="intro-processing-text-word-embeddings.html" />
+    <link rel="prev" title="Recurrent Neural Networks (RNNs)" href="introduction-rnn.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">A Gentle Introduction to Machine Learning</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Course Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/jupyter.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/colab.html">Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/github.html">GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Crash Course in Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/python-essentials.html">Python Essentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial1.html">Tutorial 1: Introduction to Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial2.html">Tutorial 2: Reading CSV files</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/pitfalls.html">Thinking in Python: Key Concepts and Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/classes.html">Classes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">First Steps in Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/intro-numpy.html">A Brief Introduction to Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial4.html">Tutorial 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification.html">Introduction to Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification-algorithms.html">Finding a Decision Boundary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial5.html">Tutorial 5: Linear Classifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/gradient-descent.html">Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../classification/beyond-linear-classification.html">Beyond Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/binary-cross-entropy.html">Loss Functions for Binary Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-reviews.html">Example: Classifying Movie Reviews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-multiclass-classification.html">Example: Multiclass Classification Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-digits.html">Example: Classifying Digits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/midterm_notebook.html">Midterm Project</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression/introduction-regression.html">Regression Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/example-predicting-house-prices.html">Example: Predicting House Prices</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/example-classifying-dogs-vs-cats.html">Example: Classifying Images - Dogs vs. Cats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/feature-extraction.html">Using Pretrained Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial6_release.html">CIFAR-10 CNN Assignment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topics in Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/overfitting.html">Overfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/gpu-vs-cpu.html">GPU vs. CPU</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="encoding-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Ftext-processing/intro-processing-text.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/text-processing/intro-processing-text.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Encoding Text</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-movie-reviews-dataset">Download Movie Reviews Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-text-bag-of-words">Encoding Text - Bag of Words</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bigram-encoding">Bigram Encoding</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p>(word-encodings=)</p>
+<section class="tex2jax_ignore mathjax_ignore" id="encoding-text">
+<h1>Encoding Text<a class="headerlink" href="#encoding-text" title="Link to this heading">#</a></h1>
+<section id="download-movie-reviews-dataset">
+<h2>Download Movie Reviews Dataset<a class="headerlink" href="#download-movie-reviews-dataset" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!curl -O https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz </span>
+<span class="c1">#!tar -xf aclImdb_v1.tar.gz</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>rm<span class="w"> </span>-r<span class="w"> </span>aclImdb/train/unsup
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rm: aclImdb/train/unsup: No such file or directory
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">pathlib</span><span class="o">,</span> <span class="nn">shutil</span><span class="o">,</span> <span class="nn">random</span>
+
+<span class="n">base_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;aclImdb&quot;</span><span class="p">)</span> 
+<span class="n">val_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;val&quot;</span> 
+<span class="n">train_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;train&quot;</span> 
+
+<span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;neg&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">val_dir</span> <span class="o">/</span> <span class="n">category</span><span class="p">)</span> 
+    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">train_dir</span> <span class="o">/</span> <span class="n">category</span><span class="p">)</span> 
+    <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">1337</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> 
+    <span class="n">num_val_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
+
+<span class="n">val_files</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="o">-</span><span class="n">num_val_samples</span><span class="p">:]</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">val_files</span><span class="p">:</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">train_dir</span> <span class="o">/</span> <span class="n">category</span> <span class="o">/</span> <span class="n">fname</span><span class="p">,</span> <span class="n">val_dir</span> <span class="o">/</span> <span class="n">category</span> <span class="o">/</span> <span class="n">fname</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;neg&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">val_dir</span> <span class="o">/</span> <span class="n">category</span><span class="p">)</span> 
+<span class="ne">----&gt; </span><span class="mi">9</span>     <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">train_dir</span> <span class="o">/</span> <span class="n">category</span><span class="p">)</span> 
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">1337</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> 
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">num_val_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;aclImdb/train/neg&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span> 
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">text_dataset_from_directory</span><span class="p">(</span> <span class="s2">&quot;aclImdb/train&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span> <span class="p">)</span> 
+
+<span class="n">val_ds</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">text_dataset_from_directory</span><span class="p">(</span><span class="s2">&quot;aclImdb/val&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span> <span class="p">)</span> 
+
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">text_dataset_from_directory</span><span class="p">(</span><span class="s2">&quot;aclImdb/test&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found 22500 files belonging to 2 classes.
+Found 2500 files belonging to 2 classes.
+Found 25000 files belonging to 2 classes.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">train_ds</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;inputs.shape:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;inputs.dtype:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets.shape:&quot;</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets.dtype:&quot;</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;inputs[0]:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets[0]:&quot;</span><span class="p">,</span> <span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>inputs.shape: (32,)
+inputs.dtype: &lt;dtype: &#39;string&#39;&gt;
+targets.shape: (32,)
+targets.dtype: &lt;dtype: &#39;int32&#39;&gt;
+inputs[0]: tf.Tensor(b&#39;While &quot;Santa Claus Conquers the Martians&quot; is usually cited as one of the worse films ever made, this Mexican-made film from 1959 is so bad it makes &quot;SCCM&quot; look like &quot;It\&#39;s a Wonderful Life.&quot; You have to wonder what the people who made this film were thinking; perhaps they meant it as a third-world allegory about capitalist greed and conspicuous consumption. Nah . . . They just weren\&#39;t very good. The same production company made an even more disturbing version of &quot;Little Red Riding Hood&quot; in which the wolf\&#39;s obsession with our heroine has unmistakable hints of pedophilia. (Perhaps this was the inspiration for &quot;Freeway.&quot;) Back to &quot;Santa Claus&quot;: instead of the North Pole, Jolly Old Saint Nicholas resides in a satellite in geosynchronous earth orbit (shades of &quot;MST3K&quot;); instead of elves his toys are made by children chosen from around the world; and he had sophisticated spy equipment to check just which kids are naughty and nice. The result is like an Orwellian outer space sweat shop. It\&#39;s enough to turn you off Christmas forever. This and other low-rent Mexican children\&#39;s\&#39; films were dubbed in English and widely distributed in the U.S. in the early 1960s; no wonder the sixties became such a turbulent period in American history. The baby boomers who were forced to endure these &quot;family&quot; films as children would be all too eager to turn revolutionary.&#39;, shape=(), dtype=string)
+targets[0]: tf.Tensor(0, shape=(), dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="encoding-text-bag-of-words">
+<h2>Encoding Text - Bag of Words<a class="headerlink" href="#encoding-text-bag-of-words" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">TextVectorization</span>
+
+<span class="n">text_vectorization</span> <span class="o">=</span> <span class="n">TextVectorization</span><span class="p">(</span> 
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span>
+    <span class="n">output_mode</span><span class="o">=</span><span class="s2">&quot;multi_hot&quot;</span><span class="p">,</span>
+<span class="p">)</span> 
+<span class="n">text_only_train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span> 
+<span class="n">text_vectorization</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">text_only_train_ds</span><span class="p">)</span>
+
+<span class="n">binary_1gram_train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+<span class="n">binary_1gram_val_ds</span> <span class="o">=</span> <span class="n">val_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+<span class="n">binary_1gram_test_ds</span> <span class="o">=</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">binary_1gram_train_ds</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;inputs.shape:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;inputs.dtype:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets.shape:&quot;</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets.dtype:&quot;</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;inputs[0]:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;targets[0]:&quot;</span><span class="p">,</span> <span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>inputs.shape: (32, 20000)
+inputs.dtype: &lt;dtype: &#39;float32&#39;&gt;
+targets.shape: (32,)
+targets.dtype: &lt;dtype: &#39;int32&#39;&gt;
+inputs[0]: tf.Tensor([1. 1. 1. ... 0. 0. 0.], shape=(20000,), dtype=float32)
+targets[0]: tf.Tensor(1, shape=(), dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span> 
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
+
+<span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">max_tokens</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">):</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">max_tokens</span><span class="p">,))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span>
+        <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span> 
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
+        <span class="s2">&quot;binary_1gram.weights.h5&quot;</span><span class="p">,</span>   <span class="c1"># any filename; .h5 is conventional</span>
+        <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">save_weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># &lt;—  key line</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># 3.  Fit</span>
+<span class="c1"># --------------------------------------------------</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">binary_1gram_train_ds</span><span class="o">.</span><span class="n">cache</span><span class="p">(),</span>
+    <span class="n">validation_data</span><span class="o">=</span><span class="n">binary_1gram_val_ds</span><span class="o">.</span><span class="n">cache</span><span class="p">(),</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span>
+<span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># 4.  Reload the best weights into an *identical* model</span>
+<span class="c1"># --------------------------------------------------</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">clone_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>      <span class="c1"># architecture only</span>
+<span class="n">best_model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>                              <span class="c1"># ← compile it</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+    <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">best_model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s2">&quot;binary_1gram.weights.h5&quot;</span><span class="p">)</span>  <span class="c1"># load the saved weights</span>
+
+<span class="c1"># Now it&#39;s ready for evaluation</span>
+<span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">binary_1gram_test_ds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test acc: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_8&quot;
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_9 (InputLayer)        [(None, 20000)]           0         
+                                                                 
+ dense_15 (Dense)            (None, 16)                320016    
+                                                                 
+ dropout_8 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_16 (Dense)            (None, 1)                 17        
+                                                                 
+=================================================================
+Total params: 320033 (1.22 MB)
+Trainable params: 320033 (1.22 MB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
+678/704 [===========================&gt;..] - ETA: 0s - loss: 0.3946 - accuracy: 0.8347
+Epoch 1: val_loss improved from inf to 0.34251, saving model to binary_1gram.weights.h5
+704/704 [==============================] - 2s 2ms/step - loss: 0.3926 - accuracy: 0.8362 - val_loss: 0.3425 - val_accuracy: 0.8616
+Epoch 2/10
+678/704 [===========================&gt;..] - ETA: 0s - loss: 0.2724 - accuracy: 0.8993
+Epoch 2: val_loss improved from 0.34251 to 0.31518, saving model to binary_1gram.weights.h5
+704/704 [==============================] - 1s 2ms/step - loss: 0.2727 - accuracy: 0.8995 - val_loss: 0.3152 - val_accuracy: 0.8752
+Epoch 3/10
+701/704 [============================&gt;.] - ETA: 0s - loss: 0.2479 - accuracy: 0.9125
+Epoch 3: val_loss did not improve from 0.31518
+704/704 [==============================] - 1s 2ms/step - loss: 0.2479 - accuracy: 0.9123 - val_loss: 0.3394 - val_accuracy: 0.8748
+Epoch 4/10
+681/704 [============================&gt;.] - ETA: 0s - loss: 0.2393 - accuracy: 0.9184
+Epoch 4: val_loss did not improve from 0.31518
+704/704 [==============================] - 1s 1ms/step - loss: 0.2392 - accuracy: 0.9186 - val_loss: 0.3386 - val_accuracy: 0.8736
+Epoch 5/10
+675/704 [===========================&gt;..] - ETA: 0s - loss: 0.2339 - accuracy: 0.9240
+Epoch 5: val_loss did not improve from 0.31518
+704/704 [==============================] - 1s 1ms/step - loss: 0.2342 - accuracy: 0.9238 - val_loss: 0.3817 - val_accuracy: 0.8508
+Epoch 6/10
+702/704 [============================&gt;.] - ETA: 0s - loss: 0.2284 - accuracy: 0.9250
+Epoch 6: val_loss did not improve from 0.31518
+704/704 [==============================] - 1s 1ms/step - loss: 0.2284 - accuracy: 0.9251 - val_loss: 0.3867 - val_accuracy: 0.8540
+Epoch 7/10
+689/704 [============================&gt;.] - ETA: 0s - loss: 0.2271 - accuracy: 0.9281
+Epoch 7: val_loss did not improve from 0.31518
+704/704 [==============================] - 1s 1ms/step - loss: 0.2276 - accuracy: 0.9279 - val_loss: 0.3691 - val_accuracy: 0.8580
+Epoch 8/10
+673/704 [===========================&gt;..] - ETA: 0s - loss: 0.2321 - accuracy: 0.9272
+Epoch 8: val_loss did not improve from 0.31518
+704/704 [==============================] - 1s 1ms/step - loss: 0.2318 - accuracy: 0.9276 - val_loss: 0.3486 - val_accuracy: 0.8752
+Epoch 9/10
+674/704 [===========================&gt;..] - ETA: 0s - loss: 0.2208 - accuracy: 0.9325
+Epoch 9: val_loss did not improve from 0.31518
+704/704 [==============================] - 1s 1ms/step - loss: 0.2218 - accuracy: 0.9325 - val_loss: 0.3940 - val_accuracy: 0.8488
+Epoch 10/10
+693/704 [============================&gt;.] - ETA: 0s - loss: 0.2232 - accuracy: 0.9332
+Epoch 10: val_loss did not improve from 0.31518
+704/704 [==============================] - 1s 2ms/step - loss: 0.2233 - accuracy: 0.9329 - val_loss: 0.4039 - val_accuracy: 0.8384
+782/782 [==============================] - 1s 1ms/step - loss: 0.2962 - accuracy: 0.8849
+Test acc: 0.885
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bigram-encoding">
+<h2>Bigram Encoding<a class="headerlink" href="#bigram-encoding" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_vectorization</span> <span class="o">=</span> <span class="n">TextVectorization</span><span class="p">(</span> 
+    <span class="n">ngrams</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span>
+    <span class="n">output_mode</span><span class="o">=</span><span class="s2">&quot;multi_hot&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_vectorization</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">text_only_train_ds</span><span class="p">)</span> 
+<span class="n">binary_2gram_train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+<span class="n">binary_2gram_val_ds</span> <span class="o">=</span> <span class="n">val_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+<span class="n">binary_2gram_test_ds</span> <span class="o">=</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span> 
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span> 
+
+<span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
+        <span class="s2">&quot;binary_2gram.weights.h5&quot;</span><span class="p">,</span>   <span class="c1"># any filename; .h5 is conventional</span>
+        <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">save_weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># &lt;—  key line</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># 3.  Fit</span>
+<span class="c1"># --------------------------------------------------</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">binary_2gram_train_ds</span><span class="o">.</span><span class="n">cache</span><span class="p">(),</span>
+    <span class="n">validation_data</span><span class="o">=</span><span class="n">binary_2gram_val_ds</span><span class="o">.</span><span class="n">cache</span><span class="p">(),</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span>
+<span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># 4.  Reload the best weights into an *identical* model</span>
+<span class="c1"># --------------------------------------------------</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">clone_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>      <span class="c1"># architecture only</span>
+<span class="n">best_model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>                              <span class="c1"># ← compile it</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+    <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">best_model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s2">&quot;binary_2gram.weights.h5&quot;</span><span class="p">)</span>  <span class="c1"># load the saved weights</span>
+
+<span class="c1"># Now it&#39;s ready for evaluation</span>
+<span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">binary_2gram_test_ds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test acc: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_9&quot;
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_10 (InputLayer)       [(None, 20000)]           0         
+                                                                 
+ dense_17 (Dense)            (None, 16)                320016    
+                                                                 
+ dropout_9 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_18 (Dense)            (None, 1)                 17        
+                                                                 
+=================================================================
+Total params: 320033 (1.22 MB)
+Trainable params: 320033 (1.22 MB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+Epoch 1/10
+676/704 [===========================&gt;..] - ETA: 0s - loss: 0.3785 - accuracy: 0.8450
+Epoch 1: val_loss improved from inf to 0.27960, saving model to binary_2gram.weights.h5
+704/704 [==============================] - 2s 2ms/step - loss: 0.3765 - accuracy: 0.8460 - val_loss: 0.2796 - val_accuracy: 0.8964
+Epoch 2/10
+703/704 [============================&gt;.] - ETA: 0s - loss: 0.2458 - accuracy: 0.9152
+Epoch 2: val_loss improved from 0.27960 to 0.27515, saving model to binary_2gram.weights.h5
+704/704 [==============================] - 1s 2ms/step - loss: 0.2458 - accuracy: 0.9152 - val_loss: 0.2751 - val_accuracy: 0.8940
+Epoch 3/10
+687/704 [============================&gt;.] - ETA: 0s - loss: 0.2149 - accuracy: 0.9312
+Epoch 3: val_loss did not improve from 0.27515
+704/704 [==============================] - 1s 2ms/step - loss: 0.2141 - accuracy: 0.9310 - val_loss: 0.2782 - val_accuracy: 0.8984
+Epoch 4/10
+687/704 [============================&gt;.] - ETA: 0s - loss: 0.2002 - accuracy: 0.9368
+Epoch 4: val_loss did not improve from 0.27515
+704/704 [==============================] - 1s 2ms/step - loss: 0.1994 - accuracy: 0.9369 - val_loss: 0.3293 - val_accuracy: 0.8780
+Epoch 5/10
+686/704 [============================&gt;.] - ETA: 0s - loss: 0.1919 - accuracy: 0.9427
+Epoch 5: val_loss did not improve from 0.27515
+704/704 [==============================] - 1s 2ms/step - loss: 0.1912 - accuracy: 0.9428 - val_loss: 0.2993 - val_accuracy: 0.8912
+Epoch 6/10
+689/704 [============================&gt;.] - ETA: 0s - loss: 0.1911 - accuracy: 0.9443
+Epoch 6: val_loss did not improve from 0.27515
+704/704 [==============================] - 1s 2ms/step - loss: 0.1906 - accuracy: 0.9442 - val_loss: 0.3911 - val_accuracy: 0.8548
+Epoch 7/10
+699/704 [============================&gt;.] - ETA: 0s - loss: 0.1905 - accuracy: 0.9447
+Epoch 7: val_loss did not improve from 0.27515
+704/704 [==============================] - 1s 2ms/step - loss: 0.1908 - accuracy: 0.9444 - val_loss: 0.3444 - val_accuracy: 0.8704
+Epoch 8/10
+672/704 [===========================&gt;..] - ETA: 0s - loss: 0.1870 - accuracy: 0.9464
+Epoch 8: val_loss did not improve from 0.27515
+704/704 [==============================] - 1s 2ms/step - loss: 0.1865 - accuracy: 0.9460 - val_loss: 0.3417 - val_accuracy: 0.8692
+Epoch 9/10
+676/704 [===========================&gt;..] - ETA: 0s - loss: 0.1831 - accuracy: 0.9481
+Epoch 9: val_loss did not improve from 0.27515
+704/704 [==============================] - 1s 2ms/step - loss: 0.1816 - accuracy: 0.9478 - val_loss: 0.3404 - val_accuracy: 0.8648
+Epoch 10/10
+688/704 [============================&gt;.] - ETA: 0s - loss: 0.1892 - accuracy: 0.9481
+Epoch 10: val_loss did not improve from 0.27515
+704/704 [==============================] - 1s 2ms/step - loss: 0.1881 - accuracy: 0.9481 - val_loss: 0.3599 - val_accuracy: 0.8524
+782/782 [==============================] - 1s 1ms/step - loss: 0.2694 - accuracy: 0.9012
+Test acc: 0.901
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_vectorization</span> <span class="o">=</span> <span class="n">TextVectorization</span><span class="p">(</span> 
+    <span class="n">ngrams</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+      <span class="n">max_tokens</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span>
+      <span class="n">output_mode</span><span class="o">=</span><span class="s2">&quot;tf_idf&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_vectorization</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">text_only_train_ds</span><span class="p">)</span>
+
+<span class="n">tfidf_2gram_train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+<span class="n">tfidf_2gram_val_ds</span> <span class="o">=</span> <span class="n">val_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+<span class="n">tfidf_2gram_test_ds</span> <span class="o">=</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span> 
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
+        <span class="s2">&quot;tfidf_2gram.weights.h5&quot;</span><span class="p">,</span>   <span class="c1"># any filename; .h5 is conventional</span>
+        <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">save_weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># &lt;—  key line</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># 3.  Fit</span>
+<span class="c1"># --------------------------------------------------</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">tfidf_2gram_train_ds</span><span class="o">.</span><span class="n">cache</span><span class="p">(),</span>
+    <span class="n">validation_data</span><span class="o">=</span><span class="n">tfidf_2gram_val_ds</span><span class="o">.</span><span class="n">cache</span><span class="p">(),</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span>
+<span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># 4.  Reload the best weights into an *identical* model</span>
+<span class="c1"># --------------------------------------------------</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">clone_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>      <span class="c1"># architecture only</span>
+<span class="n">best_model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>                              <span class="c1"># ← compile it</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+    <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">best_model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s2">&quot;tfidf_2gram.weights.h5&quot;</span><span class="p">)</span>  <span class="c1"># load the saved weights</span>
+
+<span class="c1"># Now it&#39;s ready for evaluation</span>
+<span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">tfidf_2gram_test_ds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test acc: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_10&quot;
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_11 (InputLayer)       [(None, 20000)]           0         
+                                                                 
+ dense_19 (Dense)            (None, 16)                320016    
+                                                                 
+ dropout_10 (Dropout)        (None, 16)                0         
+                                                                 
+ dense_20 (Dense)            (None, 1)                 17        
+                                                                 
+=================================================================
+Total params: 320033 (1.22 MB)
+Trainable params: 320033 (1.22 MB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+Epoch 1/10
+703/704 [============================&gt;.] - ETA: 0s - loss: 0.4872 - accuracy: 0.7948
+Epoch 1: val_loss improved from inf to 0.25396, saving model to tfidf_2gram.weights.h5
+704/704 [==============================] - 2s 2ms/step - loss: 0.4872 - accuracy: 0.7948 - val_loss: 0.2540 - val_accuracy: 0.9292
+Epoch 2/10
+696/704 [============================&gt;.] - ETA: 0s - loss: 0.3318 - accuracy: 0.8618
+Epoch 2: val_loss improved from 0.25396 to 0.23088, saving model to tfidf_2gram.weights.h5
+704/704 [==============================] - 1s 2ms/step - loss: 0.3311 - accuracy: 0.8623 - val_loss: 0.2309 - val_accuracy: 0.9356
+Epoch 3/10
+678/704 [===========================&gt;..] - ETA: 0s - loss: 0.3021 - accuracy: 0.8740
+Epoch 3: val_loss improved from 0.23088 to 0.22145, saving model to tfidf_2gram.weights.h5
+704/704 [==============================] - 1s 2ms/step - loss: 0.3038 - accuracy: 0.8731 - val_loss: 0.2214 - val_accuracy: 0.9580
+Epoch 4/10
+685/704 [============================&gt;.] - ETA: 0s - loss: 0.2775 - accuracy: 0.8860
+Epoch 4: val_loss did not improve from 0.22145
+704/704 [==============================] - 1s 2ms/step - loss: 0.2775 - accuracy: 0.8854 - val_loss: 0.2587 - val_accuracy: 0.8944
+Epoch 5/10
+681/704 [============================&gt;.] - ETA: 0s - loss: 0.2542 - accuracy: 0.8970
+Epoch 5: val_loss did not improve from 0.22145
+704/704 [==============================] - 1s 2ms/step - loss: 0.2537 - accuracy: 0.8963 - val_loss: 0.3549 - val_accuracy: 0.8544
+Epoch 6/10
+677/704 [===========================&gt;..] - ETA: 0s - loss: 0.2467 - accuracy: 0.9000
+Epoch 6: val_loss did not improve from 0.22145
+704/704 [==============================] - 1s 2ms/step - loss: 0.2463 - accuracy: 0.8994 - val_loss: 0.3698 - val_accuracy: 0.8564
+Epoch 7/10
+688/704 [============================&gt;.] - ETA: 0s - loss: 0.2355 - accuracy: 0.9038
+Epoch 7: val_loss did not improve from 0.22145
+704/704 [==============================] - 1s 2ms/step - loss: 0.2352 - accuracy: 0.9035 - val_loss: 0.3385 - val_accuracy: 0.8724
+Epoch 8/10
+680/704 [===========================&gt;..] - ETA: 0s - loss: 0.2304 - accuracy: 0.9051
+Epoch 8: val_loss did not improve from 0.22145
+704/704 [==============================] - 1s 2ms/step - loss: 0.2308 - accuracy: 0.9042 - val_loss: 0.4323 - val_accuracy: 0.8120
+Epoch 9/10
+687/704 [============================&gt;.] - ETA: 0s - loss: 0.2299 - accuracy: 0.9062
+Epoch 9: val_loss did not improve from 0.22145
+704/704 [==============================] - 1s 2ms/step - loss: 0.2294 - accuracy: 0.9060 - val_loss: 0.3392 - val_accuracy: 0.8636
+Epoch 10/10
+703/704 [============================&gt;.] - ETA: 0s - loss: 0.2314 - accuracy: 0.9046
+Epoch 10: val_loss did not improve from 0.22145
+704/704 [==============================] - 1s 2ms/step - loss: 0.2314 - accuracy: 0.9046 - val_loss: 0.3469 - val_accuracy: 0.8492
+782/782 [==============================] - 1s 1ms/step - loss: 0.3344 - accuracy: 0.8503
+Test acc: 0.850
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
+
+<span class="n">max_length</span> <span class="o">=</span> <span class="mi">600</span> 
+<span class="n">max_tokens</span> <span class="o">=</span> <span class="mi">20000</span> 
+<span class="n">text_vectorization</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">TextVectorization</span><span class="p">(</span> <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span><span class="p">,</span>
+                                              <span class="n">output_mode</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">,</span>
+                                              <span class="n">output_sequence_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">,</span>
+
+<span class="p">)</span> 
+
+<span class="n">text_vectorization</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">text_only_train_ds</span><span class="p">)</span>
+
+<span class="n">int_train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">int_val_ds</span> <span class="o">=</span> <span class="n">val_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+<span class="n">int_test_ds</span> <span class="o">=</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span> 
+<span class="n">embedded</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">max_tokens</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span> 
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Bidirectional</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">32</span><span class="p">))(</span><span class="n">embedded</span><span class="p">)</span> 
+<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span>
+              <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+
+<span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
+        <span class="s2">&quot;embeddings_bidir_gru.weights.h5&quot;</span><span class="p">,</span>   <span class="c1"># any filename; .h5 is conventional</span>
+        <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">save_weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># &lt;—  key line</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">int_train_ds</span><span class="p">,</span> 
+    <span class="n">validation_data</span><span class="o">=</span><span class="n">int_val_ds</span><span class="p">,</span> 
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span> 
+
+
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">clone_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>      <span class="c1"># architecture only</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span>
+              <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+<span class="n">best_model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s2">&quot;embeddings_bidir_gru.weights.h5&quot;</span><span class="p">)</span>  <span class="c1"># load the saved weights</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test acc: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">int_test_ds</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_13&quot;
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_14 (InputLayer)       [(None, None)]            0         
+                                                                 
+ embedding_3 (Embedding)     (None, None, 256)         5120000   
+                                                                 
+ bidirectional_3 (Bidirecti  (None, 64)                73984     
+ onal)                                                           
+                                                                 
+ dropout_13 (Dropout)        (None, 64)                0         
+                                                                 
+ dense_23 (Dense)            (None, 1)                 65        
+                                                                 
+=================================================================
+Total params: 5194049 (19.81 MB)
+Trainable params: 5194049 (19.81 MB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+Epoch 1/10
+704/704 [==============================] - ETA: 0s - loss: 0.4665 - accuracy: 0.7878
+Epoch 1: val_loss improved from inf to 0.24510, saving model to embeddings_bidir_gru.weights.h5
+704/704 [==============================] - 148s 208ms/step - loss: 0.4665 - accuracy: 0.7878 - val_loss: 0.2451 - val_accuracy: 0.9112
+Epoch 2/10
+704/704 [==============================] - ETA: 0s - loss: 0.2978 - accuracy: 0.8905
+Epoch 2: val_loss did not improve from 0.24510
+704/704 [==============================] - 147s 209ms/step - loss: 0.2978 - accuracy: 0.8905 - val_loss: 0.4216 - val_accuracy: 0.8416
+Epoch 3/10
+704/704 [==============================] - ETA: 0s - loss: 0.2379 - accuracy: 0.9172
+Epoch 3: val_loss improved from 0.24510 to 0.10876, saving model to embeddings_bidir_gru.weights.h5
+704/704 [==============================] - 146s 208ms/step - loss: 0.2379 - accuracy: 0.9172 - val_loss: 0.1088 - val_accuracy: 0.9572
+Epoch 4/10
+704/704 [==============================] - ETA: 0s - loss: 0.2041 - accuracy: 0.9292
+Epoch 4: val_loss did not improve from 0.10876
+704/704 [==============================] - 143s 203ms/step - loss: 0.2041 - accuracy: 0.9292 - val_loss: 0.4245 - val_accuracy: 0.8584
+Epoch 5/10
+704/704 [==============================] - ETA: 0s - loss: 0.1731 - accuracy: 0.9421
+Epoch 5: val_loss did not improve from 0.10876
+704/704 [==============================] - 143s 202ms/step - loss: 0.1731 - accuracy: 0.9421 - val_loss: 0.8105 - val_accuracy: 0.7728
+Epoch 6/10
+704/704 [==============================] - ETA: 0s - loss: 0.1411 - accuracy: 0.9546
+Epoch 6: val_loss did not improve from 0.10876
+704/704 [==============================] - 143s 203ms/step - loss: 0.1411 - accuracy: 0.9546 - val_loss: 0.3019 - val_accuracy: 0.8900
+Epoch 7/10
+704/704 [==============================] - ETA: 0s - loss: 0.1215 - accuracy: 0.9620
+Epoch 7: val_loss did not improve from 0.10876
+704/704 [==============================] - 142s 202ms/step - loss: 0.1215 - accuracy: 0.9620 - val_loss: 0.4381 - val_accuracy: 0.8600
+Epoch 8/10
+704/704 [==============================] - ETA: 0s - loss: 0.0990 - accuracy: 0.9690
+Epoch 8: val_loss did not improve from 0.10876
+704/704 [==============================] - 143s 203ms/step - loss: 0.0990 - accuracy: 0.9690 - val_loss: 0.3779 - val_accuracy: 0.8884
+Epoch 9/10
+704/704 [==============================] - ETA: 0s - loss: 0.0913 - accuracy: 0.9712
+Epoch 9: val_loss did not improve from 0.10876
+704/704 [==============================] - 141s 200ms/step - loss: 0.0913 - accuracy: 0.9712 - val_loss: 0.7051 - val_accuracy: 0.8316
+Epoch 10/10
+704/704 [==============================] - ETA: 0s - loss: 0.0742 - accuracy: 0.9766
+Epoch 10: val_loss did not improve from 0.10876
+704/704 [==============================] - 150s 213ms/step - loss: 0.0742 - accuracy: 0.9766 - val_loss: 0.4826 - val_accuracy: 0.8900
+782/782 [==============================] - 113s 144ms/step - loss: 0.5789 - accuracy: 0.8614
+Test acc: 0.861
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./text-processing"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction-rnn.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Recurrent Neural Networks (RNNs)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="intro-processing-text-word-embeddings.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Encoding Text - Using Predefined Word Embeddings</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-movie-reviews-dataset">Download Movie Reviews Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-text-bag-of-words">Encoding Text - Bag of Words</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bigram-encoding">Bigram Encoding</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Eric Pacuit
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
