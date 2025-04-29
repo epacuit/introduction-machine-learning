@@ -54,7 +54,12 @@ parts:
     
 - caption: Natural Language Processing
   chapters:
-    - file: text-processing/encoding-text
+    - file: text-processing/word-embedding
     - file: text-processing/introduction-rnn
     - file: text-processing/intro-processing-text
     - file: text-processing/intro-processing-text-word-embeddings
+    - file: tutorials/tutorial7_release
+- caption: Introduction to Transformers
+  chapters:
+    - file: introduction-transformers/intro-self-attention
+    - file: text-processing/mini-gpt

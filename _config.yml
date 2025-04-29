@@ -7,8 +7,13 @@ logo:
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
-execute:
-  execute_notebooks: force
+execution:
+  timeout: 120
+  exclude_patterns:
+    - "**/text-processing/*.ipynb"
+    - "**/introduction-transformers/*.ipynb"
+    - "**/topics-machine-learning/gpu-vs-cpu.ipynb"
+    - "**/tutorials/*.ipynb"
 
 # Define the name of the latex output file for PDF builds
 latex:

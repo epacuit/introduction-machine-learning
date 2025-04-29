@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -63,6 +63,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'text-processing/intro-processing-text-word-embeddings';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorial 7: Part-of-speech tagging with RNNs" href="../tutorials/tutorial7_release.html" />
     <link rel="prev" title="Encoding Text" href="intro-processing-text.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -218,10 +219,13 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="encoding-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="word-embedding.html">Encoding Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro-processing-text.html">Encoding Text</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Encoding Text - Using Predefined Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial7_release.html">Tutorial 7: Part-of-speech tagging with RNNs</a></li>
+
+
 </ul>
 
     </div>
@@ -430,9 +434,11 @@
 <span id="predefined-word-embeddings"></span><h1>Encoding Text - Using Predefined Word Embeddings<a class="headerlink" href="#encoding-text-using-predefined-word-embeddings" title="Link to this heading">#</a></h1>
 <section id="download-word-embeddings">
 <h2>Download Word Embeddings<a class="headerlink" href="#download-word-embeddings" title="Link to this heading">#</a></h2>
+<p>In this notebook, we will download the GloVe word embeddings and use them to encode text.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!curl -L -o glove.6B.zip https://nlp.stanford.edu/data/glove.6B.zip </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># uncomment to download GloVe embeddings</span>
+<span class="c1">#!curl -L -o glove.6B.zip https://nlp.stanford.edu/data/glove.6B.zip </span>
 <span class="c1">#!unzip -q glove.6B.zip</span>
 </pre></div>
 </div>
@@ -440,7 +446,9 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># assuming you have the GloVe embeddings in the same directory</span>
+<span class="c1"># reading GloVe embeddings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
 
 <span class="n">path_to_glove_file</span> <span class="o">=</span> <span class="s2">&quot;glove.6B.100d.txt&quot;</span>
 
@@ -459,12 +467,12 @@
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">path_to_glove_file</span> <span class="o">=</span> <span class="s2">&quot;glove.6B.100d.txt&quot;</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">embeddings_index</span> <span class="o">=</span> <span class="p">{}</span> 
-<span class="ne">----&gt; </span><span class="mi">7</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_to_glove_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>         <span class="n">word</span><span class="p">,</span> <span class="n">coefs</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">path_to_glove_file</span> <span class="o">=</span> <span class="s2">&quot;glove.6B.100d.txt&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">embeddings_index</span> <span class="o">=</span> <span class="p">{}</span> 
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_to_glove_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>         <span class="n">word</span><span class="p">,</span> <span class="n">coefs</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="nn">File ~/Library/Python/3.12/lib/python/site-packages/IPython/core/interactiveshell.py:324,</span> in <span class="ni">_modified_open</span><span class="nt">(file, *args, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">317</span> <span class="k">if</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}:</span>
@@ -482,7 +490,11 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this code will not work unless you have the impdb movie reviews in </span>
+<span class="c1"># the directory imdb_raw_reviews/train, imdb_raw_reviews/val,</span>
+<span class="c1"># and imdb_raw_reviews/test</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
 <span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
 
 <span class="n">batch_size</span>  <span class="o">=</span> <span class="mi">32</span>
@@ -496,20 +508,20 @@
 <span class="p">)</span>
 
 <span class="c1"># ------------------------------------------------------------</span>
-<span class="c1"># 1 ▶ read the raw text datasets (labelled)</span>
+<span class="c1"># read the raw text datasets (labelled)</span>
 <span class="c1"># ------------------------------------------------------------</span>
 <span class="n">train_ds</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">text_dataset_from_directory</span><span class="p">(</span>
-    <span class="s2">&quot;aclImdb/train&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
+    <span class="s2">&quot;imdb_raw_reviews/train&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
 <span class="p">)</span>
 <span class="n">val_ds</span>   <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">text_dataset_from_directory</span><span class="p">(</span>
-    <span class="s2">&quot;aclImdb/val&quot;</span><span class="p">,</span>   <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
+    <span class="s2">&quot;imdb_raw_reviews/val&quot;</span><span class="p">,</span>   <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
 <span class="p">)</span>
 <span class="n">test_ds</span>  <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">text_dataset_from_directory</span><span class="p">(</span>
-    <span class="s2">&quot;aclImdb/test&quot;</span><span class="p">,</span>  <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
+    <span class="s2">&quot;imdb_raw_reviews/test&quot;</span><span class="p">,</span>  <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
 <span class="p">)</span>
 
 <span class="c1"># ------------------------------------------------------------</span>
-<span class="c1"># 2 ▶ ADAPT the vectoriser on *text only* (no labels)</span>
+<span class="c1"># ADAPT the vectoriser on *text only* (no labels)</span>
 <span class="c1"># ------------------------------------------------------------</span>
 <span class="n">text_only_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>   <span class="c1"># strip labels</span>
 <span class="n">text_vectorization</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">text_only_ds</span><span class="p">)</span>        <span class="c1"># builds the vocabulary</span>
@@ -519,7 +531,7 @@
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Top 10 tokens:&quot;</span><span class="p">,</span> <span class="n">vocabulary</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 
 <span class="c1"># ------------------------------------------------------------</span>
-<span class="c1"># 3 ▶ map datasets to integer sequences</span>
+<span class="c1"># map datasets to integer sequences</span>
 <span class="c1"># ------------------------------------------------------------</span>
 <span class="n">int_train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span>
@@ -547,8 +559,8 @@ Top 10 tokens: [&#39;&#39;, &#39;[UNK]&#39;, &#39;the&#39;, &#39;a&#39;, &#39;an
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embedding_dim</span> <span class="o">=</span> <span class="mi">100</span>
-
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># associate the GloVe embeddings with each token in the vocabulary</span>
+<span class="n">embedding_dim</span> <span class="o">=</span> <span class="mi">100</span>
 
 <span class="n">vocabulary</span> <span class="o">=</span> <span class="n">text_vectorization</span><span class="o">.</span><span class="n">get_vocabulary</span><span class="p">()</span> 
 <span class="n">word_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">vocabulary</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vocabulary</span><span class="p">))))</span>
@@ -566,7 +578,12 @@ Top 10 tokens: [&#39;&#39;, &#39;[UNK]&#39;, &#39;the&#39;, &#39;a&#39;, &#39;an
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># use the GloVe embeddings to learn sentiment analysis for the IMDB dataset</span>
+<span class="c1"># </span>
+
+<span class="c1"># the embedding layer will be initialized with the GloVe embeddings</span>
+<span class="c1"># the embedding layer will not be trainable (i.e. frozen)</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span> 
 
 <span class="n">embedding_layer</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span>
     <span class="n">max_tokens</span><span class="p">,</span> 
@@ -574,6 +591,7 @@ Top 10 tokens: [&#39;&#39;, &#39;[UNK]&#39;, &#39;the&#39;, &#39;a&#39;, &#39;an
     <span class="n">embeddings_initializer</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">initializers</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">embedding_matrix</span><span class="p">),</span>
     <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
     <span class="n">mask_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
 
 <span class="c1"># ----- model definition -------------------------------------------------</span>
 <span class="n">inputs</span>   <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span>
@@ -696,6 +714,15 @@ Test acc: 0.754
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Encoding Text</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="../tutorials/tutorial7_release.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tutorial 7: Part-of-speech tagging with RNNs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

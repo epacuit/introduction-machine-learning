@@ -1,0 +1,1357 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>A First Look at Self-Attention &#8212; A Gentle Introduction to Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'introduciton-transformers/intro-self-attention';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">A Gentle Introduction to Machine Learning</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Course Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/jupyter.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/colab.html">Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/github.html">GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Crash Course in Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/python-essentials.html">Python Essentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial1.html">Tutorial 1: Introduction to Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial2.html">Tutorial 2: Reading CSV files</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/pitfalls.html">Thinking in Python: Key Concepts and Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/classes.html">Classes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">First Steps in Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/intro-numpy.html">A Brief Introduction to Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial4.html">Tutorial 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification.html">Introduction to Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification-algorithms.html">Finding a Decision Boundary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial5.html">Tutorial 5: Linear Classifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/gradient-descent.html">Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../classification/beyond-linear-classification.html">Beyond Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/binary-cross-entropy.html">Loss Functions for Binary Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-reviews.html">Example: Classifying Movie Reviews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-multiclass-classification.html">Example: Multiclass Classification Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-digits.html">Example: Classifying Digits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/midterm_notebook.html">Midterm Project</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression/introduction-regression.html">Regression Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/example-predicting-house-prices.html">Example: Predicting House Prices</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/example-classifying-dogs-vs-cats.html">Example: Classifying Images - Dogs vs. Cats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/feature-extraction.html">Using Pretrained Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial6_release.html">CIFAR-10 CNN Assignment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topics in Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/overfitting.html">Overfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/gpu-vs-cpu.html">GPU vs. CPU</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/word-embedding.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial7_release.html">Tutorial 7: Part-of-speech tagging with RNNs</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Fintroduciton-transformers/intro-self-attention.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/introduciton-transformers/intro-self-attention.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>A First Look at Self-Attention</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-self-attention-helps-with-meaning">Why Self-Attention Helps With Meaning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenise-the-sentence">1. Tokenise the sentence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-attention-scores-conceptually">2. Compute attention scores (conceptually)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sum-of-value-vectors">3. Weighted sum of value vectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">4. Key points</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toy-example-on-the-sentence">Toy Example on the sentence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-weights-from-good-to-every-token">Attention weights <strong>from “good” to every token</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-toy-example-3-word-mini-sentence">A Toy Example (3-word mini-sentence)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-raw-attention-scores">1. Compute the <em>raw</em> attention scores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scale-and-apply-operatorname-softmax-row-wise">2. Scale and apply <span class="math notranslate nohighlight">\(\operatorname{softmax}\)</span> row-wise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sum-of-the-values">3. Weighted sum of the values</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="a-first-look-at-self-attention">
+<h1>A First Look at Self-Attention<a class="headerlink" href="#a-first-look-at-self-attention" title="Link to this heading">#</a></h1>
+<section id="why-self-attention-helps-with-meaning">
+<h2>Why Self-Attention Helps With Meaning<a class="headerlink" href="#why-self-attention-helps-with-meaning" title="Link to this heading">#</a></h2>
+<p>Consider the following review:</p>
+<blockquote>
+<div><p><strong>“The movie was <em>not</em> good, but the soundtrack was amazing.”</strong></p>
+</div></blockquote>
+<p>A simple bag-of-words classifier will see both <em>good</em> and <em>amazing</em> (positive) and probably predict a positive sentiment, missing the negation “not.”</p>
+<p>Self-attention can discover that “not” modifies “good” while leaving “amazing” untouched.</p>
+<section id="tokenise-the-sentence">
+<h3>1. Tokenise the sentence<a class="headerlink" href="#tokenise-the-sentence" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>position</p></th>
+<th class="head"><p>token</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>0</p></td>
+<td><p>The</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>1</p></td>
+<td><p>movie</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>2</p></td>
+<td><p>was</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>3</p></td>
+<td><p><strong>not</strong></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>4</p></td>
+<td><p><strong>good</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>5</p></td>
+<td><p>,</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>6</p></td>
+<td><p>but</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>7</p></td>
+<td><p>the</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>8</p></td>
+<td><p>soundtrack</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>9</p></td>
+<td><p>was</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>10</p></td>
+<td><p><strong>amazing</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>11</p></td>
+<td><p>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each token is mapped to a small vector (embedding).<br />
+For illustration imagine every token is already a 4-D vector.<br />
+The exact numbers are not important; they are learned during training.</p>
+</section>
+<section id="compute-attention-scores-conceptually">
+<h3>2. Compute attention scores (conceptually)<a class="headerlink" href="#compute-attention-scores-conceptually" title="Link to this heading">#</a></h3>
+<p>Focus on the token at position 4, <strong>“good.”</strong></p>
+<ul class="simple">
+<li><p>Query <span class="math notranslate nohighlight">\(q_{good}\)</span> is compared with every key <span class="math notranslate nohighlight">\(k_j\)</span>.</p></li>
+<li><p>Large dot products mean higher relevance.</p></li>
+<li><p>After scaling and the softmax, we obtain a <strong>weight</strong> for each other token.</p></li>
+</ul>
+<p>Suppose the softmax gives (rounded):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>key token <span class="math notranslate nohighlight">\(j\)</span></p></th>
+<th class="head"><p>weight <span class="math notranslate nohighlight">\(w_{4j}\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>The</p></td>
+<td><p>0.01</p></td>
+</tr>
+<tr class="row-odd"><td><p>movie</p></td>
+<td><p>0.02</p></td>
+</tr>
+<tr class="row-even"><td><p>was (1st)</p></td>
+<td><p>0.03</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>not</strong></p></td>
+<td><p><strong>0.55</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>good</strong></p></td>
+<td><p>0.10</p></td>
+</tr>
+<tr class="row-odd"><td><p>,</p></td>
+<td><p>0.02</p></td>
+</tr>
+<tr class="row-even"><td><p>but</p></td>
+<td><p>0.05</p></td>
+</tr>
+<tr class="row-odd"><td><p>the</p></td>
+<td><p>0.02</p></td>
+</tr>
+<tr class="row-even"><td><p>soundtrack</p></td>
+<td><p>0.03</p></td>
+</tr>
+<tr class="row-odd"><td><p>was (2nd)</p></td>
+<td><p>0.05</p></td>
+</tr>
+<tr class="row-even"><td><p>amazing</p></td>
+<td><p>0.11</p></td>
+</tr>
+<tr class="row-odd"><td><p>.</p></td>
+<td><p>0.01</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>The model assigns more than half of the total weight to “not,” capturing the local negation, and a moderate share to “amazing,” which influences the overall sentiment.</em></p>
+</section>
+<section id="weighted-sum-of-value-vectors">
+<h3>3. Weighted sum of value vectors<a class="headerlink" href="#weighted-sum-of-value-vectors" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{output}(\text{good})
+      =\sum_{j=0}^{11} w_{4j}\,v_j .
+\]</div>
+<p>Because <span class="math notranslate nohighlight">\(w_{4,3}=0.55\)</span> is large, the output vector encodes that <strong>“good” is negated</strong>.</p>
+<p>Later layers (or a classifier head) can use this context-rich vector to predict a negative contribution from <em>“not good,”</em> while recognising the strong positive signal from <em>“amazing.”</em></p>
+</section>
+<section id="key-points">
+<h3>4. Key points<a class="headerlink" href="#key-points" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Context matters.</strong> Self-attention lets every token look at the entire sentence, so “not” can influence “good.”</p></li>
+<li><p><strong>Parallel computation.</strong> Unlike an RNN, all tokens are processed at once, which is faster and handles long sentences gracefully.</p></li>
+<li><p><strong>Dynamic meaning.</strong> The same word can mean something different in another sentence; the attention pattern adapts.</p></li>
+</ul>
+</section>
+</section>
+<section id="toy-example-on-the-sentence">
+<h2>Toy Example on the sentence<a class="headerlink" href="#toy-example-on-the-sentence" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>“The movie was <em>not</em> good, but the soundtrack was amazing.”</strong></p>
+</div></blockquote>
+<ol class="arabic">
+<li><p><strong>Start with an input embedding</strong><br />
+For every token <span class="math notranslate nohighlight">\(i\)</span> in the sentence you have a fixed-size vector<br />
+$<span class="math notranslate nohighlight">\(
+  x_i \in \mathbb{R}^{d_{\text{model}}}.
+\)</span>$</p></li>
+<li><p><strong>Project that same vector three different ways</strong><br />
+The self-attention layer contains three trainable weight matrices<br />
+<span class="math notranslate nohighlight">\(W_Q,\,W_K,\,W_V \in \mathbb{R}^{d_{\text{model}}\times d_k}\)</span>.
+It computes<br />
+$<span class="math notranslate nohighlight">\(
+  q_i = W_Q x_i, \qquad
+  k_i = W_K x_i, \qquad
+  v_i = W_V x_i .
+\)</span>$</p></li>
+<li><p><strong>Interpretation</strong></p>
+<ul class="simple">
+<li><p><strong>Query <span class="math notranslate nohighlight">\(q_i\)</span></strong>: “What am I looking for in the other tokens?”</p></li>
+<li><p><strong>Key <span class="math notranslate nohighlight">\(k_i\)</span></strong>: “How well do I match what others might look for?”</p></li>
+<li><p><strong>Value <span class="math notranslate nohighlight">\(v_i\)</span></strong>: “The information I will contribute if I am selected.”</p></li>
+</ul>
+<p>During training the matrices learn to make queries and keys align for
+linguistically relevant relations (negation, subject–verb agreement,
+coreference, and so on).</p>
+</li>
+</ol>
+<p>To keep arithmetic tiny we use <strong>2-dimensional</strong> vectors and <em>hand-craft</em> them
+for the three important words; all others are zeros.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>token (index)</p></th>
+<th class="head"><p>query <span class="math notranslate nohighlight">\(q_i\)</span></p></th>
+<th class="head"><p>key <span class="math notranslate nohighlight">\(k_i\)</span></p></th>
+<th class="head"><p>value <span class="math notranslate nohighlight">\(v_i\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>not (3)</p></td>
+<td><p><span class="math notranslate nohighlight">\([1,1]\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\([1,1]\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\([1,0]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>good (4)</p></td>
+<td><p><span class="math notranslate nohighlight">\([0,1]\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\([0,1]\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\([0,1]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>amazing (10)</p></td>
+<td><p><span class="math notranslate nohighlight">\([1,0]\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\([1,0]\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\([1,1]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>all others</p></td>
+<td><p><span class="math notranslate nohighlight">\([0,0]\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\([0,0]\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\([0,0]\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="attention-weights-from-good-to-every-token">
+<h3>Attention weights <strong>from “good” to every token</strong><a class="headerlink" href="#attention-weights-from-good-to-every-token" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>Dot products of <span class="math notranslate nohighlight">\(q_{\text{good}}=[0,1]\)</span> with every <span class="math notranslate nohighlight">\(k_j\)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(q\cdot k_{3} = 1\)</span> → token 3 (“not”)</p></li>
+<li><p><span class="math notranslate nohighlight">\(q\cdot k_{4} = 1\)</span> → token 4 (“good” itself)</p></li>
+<li><p>all other dot products = 0</p></li>
+</ul>
+</li>
+<li><p>Scale by <span class="math notranslate nohighlight">\(\sqrt{d_k}=\sqrt{2}\approx1.41\)</span><br />
+non-zero scores become <span class="math notranslate nohighlight">\(1/1.41 = 0.707\)</span>.</p></li>
+<li><p>Softmax across 12 tokens:</p>
+<div class="math notranslate nohighlight">
+\[
+   w_{4,3}=w_{4,4}\approx0.14,\quad
+   w_{4,j\neq3,4}\approx0.07 .
+   \]</div>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># 12 tokens × 2-dimensional toy vectors</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+
+<span class="c1"># encode three words with non-zero vectors</span>
+<span class="n">Q</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>   <span class="c1"># token 3 = &quot;not&quot;</span>
+<span class="n">Q</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>   <span class="c1"># token 4 = &quot;good&quot;   ← the query we will inspect</span>
+<span class="n">Q</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># token10 = &quot;amazing&quot;</span>
+<span class="n">V</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[:]</span>            <span class="c1"># values = keys for clarity</span>
+
+<span class="n">dk</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">scores</span>   <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">@</span> <span class="n">K</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dk</span><span class="p">)</span>          <span class="c1"># dot products from “good” to all keys</span>
+<span class="n">weights</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Attention weights from &#39;good&#39;:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attention weights from &#39;good&#39;:
+[0.07 0.07 0.07 0.14 0.14 0.07 0.07 0.07 0.07 0.07 0.07 0.07]
+</pre></div>
+</div>
+</div>
+</div>
+<p>where</p>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(Q\)</span></strong> = queries (one per input position)</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(K\)</span></strong> = keys (one per input position)</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(V\)</span></strong> = values (one per input position)</p></li>
+<li><p><span class="math notranslate nohighlight">\(d_k\)</span> = dimensionality of the keys (used for scaling).</p></li>
+</ul>
+</section>
+</section>
+<section id="a-toy-example-3-word-mini-sentence">
+<h2>A Toy Example (3-word mini-sentence)<a class="headerlink" href="#a-toy-example-3-word-mini-sentence" title="Link to this heading">#</a></h2>
+<p>Assume the sentence <em>“She <strong>did</strong> not”</em> has already been converted to three 2-dimensional vectors (for clarity the numbers are tiny integers):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>token</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(q_i\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(k_i\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(v_i\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>She</p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}1\\0\end{bmatrix}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}1\\0\end{bmatrix}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}1\\1\end{bmatrix}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>did</p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}0\\1\end{bmatrix}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}0\\1\end{bmatrix}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}0\\2\end{bmatrix}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>not</p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}1\\1\end{bmatrix}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}1\\1\end{bmatrix}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\begin{bmatrix}2\\1\end{bmatrix}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="compute-the-raw-attention-scores">
+<h3>1. Compute the <em>raw</em> attention scores<a class="headerlink" href="#compute-the-raw-attention-scores" title="Link to this heading">#</a></h3>
+<p>For each pair <span class="math notranslate nohighlight">\((q_i,k_j)\)</span> take the dot product:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p><strong>She</strong></p></th>
+<th class="head"><p><strong>did</strong></p></th>
+<th class="head"><p><strong>not</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>She</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\cdot1+0\cdot0 = 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\cdot0+0\cdot1 = 0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\cdot1+0\cdot1 = 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>did</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\cdot1+1\cdot0 = 0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\cdot0+1\cdot1 = 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\cdot1+1\cdot1 = 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>not</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\cdot1+1\cdot0 = 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\cdot0+1\cdot1 = 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\cdot1+1\cdot1 = 2\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="scale-and-apply-operatorname-softmax-row-wise">
+<h3>2. Scale and apply <span class="math notranslate nohighlight">\(\operatorname{softmax}\)</span> row-wise<a class="headerlink" href="#scale-and-apply-operatorname-softmax-row-wise" title="Link to this heading">#</a></h3>
+<p>With <span class="math notranslate nohighlight">\(d_k=2\)</span>, divide by <span class="math notranslate nohighlight">\(\sqrt{2}\approx1.41\)</span>, then apply <span class="math notranslate nohighlight">\(\operatorname{softmax}\)</span> to each row<br />
+(result rounded to two decimals):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>She</p></th>
+<th class="head"><p>did</p></th>
+<th class="head"><p>not</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>She</strong></p></td>
+<td><p>0.42</p></td>
+<td><p>0.16</p></td>
+<td><p>0.42</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>did</strong></p></td>
+<td><p>0.16</p></td>
+<td><p>0.42</p></td>
+<td><p>0.42</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>not</strong></p></td>
+<td><p>0.26</p></td>
+<td><p>0.26</p></td>
+<td><p>0.48</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>These are the <strong>attention weights</strong>.</p>
+</section>
+<section id="weighted-sum-of-the-values">
+<h3>3. Weighted sum of the values<a class="headerlink" href="#weighted-sum-of-the-values" title="Link to this heading">#</a></h3>
+<p>For the first token “She”:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\text{output}(\text{She}) =
+0.42\,v_{\text{She}} \;+\; 0.16\,v_{\text{did}} \;+\; 0.42\,v_{\text{not}}
+= 0.42\!\begin{bmatrix}1\\1\end{bmatrix}
+  +0.16\!\begin{bmatrix}0\\2\end{bmatrix}
+  +0.42\!\begin{bmatrix}2\\1\end{bmatrix}
+= \begin{bmatrix}1.26\\1.26\end{bmatrix}.
+\end{split}\]</div>
+<p>The same happens for “did” and “not”.<br />
+Each output vector now <strong>blends information from the entire sequence</strong>, with larger weights on more relevant words.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>index</p></th>
+<th class="head"><p>token</p></th>
+<th class="head text-center"><p>weight</p></th>
+<th class="head"><p>interpretation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>0</p></td>
+<td><p>The</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>almost ignored</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>1</p></td>
+<td><p>movie</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>almost ignored</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>2</p></td>
+<td><p>was (first)</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>almost ignored</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>3</p></td>
+<td><p><strong>not</strong></p></td>
+<td class="text-center"><p><strong>0.14</strong></p></td>
+<td><p>most relevant external word (negation)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>4</p></td>
+<td><p><strong>good</strong> (itself)</p></td>
+<td class="text-center"><p><strong>0.14</strong></p></td>
+<td><p>self-focus helps preserve the base meaning</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>5</p></td>
+<td><p>,</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>punctuation, little influence</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>6</p></td>
+<td><p>but</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>discourse marker, low weight here</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>7</p></td>
+<td><p>the</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>almost ignored</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>8</p></td>
+<td><p>soundtrack</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>almost ignored</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>9</p></td>
+<td><p>was (second)</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>almost ignored</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>10</p></td>
+<td><p>amazing</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>small influence, sentiment elsewhere</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>11</p></td>
+<td><p>.</p></td>
+<td class="text-center"><p>0.07</p></td>
+<td><p>negligible influence</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Key observations:</p>
+<ul class="simple">
+<li><p>The two highest weights (0.14) fall on <strong>“not”</strong> and <strong>“good”</strong> itself.<br />
+The model therefore combines the negation signal with the word it negates.</p></li>
+<li><p>Every other token receives the baseline weight of about (1/12 \approx 0.08),
+meaning they contribute very little to the representation of “good.”</p></li>
+</ul>
+<p>In a fully trained model you would expect an even sharper focus on <strong>“not”</strong>
+and a near-zero weight on punctuation or stop-words.</p>
+<p>The principle is: weights tell you <strong>which words the model uses as
+evidence when forming the contextual meaning of the current word.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span><span class="p">,</span> <span class="n">Model</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># 0.  Reproducibility</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># 1.  Synthetic data  (NumPy arrays only!)</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="n">VOCAB_SIZE</span>  <span class="o">=</span> <span class="mi">51</span>         <span class="c1"># reserve 0 for [CLS]</span>
+<span class="n">SEQ_LEN</span>     <span class="o">=</span> <span class="mi">6</span>          <span class="c1"># NOT counting [CLS]</span>
+<span class="n">NUM_SAMPLES</span> <span class="o">=</span> <span class="mi">8_000</span>          <span class="c1"># instead of 64</span>
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">3</span>                   <span class="c1"># fewer epochs are fine with more data</span>
+
+<span class="n">tokens_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">NUM_SAMPLES</span><span class="p">,</span> <span class="n">SEQ_LEN</span><span class="p">))</span>
+<span class="n">tokens_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">NUM_SAMPLES</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span> <span class="n">tokens_np</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>   <span class="c1"># prepend [CLS]</span>
+<span class="p">)</span>                                   <span class="c1"># shape (N, 7)</span>
+
+<span class="n">labels_np</span> <span class="o">=</span> <span class="p">(</span><span class="n">tokens_np</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+<span class="c1"># indices where the label is 1</span>
+<span class="n">pos_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labels_np</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Indices with label 1:&quot;</span><span class="p">,</span> <span class="n">pos_idx</span><span class="p">)</span>
+
+<span class="c1"># show the actual label values (all 1.0) to double-check</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Their label values:&quot;</span><span class="p">,</span> <span class="n">labels_np</span><span class="p">[</span><span class="n">pos_idx</span><span class="p">])</span>
+
+<span class="c1"># if you also want to see the sentences themselves:</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sentences with label 1:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tokens_np</span><span class="p">[</span><span class="n">pos_idx</span><span class="p">])</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># 2.  Positional-embedding block</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="k">class</span> <span class="nc">PositionalEmbedding</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">max_len</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tok</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span>   <span class="n">d_model</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tok_emb&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">max_len</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pos_emb&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tok_ids</span><span class="p">):</span>                       <span class="c1"># (B, L)</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">tok_ids</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">pos_ids</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>                      <span class="c1"># 0 … L-1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tok</span><span class="p">(</span><span class="n">tok_ids</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">(</span><span class="n">pos_ids</span><span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># 3.  Model</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="n">D_MODEL</span>   <span class="o">=</span> <span class="mi">8</span>
+<span class="n">NUM_HEADS</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">KEY_DIM</span>   <span class="o">=</span> <span class="n">D_MODEL</span> <span class="o">//</span> <span class="n">NUM_HEADS</span>
+
+<span class="n">inp</span>      <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">((</span><span class="n">SEQ_LEN</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
+<span class="n">emb</span>      <span class="o">=</span> <span class="n">PositionalEmbedding</span><span class="p">(</span><span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">D_MODEL</span><span class="p">,</span> <span class="n">SEQ_LEN</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                               <span class="n">name</span><span class="o">=</span><span class="s2">&quot;embed&quot;</span><span class="p">)(</span><span class="n">inp</span><span class="p">)</span>
+
+<span class="n">attn_out</span><span class="p">,</span> <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MultiHeadAttention</span><span class="p">(</span>
+        <span class="n">num_heads</span><span class="o">=</span><span class="n">NUM_HEADS</span><span class="p">,</span>
+        <span class="n">key_dim</span><span class="o">=</span><span class="n">KEY_DIM</span><span class="p">,</span>
+        <span class="n">output_shape</span><span class="o">=</span><span class="n">D_MODEL</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;self_attn&quot;</span><span class="p">)(</span><span class="n">emb</span><span class="p">,</span> <span class="n">emb</span><span class="p">,</span> <span class="n">return_attention_scores</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">x</span>        <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ln&quot;</span><span class="p">)(</span><span class="n">emb</span> <span class="o">+</span> <span class="n">attn_out</span><span class="p">)</span>
+<span class="n">cls_vec</span>  <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>                           <span class="c1"># [CLS]</span>
+<span class="n">logits</span>   <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;classifier&quot;</span><span class="p">)(</span><span class="n">cls_vec</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">logits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;TinySelfAttention&quot;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># 4.  Train</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="n">train_ds</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">tokens_np</span><span class="p">,</span> <span class="n">labels_np</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">NUM_SAMPLES</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># 5.  Attention matrix for the first sample</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="n">attn_extractor</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">attn_scores</span><span class="p">)</span>       <span class="c1"># model that outputs only A</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">attn_extractor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tokens_np</span><span class="p">[:</span><span class="mi">1</span><span class="p">])</span>      <span class="c1"># shape (1, 1, 7, 7)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Attention weights  (sample 0 · head 0):&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Indices with label 1: [  10   11  135  208  222  300  349  401  427  448  462  478  482  488
+  493  564  570  585  590  607  620  675  723  800  831  884  933  973
+ 1043 1108 1115 1137 1151 1166 1215 1389 1496 1513 1598 1638 1647 1680
+ 1688 1808 1830 1857 1893 1901 1903 1922 1944 2080 2087 2121 2130 2199
+ 2269 2335 2391 2443 2444 2508 2531 2571 2595 2642 2666 2674 2693 2718
+ 2804 2856 2867 2890 2985 2993 3025 3036 3094 3163 3213 3365 3418 3496
+ 3504 3523 3539 3547 3556 3560 3588 3729 3761 3808 3824 3831 3934 3939
+ 4043 4084 4092 4128 4148 4184 4221 4290 4294 4360 4579 4630 4685 4723
+ 4729 4743 4751 4786 4821 5048 5133 5150 5163 5165 5278 5294 5316 5378
+ 5440 5518 5544 5572 5802 5902 5918 5972 6146 6172 6232 6373 6428 6470
+ 6594 6611 6634 6673 6751 6849 7018 7035 7101 7214 7307 7311 7330 7417
+ 7482 7552 7565 7587 7599 7765 7849 7850 7888 7895 7898 7909 7911 7966]
+Their label values: [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
+Sentences with label 1:
+ [[ 0 16  5 ... 43 32  2]
+ [ 0  2 40 ... 36 39 12]
+ [ 0 37 46 ...  3 34 13]
+ ...
+ [ 0  3 11 ... 29 17 37]
+ [ 0 19 47 ... 17 20  7]
+ [ 0 23 35 ... 36 39 43]]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-29 07:33:28.021067: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
+2025-04-29 07:33:28.021089: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
+2025-04-29 07:33:28.021093: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1745926408.021104 15681900 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+I0000 00:00:1745926408.021126 15681900 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
+</pre></div>
+</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "TinySelfAttention"</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)        </span>┃<span style="font-weight: bold"> Output Shape      </span>┃<span style="font-weight: bold">    Param # </span>┃<span style="font-weight: bold"> Connected to      </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│ tokens (<span style="color: #0087ff; text-decoration-color: #0087ff">InputLayer</span>) │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">7</span>)         │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ -                 │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ embed               │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">7</span>, <span style="color: #00af00; text-decoration-color: #00af00">8</span>)      │        <span style="color: #00af00; text-decoration-color: #00af00">464</span> │ tokens[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]      │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">PositionalEmbeddi…</span> │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ self_attn           │ [(<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">7</span>, <span style="color: #00af00; text-decoration-color: #00af00">8</span>),    │        <span style="color: #00af00; text-decoration-color: #00af00">288</span> │ embed[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>],      │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">MultiHeadAttentio…</span> │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">1</span>, <span style="color: #00af00; text-decoration-color: #00af00">7</span>, <span style="color: #00af00; text-decoration-color: #00af00">7</span>)]  │            │ embed[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]       │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ add (<span style="color: #0087ff; text-decoration-color: #0087ff">Add</span>)           │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">7</span>, <span style="color: #00af00; text-decoration-color: #00af00">8</span>)      │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ embed[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>],      │
+│                     │                   │            │ self_attn[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ ln                  │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">7</span>, <span style="color: #00af00; text-decoration-color: #00af00">8</span>)      │         <span style="color: #00af00; text-decoration-color: #00af00">16</span> │ add[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]         │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">LayerNormalizatio…</span> │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ get_item (<span style="color: #0087ff; text-decoration-color: #0087ff">GetItem</span>)  │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">8</span>)         │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ ln[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]          │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ classifier (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)  │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">1</span>)         │          <span style="color: #00af00; text-decoration-color: #00af00">9</span> │ get_item[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]    │
+└─────────────────────┴───────────────────┴────────────┴───────────────────┘
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">777</span> (3.04 KB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">777</span> (3.04 KB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-29 07:33:28.571476: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">83</span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span> <span class="c1"># ------------------------------------------------------------------</span>
+<span class="g g-Whitespace">     </span><span class="mi">76</span> <span class="c1"># 4.  Train</span>
+<span class="g g-Whitespace">     </span><span class="mi">77</span> <span class="c1"># ------------------------------------------------------------------</span>
+<span class="g g-Whitespace">     </span><span class="mi">78</span> <span class="n">train_ds</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span>     <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">tokens_np</span><span class="p">,</span> <span class="n">labels_np</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">80</span>       <span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">NUM_SAMPLES</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">81</span>       <span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">82</span> <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">83</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">85</span> <span class="c1"># ------------------------------------------------------------------</span>
+<span class="g g-Whitespace">     </span><span class="mi">86</span> <span class="c1"># 5.  Attention matrix for the first sample</span>
+<span class="g g-Whitespace">     </span><span class="mi">87</span> <span class="c1"># ------------------------------------------------------------------</span>
+<span class="g g-Whitespace">     </span><span class="mi">88</span> <span class="n">attn_extractor</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">attn_scores</span><span class="p">)</span>       <span class="c1"># model that outputs only A</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/utils/traceback_utils.py:117,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">117</span>     <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:371,</span> in <span class="ni">TensorFlowTrainer.fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq)</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span> <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">iterator</span> <span class="ow">in</span> <span class="n">epoch_iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">370</span>     <span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">371</span>     <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span>     <span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_batch_end</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">logs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">373</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_training</span><span class="p">:</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/keras/src/backend/tensorflow/trainer.py:219,</span> in <span class="ni">TensorFlowTrainer._make_function.&lt;locals&gt;.function</span><span class="nt">(iterator)</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span> <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">216</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>         <span class="n">iterator</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Iterator</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">DistributedIterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span>     <span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">219</span>         <span class="n">opt_outputs</span> <span class="o">=</span> <span class="n">multi_step_on_iterator</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span>         <span class="k">if</span> <span class="ow">not</span> <span class="n">opt_outputs</span><span class="o">.</span><span class="n">has_value</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">221</span>             <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/util/traceback_utils.py:150,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">150</span>   <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">151</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">152</span>   <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/polymorphic_function.py:833,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">830</span> <span class="n">compiler</span> <span class="o">=</span> <span class="s2">&quot;xla&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jit_compile</span> <span class="k">else</span> <span class="s2">&quot;nonXla&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">832</span> <span class="k">with</span> <span class="n">OptionalXlaContext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jit_compile</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">833</span>   <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">835</span> <span class="n">new_tracing_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_get_tracing_count</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">836</span> <span class="n">without_tracing</span> <span class="o">=</span> <span class="p">(</span><span class="n">tracing_count</span> <span class="o">==</span> <span class="n">new_tracing_count</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/polymorphic_function.py:878,</span> in <span class="ni">Function._call</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span> <span class="c1"># In this case we have not created variables on the first call. So we can</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span> <span class="c1"># run the first trace but we should fail if variables are created.</span>
+<span class="ne">--&gt; </span><span class="mi">878</span> <span class="n">results</span> <span class="o">=</span> <span class="n">tracing_compilation</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span>     <span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variable_creation_config</span>
+<span class="g g-Whitespace">    </span><span class="mi">880</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_variables</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>   <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Creating variables on a non-first call to a function&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span>                    <span class="s2">&quot; decorated with tf.function.&quot;</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/tracing_compilation.py:139,</span> in <span class="ni">call_function</span><span class="nt">(args, kwargs, tracing_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">137</span> <span class="n">bound_args</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span> <span class="n">flat_inputs</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">unpack_inputs</span><span class="p">(</span><span class="n">bound_args</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">139</span> <span class="k">return</span> <span class="n">function</span><span class="o">.</span><span class="n">_call_flat</span><span class="p">(</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span>     <span class="n">flat_inputs</span><span class="p">,</span> <span class="n">captured_inputs</span><span class="o">=</span><span class="n">function</span><span class="o">.</span><span class="n">captured_inputs</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span> <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/concrete_function.py:1322,</span> in <span class="ni">ConcreteFunction._call_flat</span><span class="nt">(self, tensor_inputs, captured_inputs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1318</span> <span class="n">possible_gradient_type</span> <span class="o">=</span> <span class="n">gradients_util</span><span class="o">.</span><span class="n">PossibleTapeGradientTypes</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1319</span> <span class="k">if</span> <span class="p">(</span><span class="n">possible_gradient_type</span> <span class="o">==</span> <span class="n">gradients_util</span><span class="o">.</span><span class="n">POSSIBLE_GRADIENT_TYPES_NONE</span>
+<span class="g g-Whitespace">   </span><span class="mi">1320</span>     <span class="ow">and</span> <span class="n">executing_eagerly</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1321</span>   <span class="c1"># No tape is watching; skip to running the function.</span>
+<span class="ne">-&gt; </span><span class="mi">1322</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inference_function</span><span class="o">.</span><span class="n">call_preflattened</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1323</span> <span class="n">forward_backward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_forward_and_backward_functions</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1324</span>     <span class="n">args</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1325</span>     <span class="n">possible_gradient_type</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1326</span>     <span class="n">executing_eagerly</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1327</span> <span class="n">forward_function</span><span class="p">,</span> <span class="n">args_with_tangents</span> <span class="o">=</span> <span class="n">forward_backward</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/atomic_function.py:216,</span> in <span class="ni">AtomicFunction.call_preflattened</span><span class="nt">(self, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span> <span class="k">def</span> <span class="nf">call_preflattened</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span><span class="w">   </span><span class="sd">&quot;&quot;&quot;Calls with flattened tensor inputs and returns the structured output.&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">216</span>   <span class="n">flat_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_flat</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">pack_output</span><span class="p">(</span><span class="n">flat_outputs</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/polymorphic_function/atomic_function.py:251,</span> in <span class="ni">AtomicFunction.call_flat</span><span class="nt">(self, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span> <span class="k">with</span> <span class="n">record</span><span class="o">.</span><span class="n">stop_recording</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span>   <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">251</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">252</span>         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">253</span>         <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">254</span>         <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">flat_outputs</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">255</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">256</span>   <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">257</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="n">make_call_op_in_graph</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span>         <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span>         <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">function_call_options</span><span class="o">.</span><span class="n">as_attrs</span><span class="p">(),</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>     <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/context.py:1688,</span> in <span class="ni">Context.call_function</span><span class="nt">(self, name, tensor_inputs, num_outputs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1686</span> <span class="n">cancellation_context</span> <span class="o">=</span> <span class="n">cancellation</span><span class="o">.</span><span class="n">context</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1687</span> <span class="k">if</span> <span class="n">cancellation_context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1688</span>   <span class="n">outputs</span> <span class="o">=</span> <span class="n">execute</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1689</span>       <span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1690</span>       <span class="n">num_outputs</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1691</span>       <span class="n">inputs</span><span class="o">=</span><span class="n">tensor_inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1692</span>       <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1693</span>       <span class="n">ctx</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1694</span>   <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1695</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1696</span>   <span class="n">outputs</span> <span class="o">=</span> <span class="n">execute</span><span class="o">.</span><span class="n">execute_with_cancellation</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1697</span>       <span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1698</span>       <span class="n">num_outputs</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1702</span>       <span class="n">cancellation_manager</span><span class="o">=</span><span class="n">cancellation_context</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1703</span>   <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/tensorflow/python/eager/execute.py:53,</span> in <span class="ni">quick_execute</span><span class="nt">(op_name, num_outputs, inputs, attrs, ctx, name)</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span>   <span class="n">ctx</span><span class="o">.</span><span class="n">ensure_initialized</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">53</span>   <span class="n">tensors</span> <span class="o">=</span> <span class="n">pywrap_tfe</span><span class="o">.</span><span class="n">TFE_Py_Execute</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">_handle</span><span class="p">,</span> <span class="n">device_name</span><span class="p">,</span> <span class="n">op_name</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span>                                       <span class="n">inputs</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="k">except</span> <span class="n">core</span><span class="o">.</span><span class="n">_NotOkStatusException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>   <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sentence-0:&quot;</span><span class="p">,</span> <span class="n">tokens_np</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Token at pos-3:&quot;</span><span class="p">,</span> <span class="n">tokens_np</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tokens_np</span><span class="p">[:</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model output for sample-0:&quot;</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>   <span class="c1"># should be ≪ 0.5</span>
+
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labels_np</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>   <span class="c1"># first positive sample</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sentence-idx:&quot;</span><span class="p">,</span> <span class="n">tokens_np</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tokens_np</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># should be ≫ 0.5</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentence-0: [ 0 45 48  1  4  4 40]
+Token at pos-3: 1
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 18ms/step
+Model output for sample-0: 0.00041184496
+Sentence-idx: [ 0 16  5 42 43 32  2]
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 15ms/step
+0.99762386
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./introduciton-transformers"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-self-attention-helps-with-meaning">Why Self-Attention Helps With Meaning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenise-the-sentence">1. Tokenise the sentence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-attention-scores-conceptually">2. Compute attention scores (conceptually)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sum-of-value-vectors">3. Weighted sum of value vectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">4. Key points</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toy-example-on-the-sentence">Toy Example on the sentence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-weights-from-good-to-every-token">Attention weights <strong>from “good” to every token</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-toy-example-3-word-mini-sentence">A Toy Example (3-word mini-sentence)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-raw-attention-scores">1. Compute the <em>raw</em> attention scores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scale-and-apply-operatorname-softmax-row-wise">2. Scale and apply <span class="math notranslate nohighlight">\(\operatorname{softmax}\)</span> row-wise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sum-of-the-values">3. Weighted sum of the values</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Eric Pacuit
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

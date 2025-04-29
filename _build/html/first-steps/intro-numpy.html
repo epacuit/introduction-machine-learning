@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -221,10 +221,13 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../text-processing/encoding-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/word-embedding.html">Encoding Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../text-processing/introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text.html">Encoding Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial7_release.html">Tutorial 7: Part-of-speech tagging with RNNs</a></li>
+
+
 </ul>
 
     </div>
@@ -639,9 +642,9 @@ Array with evenly spaced values:
 The datatype of the array:  float64
 
 Array with random values:
- [[0.74017957 0.66444897 0.36317057]
- [0.4829194  0.61899931 0.54328951]
- [0.76852147 0.01831647 0.9482587 ]]
+ [[0.42294223 0.43348102 0.58304448]
+ [0.18600124 0.96886982 0.28021521]
+ [0.84987567 0.91199162 0.54714475]]
 The datatype of the array:  float64
 </pre></div>
 </div>
@@ -1523,8 +1526,8 @@ Are arr5 and arr6 close (within tolerance 1e-5)? True
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive time:  7.8521 seconds
-NumPy time:  0.0186 seconds
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive time:  7.7508 seconds
+NumPy time:  0.0178 seconds
 </pre></div>
 </div>
 </div>
@@ -1644,7 +1647,7 @@ The label:
  3
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2e3f09b50&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f0516f60&gt;
 </pre></div>
 </div>
 <img alt="../_images/0ba4e8cae6eac3d5268bb6a850b6167449df2385ca2926dbfc4bb5e95a8f7712.png" src="../_images/0ba4e8cae6eac3d5268bb6a850b6167449df2385ca2926dbfc4bb5e95a8f7712.png" />
@@ -1658,7 +1661,7 @@ The label:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2e7537dd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f06e5460&gt;
 </pre></div>
 </div>
 <img alt="../_images/0c0a8e704d77e14e6fb1bcc1d855b640a510fc779f87b5e23f87f579f2c9ec45.png" src="../_images/0c0a8e704d77e14e6fb1bcc1d855b640a510fc779f87b5e23f87f579f2c9ec45.png" />
@@ -1672,7 +1675,7 @@ The label:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2e74f5040&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x2f34558b0&gt;
 </pre></div>
 </div>
 <img alt="../_images/7d23f2becbd0d5c052576faa21f85969560ccd2b0dcced4745281b9205afaa7c.png" src="../_images/7d23f2becbd0d5c052576faa21f85969560ccd2b0dcced4745281b9205afaa7c.png" />

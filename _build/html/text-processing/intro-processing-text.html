@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -219,10 +219,13 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="encoding-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="word-embedding.html">Encoding Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Encoding Text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial7_release.html">Tutorial 7: Part-of-speech tagging with RNNs</a></li>
+
+
 </ul>
 
     </div>
@@ -436,20 +439,10 @@
 <h2>Download Movie Reviews Dataset<a class="headerlink" href="#download-movie-reviews-dataset" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!curl -O https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># uncomment the following lines to download and extract the IMDB dataset</span>
+<span class="c1">#!curl -O https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz </span>
 <span class="c1">#!tar -xf aclImdb_v1.tar.gz</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>rm<span class="w"> </span>-r<span class="w"> </span>aclImdb/train/unsup
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rm: aclImdb/train/unsup: No such file or directory
+<span class="c1">#!rm -r aclImdb/train/unsup</span>
 </pre></div>
 </div>
 </div>
@@ -476,15 +469,17 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
+<span class="ne">FileExistsError</span><span class="g g-Whitespace">                           </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">train_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;train&quot;</span> 
 <span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;neg&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">val_dir</span> <span class="o">/</span> <span class="n">category</span><span class="p">)</span> 
-<span class="ne">----&gt; </span><span class="mi">9</span>     <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">train_dir</span> <span class="o">/</span> <span class="n">category</span><span class="p">)</span> 
+<span class="ne">----&gt; </span><span class="mi">8</span>     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">val_dir</span> <span class="o">/</span> <span class="n">category</span><span class="p">)</span> 
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">train_dir</span> <span class="o">/</span> <span class="n">category</span><span class="p">)</span> 
 <span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">1337</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> 
-<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">num_val_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
 
-<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;aclImdb/train/neg&#39;
+<span class="nn">File &lt;frozen os&gt;:225,</span> in <span class="ni">makedirs</span><span class="nt">(name, mode, exist_ok)</span>
+
+<span class="ne">FileExistsError</span>: [Errno 17] File exists: &#39;aclImdb/val/neg&#39;
 </pre></div>
 </div>
 </div>
@@ -973,117 +968,6 @@ Test acc: 0.850
 
 <span class="n">int_val_ds</span> <span class="o">=</span> <span class="n">val_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
 <span class="n">int_test_ds</span> <span class="o">=</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">num_parallel_calls</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span> 
-<span class="n">embedded</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">max_tokens</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span> 
-<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Bidirectional</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">32</span><span class="p">))(</span><span class="n">embedded</span><span class="p">)</span> 
-<span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">outputs</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span>
-              <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
-              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
-
-
-<span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
-        <span class="s2">&quot;embeddings_bidir_gru.weights.h5&quot;</span><span class="p">,</span>   <span class="c1"># any filename; .h5 is conventional</span>
-        <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">save_weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># &lt;—  key line</span>
-        <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span>
-    <span class="p">)</span>
-<span class="p">]</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-    <span class="n">int_train_ds</span><span class="p">,</span> 
-    <span class="n">validation_data</span><span class="o">=</span><span class="n">int_val_ds</span><span class="p">,</span> 
-    <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
-    <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span> 
-
-
-<span class="n">best_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">clone_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>      <span class="c1"># architecture only</span>
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span>
-              <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
-              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
-<span class="n">best_model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s2">&quot;embeddings_bidir_gru.weights.h5&quot;</span><span class="p">)</span>  <span class="c1"># load the saved weights</span>
-
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test acc: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">int_test_ds</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_13&quot;
-_________________________________________________________________
- Layer (type)                Output Shape              Param #   
-=================================================================
- input_14 (InputLayer)       [(None, None)]            0         
-                                                                 
- embedding_3 (Embedding)     (None, None, 256)         5120000   
-                                                                 
- bidirectional_3 (Bidirecti  (None, 64)                73984     
- onal)                                                           
-                                                                 
- dropout_13 (Dropout)        (None, 64)                0         
-                                                                 
- dense_23 (Dense)            (None, 1)                 65        
-                                                                 
-=================================================================
-Total params: 5194049 (19.81 MB)
-Trainable params: 5194049 (19.81 MB)
-Non-trainable params: 0 (0.00 Byte)
-_________________________________________________________________
-Epoch 1/10
-704/704 [==============================] - ETA: 0s - loss: 0.4665 - accuracy: 0.7878
-Epoch 1: val_loss improved from inf to 0.24510, saving model to embeddings_bidir_gru.weights.h5
-704/704 [==============================] - 148s 208ms/step - loss: 0.4665 - accuracy: 0.7878 - val_loss: 0.2451 - val_accuracy: 0.9112
-Epoch 2/10
-704/704 [==============================] - ETA: 0s - loss: 0.2978 - accuracy: 0.8905
-Epoch 2: val_loss did not improve from 0.24510
-704/704 [==============================] - 147s 209ms/step - loss: 0.2978 - accuracy: 0.8905 - val_loss: 0.4216 - val_accuracy: 0.8416
-Epoch 3/10
-704/704 [==============================] - ETA: 0s - loss: 0.2379 - accuracy: 0.9172
-Epoch 3: val_loss improved from 0.24510 to 0.10876, saving model to embeddings_bidir_gru.weights.h5
-704/704 [==============================] - 146s 208ms/step - loss: 0.2379 - accuracy: 0.9172 - val_loss: 0.1088 - val_accuracy: 0.9572
-Epoch 4/10
-704/704 [==============================] - ETA: 0s - loss: 0.2041 - accuracy: 0.9292
-Epoch 4: val_loss did not improve from 0.10876
-704/704 [==============================] - 143s 203ms/step - loss: 0.2041 - accuracy: 0.9292 - val_loss: 0.4245 - val_accuracy: 0.8584
-Epoch 5/10
-704/704 [==============================] - ETA: 0s - loss: 0.1731 - accuracy: 0.9421
-Epoch 5: val_loss did not improve from 0.10876
-704/704 [==============================] - 143s 202ms/step - loss: 0.1731 - accuracy: 0.9421 - val_loss: 0.8105 - val_accuracy: 0.7728
-Epoch 6/10
-704/704 [==============================] - ETA: 0s - loss: 0.1411 - accuracy: 0.9546
-Epoch 6: val_loss did not improve from 0.10876
-704/704 [==============================] - 143s 203ms/step - loss: 0.1411 - accuracy: 0.9546 - val_loss: 0.3019 - val_accuracy: 0.8900
-Epoch 7/10
-704/704 [==============================] - ETA: 0s - loss: 0.1215 - accuracy: 0.9620
-Epoch 7: val_loss did not improve from 0.10876
-704/704 [==============================] - 142s 202ms/step - loss: 0.1215 - accuracy: 0.9620 - val_loss: 0.4381 - val_accuracy: 0.8600
-Epoch 8/10
-704/704 [==============================] - ETA: 0s - loss: 0.0990 - accuracy: 0.9690
-Epoch 8: val_loss did not improve from 0.10876
-704/704 [==============================] - 143s 203ms/step - loss: 0.0990 - accuracy: 0.9690 - val_loss: 0.3779 - val_accuracy: 0.8884
-Epoch 9/10
-704/704 [==============================] - ETA: 0s - loss: 0.0913 - accuracy: 0.9712
-Epoch 9: val_loss did not improve from 0.10876
-704/704 [==============================] - 141s 200ms/step - loss: 0.0913 - accuracy: 0.9712 - val_loss: 0.7051 - val_accuracy: 0.8316
-Epoch 10/10
-704/704 [==============================] - ETA: 0s - loss: 0.0742 - accuracy: 0.9766
-Epoch 10: val_loss did not improve from 0.10876
-704/704 [==============================] - 150s 213ms/step - loss: 0.0742 - accuracy: 0.9766 - val_loss: 0.4826 - val_accuracy: 0.8900
-782/782 [==============================] - 113s 144ms/step - loss: 0.5789 - accuracy: 0.8614
-Test acc: 0.861
 </pre></div>
 </div>
 </div>
