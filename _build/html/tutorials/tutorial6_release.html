@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CIFAR-10 CNN Assignment &#8212; A Gentle Introduction to Machine Learning</title>
+    <title>Tutorial 6: CIFAR-10 CNN Assignment &#8212; A Gentle Introduction to Machine Learning</title>
   
   
   
@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -210,7 +210,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../image-classification/example-classifying-dogs-vs-cats.html">Example: Classifying Images - Dogs vs. Cats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../image-classification/feature-extraction.html">Using Pretrained Models</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">CIFAR-10 CNN Assignment</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tutorial 6: CIFAR-10 CNN Assignment</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Topics in Machine Learning</span></p>
 <ul class="nav bd-sidenav">
@@ -226,6 +226,11 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorial7_release.html">Tutorial 7: Part-of-speech tagging with RNNs</a></li>
 
 
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Transformers</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduciton-transformers/intro-self-attention.html">A First Look at Self-Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduciton-transformers/mini-gpt.html">Mini GPT</a></li>
 </ul>
 
     </div>
@@ -408,7 +413,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>CIFAR-10 CNN Assignment</h1>
+    <h1>Tutorial 6: CIFAR-10 CNN Assignment</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -438,8 +443,8 @@
                   
   <p><a target="_blank" rel="noopener noreferrer" href="https://colab.research.google.com/github/epacuit/introduction-machine-learning/blob/main/tutorials/tutorial6_release.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <p>(tutorial6=)</p>
-<section class="tex2jax_ignore mathjax_ignore" id="cifar-10-cnn-assignment">
-<h1>CIFAR-10 CNN Assignment<a class="headerlink" href="#cifar-10-cnn-assignment" title="Link to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="tutorial-6-cifar-10-cnn-assignment">
+<h1>Tutorial 6: CIFAR-10 CNN Assignment<a class="headerlink" href="#tutorial-6-cifar-10-cnn-assignment" title="Link to this heading">#</a></h1>
 <p>In this assignment, you will build a Convolutional Neural Network (CNN) using TensorFlow/Keras to classify images from the CIFAR-10 dataset. This dataset contains 10 classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck.</p>
 <p><strong>Outline:</strong></p>
 <ol class="arabic simple">

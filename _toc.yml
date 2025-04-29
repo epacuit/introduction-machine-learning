@@ -51,7 +51,6 @@ parts:
   chapters:
     - file: topics-machine-learning/overfitting
     - file: topics-machine-learning/gpu-vs-cpu
-    
 - caption: Natural Language Processing
   chapters:
     - file: text-processing/word-embedding
@@ -61,5 +60,5 @@ parts:
     - file: tutorials/tutorial7_release
 - caption: Introduction to Transformers
   chapters:
-    - file: introduction-transformers/intro-self-attention
-    - file: text-processing/mini-gpt
+    - file: introduciton-transformers/intro-self-attention
+    - file: introduciton-transformers/mini-gpt
