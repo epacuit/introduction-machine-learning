@@ -430,10 +430,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-attention-scores-conceptually">2. Compute attention scores (conceptually)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sum-of-value-vectors">3. Weighted sum of value vectors</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">4. Key points</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toy-example-on-the-sentence">Toy Example on the sentence</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-weights-from-good-to-every-token">Attention weights <strong>from “good” to every token</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#query-q-key-k-and-value-v">Query <strong>Q</strong>, Key <strong>K</strong>, and Value <strong>V</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-toy-example-3-word-mini-sentence">A Toy Example (3-word mini-sentence)</a><ul class="nav section-nav flex-column">
@@ -590,119 +587,128 @@ The exact numbers are not important; they are learned during training.</p>
 <li><p><strong>Dynamic meaning.</strong> The same word can mean something different in another sentence; the attention pattern adapts.</p></li>
 </ul>
 </section>
-</section>
-<section id="toy-example-on-the-sentence">
-<h2>Toy Example on the sentence<a class="headerlink" href="#toy-example-on-the-sentence" title="Link to this heading">#</a></h2>
-<blockquote>
-<div><p><strong>“The movie was <em>not</em> good, but the soundtrack was amazing.”</strong></p>
-</div></blockquote>
-<ol class="arabic">
-<li><p><strong>Start with an input embedding</strong><br />
-For every token <span class="math notranslate nohighlight">\(i\)</span> in the sentence you have a fixed-size vector<br />
-$<span class="math notranslate nohighlight">\(
-  x_i \in \mathbb{R}^{d_{\text{model}}}.
-\)</span>$</p></li>
-<li><p><strong>Project that same vector three different ways</strong><br />
-The self-attention layer contains three trainable weight matrices<br />
-<span class="math notranslate nohighlight">\(W_Q,\,W_K,\,W_V \in \mathbb{R}^{d_{\text{model}}\times d_k}\)</span>.
-It computes<br />
-$<span class="math notranslate nohighlight">\(
-  q_i = W_Q x_i, \qquad
-  k_i = W_K x_i, \qquad
-  v_i = W_V x_i .
-\)</span>$</p></li>
-<li><p><strong>Interpretation</strong></p>
+<section id="query-q-key-k-and-value-v">
+<h3>Query <strong>Q</strong>, Key <strong>K</strong>, and Value <strong>V</strong><a class="headerlink" href="#query-q-key-k-and-value-v" title="Link to this heading">#</a></h3>
+<p>Let</p>
 <ul class="simple">
-<li><p><strong>Query <span class="math notranslate nohighlight">\(q_i\)</span></strong>: “What am I looking for in the other tokens?”</p></li>
-<li><p><strong>Key <span class="math notranslate nohighlight">\(k_i\)</span></strong>: “How well do I match what others might look for?”</p></li>
-<li><p><strong>Value <span class="math notranslate nohighlight">\(v_i\)</span></strong>: “The information I will contribute if I am selected.”</p></li>
+<li><p><span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times d_{\text{model}}}\)</span> be the matrix whose rows are the token-embedding vectors after positional encoding<br />
+<span class="math notranslate nohighlight">\(\bigl[x_1^{\top};\,x_2^{\top};\,\dots;\,x_n^{\top}\bigr]\)</span>.</p></li>
 </ul>
-<p>During training the matrices learn to make queries and keys align for
-linguistically relevant relations (negation, subject–verb agreement,
-coreference, and so on).</p>
-</li>
-</ol>
-<p>To keep arithmetic tiny we use <strong>2-dimensional</strong> vectors and <em>hand-craft</em> them
-for the three important words; all others are zeros.</p>
+<p>For <strong>each attention head</strong> <span class="math notranslate nohighlight">\(h\)</span> the model keeps three learned weight matrices</p>
+<div class="math notranslate nohighlight">
+\[
+W_Q^{(h)},\; W_K^{(h)},\; W_V^{(h)} \in \mathbb{R}^{d_{\text{model}}\times d_k}.
+\]</div>
+<p>Multiplying the embedding matrix by those weights yields</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{Q^{(h)} \;=\; X\,W_Q^{(h)}}, \qquad
+\boxed{K^{(h)} \;=\; X\,W_K^{(h)}}, \qquad
+\boxed{V^{(h)} \;=\; X\,W_V^{(h)}}.
+\]</div>
+<ul class="simple">
+<li><p><strong>Shape:</strong> each of <span class="math notranslate nohighlight">\(Q^{(h)}, K^{(h)}, V^{(h)}\)</span> is <span class="math notranslate nohighlight">\(n \times d_k\)</span>.<br />
+(One <span class="math notranslate nohighlight">\(d_k\)</span>-dimensional row per token.)</p></li>
+<li><p><strong>Rows:</strong> <span class="math notranslate nohighlight">\(q_i,\;k_i,\;v_i\)</span> — the <em>query</em>, <em>key</em>, and <em>value</em> vectors for token <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
+</ul>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>token (index)</p></th>
-<th class="head"><p>query <span class="math notranslate nohighlight">\(q_i\)</span></p></th>
-<th class="head"><p>key <span class="math notranslate nohighlight">\(k_i\)</span></p></th>
-<th class="head"><p>value <span class="math notranslate nohighlight">\(v_i\)</span></p></th>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>Intuitive meaning</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>not (3)</p></td>
-<td><p><span class="math notranslate nohighlight">\([1,1]\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\([1,1]\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\([1,0]\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(q_i\)</span></p></td>
+<td><p>“What does <strong>this</strong> token need or look for?”</p></td>
 </tr>
-<tr class="row-odd"><td><p>good (4)</p></td>
-<td><p><span class="math notranslate nohighlight">\([0,1]\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\([0,1]\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\([0,1]\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(k_j\)</span></p></td>
+<td><p>“What attributes does token <em>j</em> offer to others?”</p></td>
 </tr>
-<tr class="row-even"><td><p>amazing (10)</p></td>
-<td><p><span class="math notranslate nohighlight">\([1,0]\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\([1,0]\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\([1,1]\)</span></p></td>
-</tr>
-<tr class="row-odd"><td><p>all others</p></td>
-<td><p><span class="math notranslate nohighlight">\([0,0]\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\([0,0]\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\([0,0]\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(v_j\)</span></p></td>
+<td><p>“The information token <em>j</em> will contribute if it is attended to.”</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<section id="attention-weights-from-good-to-every-token">
-<h3>Attention weights <strong>from “good” to every token</strong><a class="headerlink" href="#attention-weights-from-good-to-every-token" title="Link to this heading">#</a></h3>
-<ol class="arabic">
-<li><p>Dot products of <span class="math notranslate nohighlight">\(q_{\text{good}}=[0,1]\)</span> with every <span class="math notranslate nohighlight">\(k_j\)</span>:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(q\cdot k_{3} = 1\)</span> → token 3 (“not”)</p></li>
-<li><p><span class="math notranslate nohighlight">\(q\cdot k_{4} = 1\)</span> → token 4 (“good” itself)</p></li>
-<li><p>all other dot products = 0</p></li>
-</ul>
-</li>
-<li><p>Scale by <span class="math notranslate nohighlight">\(\sqrt{d_k}=\sqrt{2}\approx1.41\)</span><br />
-non-zero scores become <span class="math notranslate nohighlight">\(1/1.41 = 0.707\)</span>.</p></li>
-<li><p>Softmax across 12 tokens:</p>
-<div class="math notranslate nohighlight">
-\[
-   w_{4,3}=w_{4,4}\approx0.14,\quad
-   w_{4,j\neq3,4}\approx0.07 .
-   \]</div>
-</li>
-</ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="c1"># 12 tokens × 2-dimensional toy vectors</span>
-<span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
-<span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
-<span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1"># 1) Token list – indices are handy for debugging</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;The&quot;</span><span class="p">,</span> <span class="s2">&quot;movie&quot;</span><span class="p">,</span> <span class="s2">&quot;was&quot;</span><span class="p">,</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span> <span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;but&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;the&quot;</span><span class="p">,</span> <span class="s2">&quot;soundtrack&quot;</span><span class="p">,</span> <span class="s2">&quot;was&quot;</span><span class="p">,</span> <span class="s2">&quot;amazing&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">]</span>
 
-<span class="c1"># encode three words with non-zero vectors</span>
-<span class="n">Q</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>   <span class="c1"># token 3 = &quot;not&quot;</span>
-<span class="n">Q</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>   <span class="c1"># token 4 = &quot;good&quot;   ← the query we will inspect</span>
-<span class="n">Q</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># token10 = &quot;amazing&quot;</span>
-<span class="n">V</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[:]</span>            <span class="c1"># values = keys for clarity</span>
+<span class="n">n_tokens</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">),</span> <span class="mi">2</span>                <span class="c1"># d_model = 2</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_tokens</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_tokens</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_tokens</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
 
-<span class="n">dk</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">scores</span>   <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">@</span> <span class="n">K</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dk</span><span class="p">)</span>          <span class="c1"># dot products from “good” to all keys</span>
-<span class="n">weights</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1"># 2) Hand-crafted vectors for the three special words</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="n">special_qk</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>      <span class="c1"># “not”</span>
+              <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>      <span class="c1"># “good”</span>
+             <span class="mi">10</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span>      <span class="c1"># “amazing”</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Attention weights from &#39;good&#39;:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">special_v</span>  <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+              <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+             <span class="mi">10</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">special_qk</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">Q</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">vec</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">special_v</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">V</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">vec</span>
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1"># 3) Scaled dot-product attention  (decoder style → add causal mask)</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">K</span><span class="o">.</span><span class="n">T</span>                           <span class="c1"># (n_tokens × n_tokens)</span>
+<span class="n">scores</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>                       <span class="c1"># scale by √d_k</span>
+
+<span class="c1"># ---- causal (look-ahead) mask ----</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># j &gt; i region</span>
+<span class="n">scores</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1e9</span>                      <span class="c1"># −∞ ⇒ 0 after softmax</span>
+
+<span class="c1"># Softmax row by row</span>
+<span class="n">exp_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">exp_scores</span> <span class="o">/</span> <span class="n">exp_scores</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1"># 4) Attention output = weights · V</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">@</span> <span class="n">V</span>                      <span class="c1"># (n_tokens × d)</span>
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1"># 5) Inspect the row that corresponds to the *query* word “good”</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="n">idx_good</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Masked attention weights FROM ‘</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="n">idx_good</span><span class="p">]</span><span class="si">}</span><span class="s2">’ (index </span><span class="si">{</span><span class="n">idx_good</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">idx_good</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  → </span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;11s</span><span class="si">}</span><span class="s2">  w = </span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Resulting context vector for &#39;good&#39;:&quot;</span><span class="p">,</span> <span class="n">outputs</span><span class="p">[</span><span class="n">idx_good</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attention weights from &#39;good&#39;:
-[0.07 0.07 0.07 0.14 0.14 0.07 0.07 0.07 0.07 0.07 0.07 0.07]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Masked attention weights FROM ‘good’ (index 4)
+  → The          w = 0.14
+  → movie        w = 0.14
+  → was          w = 0.14
+  → not          w = 0.29
+  → good         w = 0.29
+  → ,            w = 0.00
+  → but          w = 0.00
+  → the          w = 0.00
+  → soundtrack   w = 0.00
+  → was          w = 0.00
+  → amazing      w = 0.00
+  → .            w = 0.00
+
+Resulting context vector for &#39;good&#39;: [0.28742189 0.28742189]
 </pre></div>
 </div>
 </div>
@@ -824,89 +830,6 @@ non-zero scores become <span class="math notranslate nohighlight">\(1/1.41 = 0.7
 \end{split}\]</div>
 <p>The same happens for “did” and “not”.<br />
 Each output vector now <strong>blends information from the entire sequence</strong>, with larger weights on more relevant words.</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>index</p></th>
-<th class="head"><p>token</p></th>
-<th class="head text-center"><p>weight</p></th>
-<th class="head"><p>interpretation</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>0</p></td>
-<td><p>The</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>almost ignored</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>1</p></td>
-<td><p>movie</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>almost ignored</p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>2</p></td>
-<td><p>was (first)</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>almost ignored</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>3</p></td>
-<td><p><strong>not</strong></p></td>
-<td class="text-center"><p><strong>0.14</strong></p></td>
-<td><p>most relevant external word (negation)</p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>4</p></td>
-<td><p><strong>good</strong> (itself)</p></td>
-<td class="text-center"><p><strong>0.14</strong></p></td>
-<td><p>self-focus helps preserve the base meaning</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>5</p></td>
-<td><p>,</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>punctuation, little influence</p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>6</p></td>
-<td><p>but</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>discourse marker, low weight here</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>7</p></td>
-<td><p>the</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>almost ignored</p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>8</p></td>
-<td><p>soundtrack</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>almost ignored</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>9</p></td>
-<td><p>was (second)</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>almost ignored</p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>10</p></td>
-<td><p>amazing</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>small influence, sentiment elsewhere</p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>11</p></td>
-<td><p>.</p></td>
-<td class="text-center"><p>0.07</p></td>
-<td><p>negligible influence</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Key observations:</p>
-<ul class="simple">
-<li><p>The two highest weights (0.14) fall on <strong>“not”</strong> and <strong>“good”</strong> itself.<br />
-The model therefore combines the negation signal with the word it negates.</p></li>
-<li><p>Every other token receives the baseline weight of about (1/12 \approx 0.08),
-meaning they contribute very little to the representation of “good.”</p></li>
-</ul>
-<p>In a fully trained model you would expect an even sharper focus on <strong>“not”</strong>
-and a near-zero weight on punctuation or stop-words.</p>
-<p>The principle is: weights tell you <strong>which words the model uses as
-evidence when forming the contextual meaning of the current word.</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
@@ -922,10 +845,10 @@ evidence when forming the contextual meaning of the current word.</strong></p>
 <span class="c1"># ------------------------------------------------------------------</span>
 <span class="c1"># 1.  Synthetic data  (NumPy arrays only!)</span>
 <span class="c1"># ------------------------------------------------------------------</span>
-<span class="n">VOCAB_SIZE</span>  <span class="o">=</span> <span class="mi">51</span>         <span class="c1"># reserve 0 for [CLS]</span>
-<span class="n">SEQ_LEN</span>     <span class="o">=</span> <span class="mi">6</span>          <span class="c1"># NOT counting [CLS]</span>
-<span class="n">NUM_SAMPLES</span> <span class="o">=</span> <span class="mi">8_000</span>          <span class="c1"># instead of 64</span>
-<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">3</span>                   <span class="c1"># fewer epochs are fine with more data</span>
+<span class="n">VOCAB_SIZE</span>  <span class="o">=</span> <span class="mi">51</span>   
+<span class="n">SEQ_LEN</span>     <span class="o">=</span> <span class="mi">6</span>      
+<span class="n">NUM_SAMPLES</span> <span class="o">=</span> <span class="mi">8_000</span>   
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">3</span>          
 
 <span class="n">tokens_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">VOCAB_SIZE</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">NUM_SAMPLES</span><span class="p">,</span> <span class="n">SEQ_LEN</span><span class="p">))</span>
 <span class="n">tokens_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
@@ -1035,12 +958,12 @@ Sentences with label 1:
  [ 0 23 35 ... 36 39 43]]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-29 08:05:12.088093: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
-2025-04-29 08:05:12.088136: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
-2025-04-29 08:05:12.088139: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-05-01 10:54:15.652087: I metal_plugin/src/device/metal_device.cc:1154] Metal device set to: Apple M2 Max
+2025-05-01 10:54:15.652121: I metal_plugin/src/device/metal_device.cc:296] systemMemory: 96.00 GB
+2025-05-01 10:54:15.652125: I metal_plugin/src/device/metal_device.cc:313] maxCacheSize: 36.00 GB
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1745928312.088186 15736800 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
-I0000 00:00:1745928312.088244 15736800 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
+I0000 00:00:1746111255.652167 18391879 pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+I0000 00:00:1746111255.652219 18391879 pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
 </pre></div>
 </div>
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "TinySelfAttention"</span>
@@ -1073,7 +996,7 @@ I0000 00:00:1745928312.088244 15736800 pluggable_device_factory.cc:271] Created 
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-29 08:05:12.665515: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-05-01 10:54:16.190303: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -1228,11 +1151,11 @@ I0000 00:00:1745928312.088244 15736800 pluggable_device_factory.cc:271] Created 
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentence-0: [ 0 45 48  1  4  4 40]
 Token at pos-3: 1
-<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 18ms/step
-Model output for sample-0: 0.00041184496
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 65ms/step
+Model output for sample-0: 0.00061386
 Sentence-idx: [ 0 16  5 42 43 32  2]
-<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 15ms/step
-0.99762386
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 14ms/step
+0.99714214
 </pre></div>
 </div>
 </div>
@@ -1311,10 +1234,7 @@ Sentence-idx: [ 0 16  5 42 43 32  2]
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-attention-scores-conceptually">2. Compute attention scores (conceptually)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sum-of-value-vectors">3. Weighted sum of value vectors</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">4. Key points</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toy-example-on-the-sentence">Toy Example on the sentence</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-weights-from-good-to-every-token">Attention weights <strong>from “good” to every token</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#query-q-key-k-and-value-v">Query <strong>Q</strong>, Key <strong>K</strong>, and Value <strong>V</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-toy-example-3-word-mini-sentence">A Toy Example (3-word mini-sentence)</a><ul class="nav section-nav flex-column">
