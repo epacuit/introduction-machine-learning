@@ -52,9 +52,9 @@ These notes will be updated throughout the semester. Please check back regularly
 |   11   | 4/15   | Fine-Tuning Models | Chollet Chapter 8, [using pretrained models](using-pretrained-models), [gpu vs. cpu](gpu-vs-cpu)  |
 |      | 4/17  |  Introduction to Language Processing | [encoding text](encoding-text) |
 |   12   | 4/22   | Recurrent Neural Nets | Chollet Chapter 10, [introduction to RNN](rnn) |
-|      | 4/24  | Encoding Text | Chollet Chapter 11 |
-|   13   | 4/29  | Introduction to Generative Machine Learning  |    |
-|      | 5/1  |  Introduction to Generative Machine Learning  |  |
-|   14   | 5/6   |  Introduction to Generative Machine Learning |     |
-|      | 5/8  | Introduction to Generative Machine Learning  | <a target="_blank" rel="noopener noreferrer" href="https://github.com/epacuit/introduction-machine-learning/blob/main/slides/intro-rlhf.pdf">slides</a> |
+|      | 4/24  | Encoding Text | Chollet Chapter 11, (word encodings)[word-encodings], [embeddings](encoding-text)(embeddings),  [predefined word embeddings](predefined-word-embeddings) |
+|   13   | 4/29  | Introduction to Generative Machine Learning | [introduction to self-attention](self-attention)   |
+|      | 5/1  |  Introduction to Generative Machine Learning | [introduction to self-attention](self-attention), [mini gpt](mini-gpt) |
+|   14   | 5/6   |  Introduction to Generative Machine Learning |  [introduction to self-attention](self-attention), [mini gpt](mini-gpt)  |
+|      | 5/8  | Introduction to Generative Machine Learning  | [fine tuning GPT-2: preprocessing](fine-tuning-preprocessing), [fine tuning GPT-2](fine-tuning),  <a target="_blank" rel="noopener noreferrer" href="https://github.com/epacuit/introduction-machine-learning/blob/main/slides/intro-rlhf.pdf">slides</a> |
 |   14   | 5/13   | Lab  |  [final project](final-project)   |
