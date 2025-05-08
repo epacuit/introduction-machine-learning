@@ -62,6 +62,8 @@ parts:
   chapters:
     - file: introduciton-transformers/intro-self-attention
     - file: introduciton-transformers/mini-gpt
+    - file: introduciton-transformers/fine_tune_data_preprocessing
+    - file: introduciton-transformers/fine_tune
 - caption: Final Project
   chapters:
     - file: tutorials/final_project

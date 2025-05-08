@@ -1,0 +1,1222 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fine-Tuning: Pre-Processing the Data &#8212; A Gentle Introduction to Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'introduciton-transformers/fine_tune_data_preprocessing';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fine-Tuning GPT" href="fine_tune.html" />
+    <link rel="prev" title="Mini GPT" href="mini-gpt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">A Gentle Introduction to Machine Learning</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../overview.html">
+                    Course Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/jupyter.html">Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/colab.html">Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/github.html">GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Crash Course in Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/python-essentials.html">Python Essentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial1.html">Tutorial 1: Introduction to Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial2.html">Tutorial 2: Reading CSV files</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial3.html">Tutorial 3: Brief Introduction to Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/pitfalls.html">Thinking in Python: Key Concepts and Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash-course-python/classes.html">Classes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">First Steps in Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/intro-numpy.html">A Brief Introduction to Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial4.html">Tutorial 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification.html">Introduction to Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/linear-classification-algorithms.html">Finding a Decision Boundary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial5.html">Tutorial 5: Linear Classifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first-steps/gradient-descent.html">Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../classification/beyond-linear-classification.html">Beyond Linear Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/binary-cross-entropy.html">Loss Functions for Binary Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-reviews.html">Example: Classifying Movie Reviews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-multiclass-classification.html">Example: Multiclass Classification Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/example-classifying-digits.html">Example: Classifying Digits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/midterm_notebook.html">Midterm Project</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression/introduction-regression.html">Regression Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/example-predicting-house-prices.html">Example: Predicting House Prices</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image Classification</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/introduction-convnet.html">Convnets - Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/example-classifying-dogs-vs-cats.html">Example: Classifying Images - Dogs vs. Cats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image-classification/feature-extraction.html">Using Pretrained Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial6_release.html">Tutorial 6: CIFAR-10 CNN Assignment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topics in Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/overfitting.html">Overfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics-machine-learning/gpu-vs-cpu.html">GPU vs. CPU</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Natural Language Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/word-embedding.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/introduction-rnn.html">Recurrent Neural Networks (RNNs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text.html">Encoding Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-processing/intro-processing-text-word-embeddings.html">Encoding Text - Using Predefined Word Embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial7_release.html">Tutorial 7: Part-of-speech tagging with RNNs</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Transformers</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro-self-attention.html">A First Look at Self-Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mini-gpt.html">Mini GPT</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Fine-Tuning: Pre-Processing the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fine_tune.html">Fine-Tuning GPT</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Final Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/final_project.html">Final Project: Independent Model Development</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/epacuit/introduction-machine-learning/issues/new?title=Issue%20on%20page%20%2Fintroduciton-transformers/fine_tune_data_preprocessing.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/introduciton-transformers/fine_tune_data_preprocessing.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Fine-Tuning: Pre-Processing the Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-slides-latex-to-raw-text">Convert Slides (LaTeX) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-syllabus-pdf-to-raw-text">Convert Syllabus (PDF) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-review-sheets-latex-to-raw-text">Convert Review Sheets (LaTeX) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-chapters-pdf-to-raw-text">Convert Chapters (PDF) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-piazza-comments-answers-json-to-raw-text">Convert Piazza Comments/Answers (JSON) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-online-notes-html-to-raw-text">Convert Online Notes (HTML) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combine-all-text-files">Combine All Text Files</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="fine-tuning-pre-processing-the-data">
+<h1>Fine-Tuning: Pre-Processing the Data<a class="headerlink" href="#fine-tuning-pre-processing-the-data" title="Link to this heading">#</a></h1>
+<section id="convert-slides-latex-to-raw-text">
+<h2>Convert Slides (LaTeX) to Raw Text<a class="headerlink" href="#convert-slides-latex-to-raw-text" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span><span class="p">,</span> <span class="n">PurePath</span>
+<span class="kn">import</span> <span class="nn">pypandoc</span><span class="o">,</span> <span class="nn">re</span>
+
+<span class="n">input_dir</span> <span class="o">=</span> <span class="s1">&#39;phpe400_corpus/slides&#39;</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;extracted/raw_slides.txt&#39;</span>
+
+<span class="k">def</span> <span class="nf">tex_to_plain</span><span class="p">(</span><span class="n">tex_path</span><span class="p">):</span>
+    <span class="n">txt</span> <span class="o">=</span> <span class="n">pypandoc</span><span class="o">.</span><span class="n">convert_file</span><span class="p">(</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">tex_path</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="s2">&quot;plain&quot;</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;latex&quot;</span><span class="p">,</span>
+        <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;--wrap=none&quot;</span><span class="p">,</span> <span class="s2">&quot;--quiet&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n\s*\n+&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">txt</span><span class="p">)</span>  <span class="c1"># collapse blank lines</span>
+
+<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">tex</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.tex&quot;</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">tex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tex_to_plain</span><span class="p">(</span><span class="n">tex</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Output written to </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">15</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">txt</span> <span class="o">=</span> <span class="n">pypandoc</span><span class="o">.</span><span class="n">convert_file</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>         <span class="nb">str</span><span class="p">(</span><span class="n">tex_path</span><span class="p">),</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>         <span class="n">to</span><span class="o">=</span><span class="s2">&quot;plain&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>         <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;latex&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>         <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;--wrap=none&quot;</span><span class="p">,</span> <span class="s2">&quot;--quiet&quot;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n\s*\n+&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">txt</span><span class="p">)</span>  <span class="c1"># collapse blank lines</span>
+<span class="ne">---&gt; </span><span class="mi">15</span> <span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="k">for</span> <span class="n">tex</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.tex&quot;</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">tex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013,</span> in <span class="ni">Path.open</span><span class="nt">(self, mode, buffering, encoding, errors, newline)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1011</span> <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1012</span>     <span class="n">encoding</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">text_encoding</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1013</span> <span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">buffering</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="n">newline</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;extracted/raw_slides.txt&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="convert-syllabus-pdf-to-raw-text">
+<h2>Convert Syllabus (PDF) to Raw Text<a class="headerlink" href="#convert-syllabus-pdf-to-raw-text" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">pypdf</span> <span class="kn">import</span> <span class="n">PdfReader</span>
+<span class="kn">import</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">textwrap</span>
+
+<span class="n">SRC</span>  <span class="o">=</span> <span class="s2">&quot;phpe400_corpus/syllabus/syl-methods-ppe-v4.pdf&quot;</span>    <span class="c1"># the file you just uploaded</span>
+<span class="n">DEST</span> <span class="o">=</span> <span class="s2">&quot;extracted/raw_syllabus.txt&quot;</span>            <span class="c1"># append or create</span>
+
+<span class="k">def</span> <span class="nf">pdf_to_plain</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">PdfReader</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">lines</span>  <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">reader</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">extract_text</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\u200b</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>          <span class="c1"># zero-width</span>
+        <span class="c1"># strip page headers/footers like “5 / 8”</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b\d+\s*/\s*\d+\s*$&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">txt</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">txt</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+    <span class="c1"># collapse blocks of ≥2 blank lines to a single blank</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">)</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n\s*\n+&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">SRC</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plain</span> <span class="o">=</span> <span class="n">pdf_to_plain</span><span class="p">(</span><span class="n">SRC</span><span class="p">)</span>
+
+<span class="c1"># stream into your master corpus file</span>
+<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">DEST</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">para</span> <span class="ow">in</span> <span class="n">plain</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">para</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">para</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Output written to </span><span class="si">{</span><span class="n">DEST</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing phpe400_corpus/syllabus/syl-methods-ppe-v4.pdf
+
+Output written to extracted/raw_syllabus.txt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="convert-review-sheets-latex-to-raw-text">
+<h2>Convert Review Sheets (LaTeX) to Raw Text<a class="headerlink" href="#convert-review-sheets-latex-to-raw-text" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span><span class="p">,</span> <span class="n">PurePath</span>
+<span class="kn">import</span> <span class="nn">pypandoc</span><span class="o">,</span> <span class="nn">re</span>
+
+<span class="n">input_dir</span> <span class="o">=</span> <span class="s1">&#39;phpe400_corpus/review-sheets&#39;</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;extracted/raw_review-sheets.txt&#39;</span>
+
+<span class="k">def</span> <span class="nf">tex_to_plain</span><span class="p">(</span><span class="n">tex_path</span><span class="p">):</span>
+    <span class="n">txt</span> <span class="o">=</span> <span class="n">pypandoc</span><span class="o">.</span><span class="n">convert_file</span><span class="p">(</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">tex_path</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="s2">&quot;plain&quot;</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;latex&quot;</span><span class="p">,</span>
+        <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;--wrap=none&quot;</span><span class="p">,</span> <span class="s2">&quot;--quiet&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n\s*\n+&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">txt</span><span class="p">)</span>  <span class="c1"># collapse blank lines</span>
+
+<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">tex</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.tex&quot;</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">tex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tex_to_plain</span><span class="p">(</span><span class="n">tex</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Output written to </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing phpe400_corpus/review-sheets/exam1-review-answers.tex
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing phpe400_corpus/review-sheets/final-exam-review.tex
+Processing phpe400_corpus/review-sheets/exam1-review.tex
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing phpe400_corpus/review-sheets/final-exam-review-answers.tex
+
+Output written to extracted/raw_review-sheets.txt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="convert-chapters-pdf-to-raw-text">
+<h2>Convert Chapters (PDF) to Raw Text<a class="headerlink" href="#convert-chapters-pdf-to-raw-text" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">pypdf</span> <span class="kn">import</span> <span class="n">PdfReader</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">input_dir</span> <span class="o">=</span> <span class="s1">&#39;phpe400_corpus/text&#39;</span>  <span class="c1"># folder with your 3 PDFs</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;extracted/raw_text.txt&#39;</span>
+
+<span class="c1"># --------------------------- 1. header &amp; noise patterns --------------------------</span>
+<span class="n">HEADER_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;^[ \t]*(?:Social Choice Theory|Game Theory|Rationality and Utility Theory)&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;(?:[ \t]+\d+)?[ \t]*$&#39;</span><span class="p">,</span>                     <span class="c1"># optional page number</span>
+    <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span>
+<span class="p">)</span>
+<span class="c1"># Lone page numbers like “55”</span>
+<span class="n">LONE_PAGE_RE</span>   <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[ \t]*\d{1,3}[ \t]*$&#39;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+<span class="c1"># All-caps chapter banners such as “FOUR” or “PART II”</span>
+<span class="n">CAPS_BANNER_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[ \t]*[A-Z]{2,}[ \t]*$&#39;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+<span class="c1"># Numbered section headings “4.1 …” or “2.3.5 …”</span>
+<span class="n">SECNUM_RE</span>      <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\d+(?:\.\d+)+\s+.*$&#39;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+
+<span class="c1"># --------------------------- 2. tidy helper --------------------------------------</span>
+<span class="k">def</span> <span class="nf">tidy</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">HEADER_RE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">LONE_PAGE_RE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">CAPS_BANNER_RE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">SECNUM_RE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\w+)-\n(\w+)&#39;</span><span class="p">,</span>  <span class="sa">r</span><span class="s1">&#39;\1\2&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>   <span class="c1"># hard hyphen breaks</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\w+)\u00ad(\w+)&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1\2&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="c1"># soft hyphen</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n\s*\n+&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>            <span class="c1"># collapse blank lines</span>
+    <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="c1"># --------------------------- 3. PDF → plain-text ---------------------------------</span>
+<span class="k">def</span> <span class="nf">pdf_to_plain</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">PdfReader</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">pages</span>  <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">pg</span> <span class="ow">in</span> <span class="n">reader</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">extract_text</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\u200b</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>               <span class="c1"># zero-width chars</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b\d+\s*/\s*\d+\s*$&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>  <span class="c1"># “5 / 15” style</span>
+        <span class="n">pages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tidy</span><span class="p">(</span><span class="n">raw</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pages</span><span class="p">)</span>
+
+<span class="c1"># --------------------------- 4. batch over all PDFs ------------------------------</span>
+<span class="n">PDF_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span>   <span class="c1"># folder with your 3 PDFs</span>
+<span class="n">DEST</span>    <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>       <span class="c1"># master output file</span>
+
+<span class="k">with</span> <span class="n">DEST</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">pdf</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">PDF_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.pdf&quot;</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">pdf</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">para</span> <span class="ow">in</span> <span class="n">pdf_to_plain</span><span class="p">(</span><span class="n">pdf</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">para</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">para</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Output written to&quot;</span><span class="p">,</span> <span class="n">DEST</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing econ-analysis-moral-phil-public-policy-ch4.pdf
+Processing econ-analysis-moral-philosophy-public-policy-ch13.pdf
+Processing econ-analysis-moral-philosophy-public-policy-ch14.pdf
+
+Output written to raw_text.txt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="convert-piazza-comments-answers-json-to-raw-text">
+<h2>Convert Piazza Comments/Answers (JSON) to Raw Text<a class="headerlink" href="#convert-piazza-comments-answers-json-to-raw-text" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">html</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span><span class="p">,</span> <span class="n">MarkupResemblesLocatorWarning</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">MarkupResemblesLocatorWarning</span><span class="p">)</span>
+
+<span class="n">PIAZZA</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;phpe400_corpus/piazza/class_content_flat.json&quot;</span><span class="p">)</span>     <span class="c1"># uploaded file</span>
+<span class="n">OUT</span>    <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;extracted/raw_piazza_qa.txt&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="n">html_snippet</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove &lt;tags&gt;, decode entities and collapse whitespace.&quot;&quot;&quot;</span>
+    <span class="c1"># 1. HTML → plain text</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_snippet</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># 2. Unescape &amp;nbsp; etc.</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">unescape</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># 3. Tighten spaces/newlines</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">PIAZZA</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">posts</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Index every post by its Piazza ID so we can match answers to questions</span>
+<span class="n">by_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]:</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">posts</span><span class="p">}</span>
+
+<span class="n">qapairs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">posts</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;question&quot;</span><span class="p">:</span>
+        <span class="n">qtxt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Q: </span><span class="si">{</span><span class="n">clean</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">clean</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># grab instructor answer (type == &#39;i_answer&#39;) in same thread</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">by_id</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">by_id</span>            <span class="c1"># walk once over dict</span>
+                    <span class="k">if</span> <span class="n">by_id</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;parent_id&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                    <span class="ow">and</span> <span class="n">by_id</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;i_answer&quot;</span><span class="p">),</span>
+                   <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ans</span><span class="p">:</span>
+            <span class="n">atxt</span> <span class="o">=</span> <span class="n">clean</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">])</span>
+            <span class="n">qapairs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">qtxt</span><span class="si">}</span><span class="se">\n</span><span class="s2">A: </span><span class="si">{</span><span class="n">atxt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">OUT</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">qapairs</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrote </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">qapairs</span><span class="p">)</span><span class="si">}</span><span class="s2"> Q/A pairs to </span><span class="si">{</span><span class="n">OUT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wrote 56 Q/A pairs to extracted/raw_piazza_qa.txt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="convert-online-notes-html-to-raw-text">
+<h2>Convert Online Notes (HTML) to Raw Text<a class="headerlink" href="#convert-online-notes-html-to-raw-text" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">html2text</span><span class="o">,</span> <span class="nn">html</span><span class="o">,</span> <span class="nn">re</span>
+
+<span class="c1"># === 1. one-time imports &amp; (auto-)installs =========================</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">subprocess</span><span class="o">,</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">html</span><span class="o">,</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;beautifulsoup4&quot;</span><span class="p">,</span> <span class="s2">&quot;html2text&quot;</span><span class="p">,</span> <span class="s2">&quot;lxml&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;pip&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+          <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;show&quot;</span><span class="p">,</span> <span class="n">pkg</span><span class="p">],</span>
+          <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">):</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;-q&quot;</span><span class="p">,</span> <span class="n">pkg</span><span class="p">])</span>
+
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">html2text</span>
+
+<span class="c1"># === 2. configure the directory to scan ============================</span>
+<span class="n">HTML_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;phpe400_corpus/notes&quot;</span><span class="p">)</span>    <span class="c1"># &lt;── change if your html lives elsewhere</span>
+<span class="n">DEST</span>     <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;extracted/raw_html_notes.txt&quot;</span><span class="p">)</span>
+
+<span class="c1"># === 3. regex helpers ==============================================</span>
+<span class="n">SPAN_MATH</span>  <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;span[^&gt;]*class=&quot;math[^&quot;]*&quot;(?:[^&gt;]*&gt;)(.*?)&lt;/span&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+<span class="n">SCR_MATH</span>   <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;script[^&gt;]*type=&quot;math/tex[^&quot;]*&quot;(?:[^&gt;]*&gt;)(.*?)&lt;/script&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+<span class="n">IMG_TAG</span>    <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;img[^&gt;]*&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+<span class="n">LINE_JUNK</span>  <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(?:__+|\s*[*\-]\s*$|\s*\d+\.\s+\S.*)$&#39;</span><span class="p">)</span>
+<span class="n">SIDEBAR_KW</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;sidebar&quot;</span><span class="p">,</span> <span class="s2">&quot;toc&quot;</span><span class="p">,</span> <span class="s2">&quot;nav-page&quot;</span><span class="p">,</span> <span class="s2">&quot;menu&quot;</span><span class="p">)</span>
+
+<span class="c1"># === 4. utility functions ==========================================</span>
+<span class="k">def</span> <span class="nf">strip_outer</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">expr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\(&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">expr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\)&#39;</span><span class="p">):</span> <span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">expr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\[&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">expr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\]&#39;</span><span class="p">):</span> <span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\\\</span><span class="s1">([</span><span class="si">{}</span><span class="s1">])&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">\1&#39;</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>  <span class="c1"># \\{ -&gt; \{   \\} -&gt; \}</span>
+
+<span class="k">def</span> <span class="nf">looks_sidebar</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;nav&quot;</span><span class="p">,</span> <span class="s2">&quot;aside&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">tag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="o">*</span><span class="n">tag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="p">[])])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">blob</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">SIDEBAR_KW</span><span class="p">)</span>
+
+<span class="n">h2t</span> <span class="o">=</span> <span class="n">html2text</span><span class="o">.</span><span class="n">HTML2Text</span><span class="p">();</span> <span class="n">h2t</span><span class="o">.</span><span class="n">ignore_links</span> <span class="o">=</span> <span class="kc">True</span><span class="p">;</span> <span class="n">h2t</span><span class="o">.</span><span class="n">body_width</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">html_to_plain</span><span class="p">(</span><span class="n">html_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">soup</span>  <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">),</span> <span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
+    <span class="n">main</span>  <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;quarto-content&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">soup</span><span class="o">.</span><span class="n">body</span> <span class="ow">or</span> <span class="n">soup</span>
+    <span class="n">soup</span>  <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">main</span><span class="p">),</span> <span class="s2">&quot;lxml&quot;</span><span class="p">)</span>            <span class="c1"># clone so .decompose() is safe</span>
+    <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">looks_sidebar</span><span class="p">):</span> <span class="n">tag</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">IMG_TAG</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">soup</span><span class="p">))</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">SPAN_MATH</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">strip_outer</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">)</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">SCR_MATH</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">strip_outer</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">)</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">h2t</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">unescape</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\\\</span><span class="s1">([</span><span class="si">{}</span><span class="s1">])&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">\1&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>          <span class="c1"># collapse any \\{ left</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+             <span class="k">if</span> <span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">LINE_JUNK</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ln</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+<span class="c1"># === 5. process every html file ====================================</span>
+<span class="n">DEST</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>   <span class="c1"># overwrite</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">html_f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">HTML_DIR</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.html&quot;</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">html_f</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">html_to_plain</span><span class="p">(</span><span class="n">html_f</span><span class="p">)</span>
+    <span class="n">DEST</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">DEST</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span> <span class="o">+</span> <span class="n">cleaned</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Output </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> html files to </span><span class="si">{</span><span class="n">DEST</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing evaluative-voting.html
+Processing grading-vs-ranking.html
+Processing interpersonal-comparison-utilities.html
+Processing objections-utilitarianism.html
+Processing social-welfare-functionals.html
+Processing decision-problems.html
+Processing newcomb.html
+Processing rational-decisions.html
+Processing allais.html
+Processing ellsberg.html
+Processing evaluating-axioms.html
+Processing expected-utility.html
+Processing independence.html
+Processing functions.html
+Processing lotteries.html
+Processing preferences-over-lotteries.html
+Processing utility-functions.html
+Processing index.html
+Processing completeness.html
+Processing relations.html
+Processing sets.html
+Processing preference-and-choice.html
+Processing preference-relations.html
+Processing rational-preferences.html
+Processing transitivity.html
+Processing references.html
+Processing arrows-theorem.html
+Processing beyond-two-alternatives.html
+Processing condorcet-jury-theorem.html
+Processing justifying-majority-rule.html
+Processing mays-theorem.html
+Processing social-welfare-functions.html
+Processing voting-axioms.html
+Processing comparing-voting-methods.html
+Processing condorcet-consistent-methods.html
+Processing condorcet-paradox.html
+Processing elections.html
+Processing iterative-methods.html
+Processing majority-preference.html
+Processing scoring-rules.html
+Processing voting-methods.html
+
+ Output 41 html files to raw_html_notes.txt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="combine-all-text-files">
+<h2>Combine All Text Files<a class="headerlink" href="#combine-all-text-files" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">raw_text_files</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;raw_slides.txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;raw_syllabus.txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;raw_review-sheets.txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;raw_text.txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;raw_piazza_qa.txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;raw_html_notes.txt&quot;</span>
+<span class="p">]</span>
+
+<span class="n">MASTER</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;extracted/raw_phpe400_corpus.txt&quot;</span><span class="p">)</span>
+<span class="n">MASTER</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">MASTER</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">master</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">raw_text_files</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">p</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠  </span><span class="si">{</span><span class="n">raw</span><span class="si">}</span><span class="s2"> not found — skipping&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ adding </span><span class="si">{</span><span class="n">raw</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>               <span class="c1"># skip truly empty lines</span>
+                <span class="n">master</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">master</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&lt;|eod|&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>          <span class="c1"># &lt;-- boundary token</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">wrote combined corpus → </span><span class="si">{</span><span class="n">MASTER</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">MASTER</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span><span class="o">/</span><span class="mi">1024</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> KB)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ adding raw_slides.txt
+✓ adding raw_syllabus.txt
+✓ adding raw_review-sheets.txt
+✓ adding raw_text.txt
+✓ adding raw_piazza_qa.txt
+✓ adding raw_html_notes.txt
+
+wrote combined corpus → extracted/raw_phpe400_corpus.txt  (1328.9 KB)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">textwrap</span><span class="o">,</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="c1"># 0. directories</span>
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="n">EXTRACT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;extracted&quot;</span><span class="p">)</span>           <span class="c1"># all *.txt live here</span>
+<span class="n">OUT_DIR</span>     <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+<span class="n">OUT_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="c1"># 1. helper:  Q:  ...  A:  ...  →  &lt;|question|&gt; ... &lt;|answer|&gt; ... &lt;|end|&gt;</span>
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="k">def</span> <span class="nf">convert_QA_blocks</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;^Q:\s*(?P&lt;q&gt;.*?)\nA:\s*(?P&lt;a&gt;.*?)(?=^\s*\n|\Z)&quot;</span><span class="p">,</span>
+        <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">S</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">repl</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;|question|&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;|answer|&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;|end|&gt;&quot;</span>
+    <span class="k">return</span> <span class="n">pat</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">repl</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="c1"># 2. helper: full cleaner you already tested</span>
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="k">def</span> <span class="nf">clean_text_block</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[\u2022\-\*-]\s*&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>    <span class="c1"># bullets</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\n{3,}&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>                       <span class="c1"># blank lines</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[ \t]{2,}&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>                       <span class="c1"># 2+ spaces</span>
+    <span class="n">H_RULE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[\s\--—_=]{3,}$&quot;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>         <span class="c1"># rules</span>
+    <span class="n">text</span>   <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">H_RULE</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">seen</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>                               <span class="c1"># dedupe titles</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[A-Z][A-Z ]{2,40}&quot;</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span> <span class="k">continue</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="c1"># 3. helper: split long prose into &lt;|statement|&gt; blocks</span>
+<span class="c1">#            (but skip lines that are already tagged)</span>
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="k">def</span> <span class="nf">paragraph_blocks</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">max_chars</span><span class="o">=</span><span class="mi">3500</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&lt;|question|&gt;&quot;</span><span class="p">):</span>          <span class="c1"># already tagged, keep as-is</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">text</span><span class="p">]</span>
+    <span class="n">buf</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="n">buf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">buf</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">max_chars</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">buf</span><span class="p">));</span> <span class="n">buf</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="n">buf</span><span class="p">:</span> <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">buf</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;&lt;|statement|&gt;</span><span class="se">\n</span><span class="si">{</span><span class="n">b</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&lt;|end|&gt;&quot;</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">out</span><span class="p">]</span>
+
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="c1"># 4. load every extracted *.txt  (except qa_pairs.txt)</span>
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="n">plain_blocks</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">txt_file</span> <span class="ow">in</span> <span class="n">EXTRACT_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.txt&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">txt_file</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;qa_pairs.txt&quot;</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">txt_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">convert_QA_blocks</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>       <span class="c1"># convert embedded Q/A</span>
+    <span class="n">clean</span> <span class="o">=</span> <span class="n">clean_text_block</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>      <span class="c1"># your cleaner</span>
+    <span class="n">plain_blocks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">paragraph_blocks</span><span class="p">(</span><span class="n">clean</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ processed&quot;</span><span class="p">,</span> <span class="n">txt_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="c1"># 5. load hand-crafted Q-A file, dedupe, oversample</span>
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="n">qa_raw</span>    <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">EXTRACT_DIR</span> <span class="o">/</span> <span class="s2">&quot;qa_pairs.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">dedupe_qas</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+    <span class="n">seen</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;\|question\|&gt;.*?&lt;\|end\|&gt;&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">):</span>
+        <span class="n">blk</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">blk</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">blk</span><span class="p">);</span> <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="n">qa_blocks</span>  <span class="o">=</span> <span class="n">dedupe_qas</span><span class="p">(</span><span class="n">qa_raw</span><span class="p">)</span>
+<span class="n">qa_blocks</span> <span class="o">*=</span> <span class="mi">2</span>          <span class="c1"># oversample factor (2 = duplicate once)</span>
+
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="c1"># 6. shuffle &amp; write corpus</span>
+<span class="c1"># ────────────────────────────────────────────────────────────────</span>
+<span class="n">all_blocks</span> <span class="o">=</span> <span class="n">qa_blocks</span> <span class="o">+</span> <span class="n">plain_blocks</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">all_blocks</span><span class="p">)</span>
+
+<span class="n">out_file</span> <span class="o">=</span> <span class="n">OUT_DIR</span> <span class="o">/</span> <span class="s2">&quot;clean_corpus.txt&quot;</span>
+<span class="n">out_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_blocks</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ wrote </span><span class="si">{</span><span class="n">out_file</span><span class="si">}</span><span class="s2">  —  </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_blocks</span><span class="p">)</span><span class="si">}</span><span class="s2"> tagged blocks&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ processed raw_html_notes.txt
+✓ processed raw_syllabus.txt
+✓ processed raw_text.txt
+✓ processed raw_phpe400_corpus.txt
+✓ processed raw_piazza_qa.txt
+✓ processed raw_slides.txt
+✓ processed raw_review-sheets.txt
+✓ wrote data/clean_corpus.txt  —  580 tagged blocks
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">GPT2TokenizerFast</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2TokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/clean_corpus.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="n">n_tokens</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total tokens: </span><span class="si">{</span><span class="n">n_tokens</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Token indices sequence length is longer than the specified maximum sequence length for this model (552851 &gt; 1024). Running this sequence through the model will result in indexing errors
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total tokens: 552,851
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./introduciton-transformers"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mini-gpt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Mini GPT</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="fine_tune.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Fine-Tuning GPT</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-slides-latex-to-raw-text">Convert Slides (LaTeX) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-syllabus-pdf-to-raw-text">Convert Syllabus (PDF) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-review-sheets-latex-to-raw-text">Convert Review Sheets (LaTeX) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-chapters-pdf-to-raw-text">Convert Chapters (PDF) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-piazza-comments-answers-json-to-raw-text">Convert Piazza Comments/Answers (JSON) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-online-notes-html-to-raw-text">Convert Online Notes (HTML) to Raw Text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combine-all-text-files">Combine All Text Files</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Eric Pacuit
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
